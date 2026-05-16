@@ -45,9 +45,9 @@
             color: #1f2937; /* Default dark text */
         }
 
-        /* --- NEVER SEEN BEFORE 3D SIDEBAR MENU --- */
+        /* --- 3D EFFECT FOR MAIN WRAPPER --- */
         #main-wrapper {
-            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), border-radius 0.8s, opacity 0.8s, filter 0.8s;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.6s, opacity 0.6s, filter 0.6s;
             transform-origin: center center;
             background-color: transparent;
             min-height: 100vh;
@@ -56,28 +56,29 @@
             z-index: 10;
         }
 
-        /* Magic happens here when menu opens (Light theme version) */
+        /* Push main content slightly back when sidebar opens */
         body.menu-open #main-wrapper {
-            transform: scale(0.85); 
-            border-radius: 3rem;
-            opacity: 0.6;
-            filter: blur(8px) brightness(0.9);
+            transform: scale(0.96) translateX(-3vw); 
+            border-radius: 2rem;
+            opacity: 0.8;
+            filter: blur(3px);
             pointer-events: none;
         }
 
+        /* --- PROFESSIONAL SLIDE-IN SIDEBAR --- */
         #spatial-menu {
             position: fixed;
             top: 0;
-            left: 0;
+            right: 0;
             width: 100%;
             height: 100vh;
             z-index: 1000;
             pointer-events: none;
             opacity: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.6s ease;
+            transition: opacity 0.4s ease;
+            background: rgba(0, 0, 0, 0.3); /* Dark overlay */
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
         }
 
         body.menu-open #spatial-menu {
@@ -85,43 +86,38 @@
             pointer-events: all;
         }
         
-        /* New Menu Box Design (Light Frosted Glass) */
+        /* Sleek Sidebar Box */
         .menu-box {
-            width: 300px;
-            height: auto;
-            max-height: 80vh;
-            overflow-y: auto;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            border-radius: 2rem;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.1), 0 0 40px rgba(59, 130, 246, 0.1);
-            padding: 2.5rem 2rem;
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 320px;
+            max-width: 85vw;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-left: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: -15px 0 50px rgba(0,0,0,0.1);
+            padding: 2rem 1.5rem;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            gap: 1.5rem;
-            transform: scale(0.8) translateY(50px);
-            opacity: 0;
-            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease;
-            position: relative;
+            transform: translateX(100%);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         body.menu-open .menu-box {
-            transform: scale(1) translateY(0);
-            opacity: 1;
+            transform: translateX(0);
         }
 
         .menu-item {
-            transform: translateY(20px);
+            transform: translateX(20px);
             opacity: 0;
             transition: transform 0.4s ease, opacity 0.4s ease;
         }
 
         body.menu-open .menu-item {
-            transform: translateY(0);
+            transform: translateX(0);
             opacity: 1;
         }
 
@@ -194,29 +190,44 @@
 </head>
 <body class="font-sans pt-24"> 
 
-    <!-- NAYA 3D SIDEBAR MENU -->
+    <!-- PROFESSIONAL SLIDE-IN SIDEBAR MENU -->
     <div id="spatial-menu">
-        <div class="menu-box">
-            <button id="close-menu" class="absolute top-4 right-4 text-gray-500 w-10 h-10 rounded-full hover:bg-gray-100 hover:text-black transition-colors flex items-center justify-center">
-                <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
-            
-            <div class="flex items-center justify-center gap-3 mb-4 menu-item w-full" style="transition-delay: 0.1s;">
-                <div class="w-10 h-10 rounded-full overflow-hidden shadow-md flex-shrink-0 bg-blue-100">
-                    <img src="shsl.png" class="w-full h-full object-cover" alt="Logo Icon">
+        <!-- Overlay to close menu on click -->
+        <div class="absolute inset-0 w-full h-full cursor-pointer" id="menu-overlay"></div>
+        
+        <div class="menu-box z-10">
+            <!-- Sidebar Header -->
+            <div class="flex justify-between items-center mb-10 menu-item" style="transition-delay: 0.1s;">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full overflow-hidden shadow-sm flex-shrink-0 bg-gradient-to-tr from-blue-600 to-cyan-400">
+                        <img src="shsl.png" class="w-full h-full object-cover" alt="Logo Icon">
+                    </div>
+                    <img src="shslname.png" class="h-6 object-contain" alt="ElectroTech Logo">
                 </div>
-                <img src="shslname.png" class="h-6 object-contain" alt="ElectroTech Logo">
+                <button id="close-menu" class="text-gray-400 hover:bg-gray-100 hover:text-gray-900 w-10 h-10 rounded-full transition-colors flex items-center justify-center">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
             </div>
 
-            <a href="#home" class="menu-item text-2xl font-bold tracking-tight text-gray-900 hover:text-blue-600 transition-all text-center w-full" style="transition-delay: 0.2s;">Home</a>
-            <a href="#services" class="menu-item text-2xl font-bold tracking-tight text-gray-900 hover:text-blue-600 transition-all text-center w-full" style="transition-delay: 0.25s;">Services</a>
-            <a href="#products" class="menu-item text-2xl font-bold tracking-tight text-gray-900 hover:text-blue-600 transition-all text-center w-full" style="transition-delay: 0.3s;">Store</a>
+            <!-- Sidebar Navigation Links -->
+            <div class="flex flex-col gap-2 flex-grow">
+                <a href="#home" class="menu-item flex items-center gap-4 text-lg font-semibold text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-4 py-3.5 rounded-xl transition-all" style="transition-delay: 0.15s;">
+                    <i class="fa-solid fa-house w-6 text-center text-gray-400"></i> Home
+                </a>
+                <a href="#services" class="menu-item flex items-center gap-4 text-lg font-semibold text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-4 py-3.5 rounded-xl transition-all" style="transition-delay: 0.2s;">
+                    <i class="fa-solid fa-screwdriver-wrench w-6 text-center text-gray-400"></i> Services
+                </a>
+                <a href="#products" class="menu-item flex items-center gap-4 text-lg font-semibold text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-4 py-3.5 rounded-xl transition-all" style="transition-delay: 0.25s;">
+                    <i class="fa-solid fa-store w-6 text-center text-gray-400"></i> Store
+                </a>
+            </div>
             
-            <div class="menu-item w-full h-[1px] bg-gray-200 my-2" style="transition-delay: 0.35s;"></div>
-            
-            <a href="tel:+919996966710" class="menu-item w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-3 rounded-xl text-lg font-bold shadow-lg flex items-center justify-center gap-2 hover:scale-105 transition-transform" style="transition-delay: 0.4s;">
-                <i class="fa-solid fa-phone"></i> Call Now
-            </a>
+            <!-- Sidebar Footer / Book Now Action -->
+            <div class="menu-item mt-auto pt-6 border-t border-gray-100" style="transition-delay: 0.3s;">
+                <a href="#services" class="w-full bg-gray-900 text-white py-4 rounded-xl text-md font-bold shadow-md flex items-center justify-center gap-2 hover:bg-blue-600 hover:shadow-lg transition-all">
+                    <i class="fa-regular fa-calendar-check text-lg"></i> Book Now
+                </a>
+            </div>
         </div>
     </div>
 
@@ -245,8 +256,9 @@
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <a href="tel:+919996966710" class="hidden sm:flex bg-gray-900 text-white px-6 py-2 rounded-full text-sm font-bold hover:bg-blue-600 transition-all items-center gap-2 shadow-md">
-                        <i class="fa-solid fa-phone text-xs"></i> 919996966710
+                    <!-- Updated to Book Now button -->
+                    <a href="#services" class="hidden sm:flex bg-gray-900 text-white px-6 py-2 rounded-full text-sm font-bold hover:bg-blue-600 transition-all items-center gap-2 shadow-md">
+                        <i class="fa-regular fa-calendar-check text-sm"></i> Book Now
                     </a>
                     <button id="mobile-menu-btn" class="md:hidden text-gray-700 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center border border-gray-200 hover:bg-gray-200 transition-colors z-10">
                         <i class="fa-solid fa-bars text-lg"></i>
@@ -265,98 +277,67 @@
             <img src="electricfencing.png" alt="Smart System Background" class="hero-slide absolute inset-0 w-full h-full object-cover">
         </section>
 
-        <!-- Core Services Section -->
-        <section id="services" class="py-24 relative px-4 sm:px-6">
+        <!-- Core Services Section - Gap reduced for phone (py-10), unchanged for PC (md:py-24) -->
+        <section id="services" class="py-10 md:py-24 relative px-4 sm:px-6">
             <div class="max-w-6xl mx-auto">
-        
-                <div class="text-center mb-16">
-                    <h2 class="text-4xl md:text-5xl font-black tracking-tight text-gray-900 mb-4">Our<span class="text-blue-600">Services</span></h2>
+                
+                <!-- Heading gap reduced for phone (mb-8), unchanged for PC (md:mb-16) -->
+                <div class="text-center mb-8 md:mb-16">
+                    <h2 class="text-4xl md:text-5xl font-black tracking-tight text-gray-900 mb-4">Serv<span class="text-blue-600">ices</span></h2>
                 </div>
 
                 <!-- Cards Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 auto-rows-max">
                     
-                    <!-- Card 1 -->
-                    <a href="electric-fencing.html" class="card-11d block w-full h-[210px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow">
+                    <!-- Card 1 - Height responsive: phone 210px, PC 320px -->
+                    <a href="electric-fencing.html" class="card-11d block w-full h-[210px] md:h-[320px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow">
                         <div class="glare rounded-[2.5rem]"></div>
-                        <img src="https://images.unsplash.com/photo-1580982548264-16a7eb13e01d?q=80&w=1000&auto=format&fit=crop" 
+                        <img src="fencingworld.png" 
                              class="card-11d-image absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform duration-700" alt="Fencing">
                         
-                        <!-- Light Frost Glass Box at bottom -->
+                        <!-- Light Frost Glass Box at bottom - Removed icons & reduced height -->
                         <div class="absolute bottom-3 left-3 right-3 z-20">
-                            <div class="bg-white/80 backdrop-blur-xl border border-white/50 rounded-[2rem] p-3 flex items-center justify-between shadow-lg transform transition-all duration-500 group-hover:bg-white group-hover:shadow-xl">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-500">
-                                        <i class="fa-solid fa-bolt text-lg"></i>
-                                    </div>
-                                    <h3 class="text-xl font-bold text-gray-900 tracking-tight">Zhatka Machine</h3>
-                                </div>
-                                <div class="w-10 h-10 rounded-full bg-gray-100 text-gray-900 flex items-center justify-center transform group-hover:rotate-45 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500">
-                                    <i class="fa-solid fa-arrow-up text-lg"></i>
-                                </div>
+                            <div class="bg-white/80 backdrop-blur-xl border border-white/50 rounded-full py-2 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 group-hover:shadow-xl">
+                                <h3 class="text-lg font-bold text-gray-900 tracking-tight group-hover:text-white transition-colors duration-300">Zhatka Machine</h3>
                             </div>
                         </div>
                     </a>
 
                     <!-- Card 2 -->
-                    <a href="ac-service.html" class="card-11d block w-full h-[210px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow">
+                    <a href="ac-service.html" class="card-11d block w-full h-[210px] md:h-[320px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow">
                         <div class="glare rounded-[2.5rem]"></div>
-                        <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?q=80&w=1000&auto=format&fit=crop" 
+                        <img src="acserviceworld.png" 
                              class="card-11d-image absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform duration-700" alt="AC">
                         
                         <div class="absolute bottom-3 left-3 right-3 z-20">
-                            <div class="bg-white/80 backdrop-blur-xl border border-white/50 rounded-[2rem] p-3 flex items-center justify-between shadow-lg transform transition-all duration-500 group-hover:bg-white group-hover:shadow-xl">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
-                                        <i class="fa-solid fa-snowflake text-lg"></i>
-                                    </div>
-                                    <h3 class="text-xl font-bold text-gray-900 tracking-tight">AC Services</h3>
-                                </div>
-                                <div class="w-10 h-10 rounded-full bg-gray-100 text-gray-900 flex items-center justify-center transform group-hover:rotate-45 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500">
-                                    <i class="fa-solid fa-arrow-up text-lg"></i>
-                                </div>
+                            <div class="bg-white/80 backdrop-blur-xl border border-white/50 rounded-full py-2 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 group-hover:shadow-xl">
+                                <h3 class="text-lg font-bold text-gray-900 tracking-tight group-hover:text-white transition-colors duration-300">AC Services</h3>
                             </div>
                         </div>
                     </a>
 
                     <!-- Card 3 -->
-                    <a href="tank-alarm.html" class="card-11d block w-full h-[210px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow">
+                    <a href="tank-alarm.html" class="card-11d block w-full h-[210px] md:h-[320px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow">
                         <div class="glare rounded-[2.5rem]"></div>
-                        <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=1000&auto=format&fit=crop" 
+                        <img src="wateralarm.png" 
                              class="card-11d-image absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform duration-700" alt="Tank">
                         
                         <div class="absolute bottom-3 left-3 right-3 z-20">
-                            <div class="bg-white/80 backdrop-blur-xl border border-white/50 rounded-[2rem] p-3 flex items-center justify-between shadow-lg transform transition-all duration-500 group-hover:bg-white group-hover:shadow-xl">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-full bg-cyan-100 flex items-center justify-center text-cyan-600">
-                                        <i class="fa-solid fa-droplet text-lg"></i>
-                                    </div>
-                                    <h3 class="text-xl font-bold text-gray-900 tracking-tight">Tank Alarm</h3>
-                                </div>
-                                <div class="w-10 h-10 rounded-full bg-gray-100 text-gray-900 flex items-center justify-center transform group-hover:rotate-45 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500">
-                                    <i class="fa-solid fa-arrow-up text-lg"></i>
-                                </div>
+                            <div class="bg-white/80 backdrop-blur-xl border border-white/50 rounded-full py-2 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 group-hover:shadow-xl">
+                                <h3 class="text-lg font-bold text-gray-900 tracking-tight group-hover:text-white transition-colors duration-300">Tank Alarm</h3>
                             </div>
                         </div>
                     </a>
 
                     <!-- Card 4 -->
-                    <a href="store.html" class="card-11d block w-full h-[210px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow">
+                    <a href="store.html" class="card-11d block w-full h-[210px] md:h-[320px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow">
                         <div class="glare rounded-[2.5rem]"></div>
-                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1000&auto=format&fit=crop" 
+                        <img src="shauryastore.png" 
                              class="card-11d-image absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform duration-700" alt="Parts">
                         
                         <div class="absolute bottom-3 left-3 right-3 z-20">
-                            <div class="bg-white/80 backdrop-blur-xl border border-white/50 rounded-[2rem] p-3 flex items-center justify-between shadow-lg transform transition-all duration-500 group-hover:bg-white group-hover:shadow-xl">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
-                                        <i class="fa-solid fa-microchip text-lg"></i>
-                                    </div>
-                                    <h3 class="text-xl font-bold text-gray-900 tracking-tight">Spare Parts</h3>
-                                </div>
-                                <div class="w-10 h-10 rounded-full bg-gray-100 text-gray-900 flex items-center justify-center transform group-hover:rotate-45 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500">
-                                    <i class="fa-solid fa-arrow-up text-lg"></i>
-                                </div>
+                            <div class="bg-white/80 backdrop-blur-xl border border-white/50 rounded-full py-2 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 group-hover:shadow-xl">
+                                <h3 class="text-lg font-bold text-gray-900 tracking-tight group-hover:text-white transition-colors duration-300">Spare Parts</h3>
                             </div>
                         </div>
                     </a>
@@ -466,7 +447,7 @@
                             </li>
                             <li class="flex items-center gap-3 text-gray-500">
                                 <i class="fa-solid fa-phone text-blue-500"></i>
-                                <a href="tel:+91919996966710" class="hover:text-gray-900 transition-colors">+91 919996966710</a>
+                                <a href="tel:+919876543210" class="hover:text-gray-900 transition-colors">+91 98765 43210</a>
                             </li>
                             <li class="flex items-center gap-3 text-gray-500">
                                 <i class="fa-solid fa-envelope text-blue-500"></i>
@@ -477,7 +458,7 @@
                 </div>
 
                 <div class="border-t border-gray-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-center">
-                    <p class="text-gray-500 text-sm">© 2026 SHAURYAHOMESHIELD.COM. All rights reserved.</p>
+                    <p class="text-gray-500 text-sm">© 2026 ElectroTech India. All rights reserved.</p>
                     <div class="flex gap-6 text-sm text-gray-500 justify-center">
                         <a href="#" class="hover:text-gray-900 transition-colors">Privacy Policy</a>
                         <a href="#" class="hover:text-gray-900 transition-colors">Terms of Service</a>
@@ -491,7 +472,7 @@
     <!-- Floating Icons -->
     <div class="fixed bottom-8 right-6 z-[200] flex flex-col gap-5">
         
-        <a href="https://wa.me/919996966710" target="_blank" class="auto-hover-icon w-14 h-14 bg-green-500 text-white rounded-full flex items-center justify-center text-3xl hover:bg-green-600 transition-colors" style="color: #22c55e;">
+        <a href="https://wa.me/919876543210" target="_blank" class="auto-hover-icon w-14 h-14 bg-green-500 text-white rounded-full flex items-center justify-center text-3xl hover:bg-green-600 transition-colors" style="color: #22c55e;">
             <i class="fa-brands fa-whatsapp text-white"></i>
         </a>
     </div>
@@ -499,6 +480,7 @@
     <script>
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const closeMenuBtn = document.getElementById('close-menu');
+        const menuOverlay = document.getElementById('menu-overlay');
         const spatialMenuLinks = document.querySelectorAll('#spatial-menu a');
 
         function toggleMenu() {
@@ -512,6 +494,7 @@
 
         mobileMenuBtn.addEventListener('click', toggleMenu);
         closeMenuBtn.addEventListener('click', toggleMenu);
+        if(menuOverlay) menuOverlay.addEventListener('click', toggleMenu);
         
         spatialMenuLinks.forEach(link => {
             link.addEventListener('click', toggleMenu);
