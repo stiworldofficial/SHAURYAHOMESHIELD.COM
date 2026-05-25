@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Shauryahomeshield | Electric Fencing Solutions</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        'whitesmoke': '#f5f5f5',
+                        'apple-accent': '#0A84FF',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar for Light Theme */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #e5e7eb; }
+        ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #2563eb; }
+
+        /* --- VISIBLE BODY COLOR (WHITE SMOKE THEME) --- */
+        body {
+            /* Elegant White Smoke Gradient */
+            background: radial-gradient(circle at 50% 10%, #ffffff 0%, #f5f5f5 60%, #e5e5e5 100%);
+            overflow-x: hidden;
+            background-attachment: fixed;
+            color: #1f2937; /* Default dark text */
+        }
+
+        /* --- 3D EFFECT FOR MAIN WRAPPER --- */
+        #main-wrapper {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.6s, opacity 0.6s, filter 0.6s;
+            transform-origin: center center;
+            background-color: transparent;
+            min-height: 100vh;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Push main content slightly back when sidebar opens */
+        body.menu-open #main-wrapper {
+            transform: scale(0.96) translateY(-1vh); 
+            border-radius: 2rem;
+            opacity: 0.8;
+            filter: blur(4px);
+            pointer-events: none;
+        }
+
+        /* --- PROFESSIONAL CENTERED MODAL OVERLAY --- */
+        #spatial-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            background: rgba(0, 0, 0, 0.4); /* Darker overlay for better focus */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        body.menu-open #spatial-menu {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        /* Perfectly Centered Menu Box */
+        .menu-box {
+            position: absolute;
+            top: 50%;
+            left: 50%; /* Horizontal Center */
+            width: 340px; /* Slightly wider */
+            max-width: 90vw; /* Responsive for small phones */
+            height: auto; 
+            max-height: 90vh;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 1.5rem; 
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); /* Premium drop shadow */
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            
+            /* Hidden State: Scaled down and moved slightly down, centered horizontally */
+            transform: translate(-50%, -45%) scale(0.95); 
+            opacity: 0;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+            overflow-y: auto;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            pointer-events: none;
+        }
+
+        .menu-box::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Active State: Perfectly centered horizontally and vertically */
+        body.menu-open .menu-box {
+            transform: translate(-50%, -50%) scale(1); 
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* Menu Items Animation (Slide up instead of slide right) */
+        .menu-item {
+            transform: translateY(15px);
+            opacity: 0;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        body.menu-open .menu-item {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* --- SHINING AUTO-HOVER ICONS --- */
+        @keyframes auto-pulse-float {
+            0% { 
+                transform: translateY(0) scale(1); 
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2), 0 0 20px currentColor; 
+            }
+            50% { 
+                transform: translateY(-12px) scale(1.1); 
+                box-shadow: 0 15px 25px rgba(0,0,0,0.2), 0 0 35px currentColor; 
+            }
+            100% { 
+                transform: translateY(0) scale(1); 
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2), 0 0 20px currentColor; 
+            }
+        }
+        
+        .auto-hover-icon {
+            animation: auto-pulse-float 2.5s infinite ease-in-out;
+            position: relative;
+        }
+        
+        .auto-hover-icon::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            opacity: 0;
+            animation: ripple 2.5s infinite ease-out;
+        }
+
+        @keyframes ripple {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
+
+        /* --- 11D CARD EFFECTS --- */
+        .card-11d {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        .glare {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 50; mix-blend-mode: overlay;
+        }
+        
+        /* Glass Navbar (Light Theme) */
+        .dynamic-island {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* --- HERO SLIDER (NO CONTENT) --- */
+        .hero-slide {
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            z-index: 1;
+        }
+        .hero-slide.active {
+            opacity: 1;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body class="font-sans pt-24"> 
+
+    <!-- PROFESSIONAL CENTERED MODAL MENU -->
+    <div id="spatial-menu">
+        <!-- Overlay to close menu on click -->
+        <div class="absolute inset-0 w-full h-full cursor-pointer" id="menu-overlay"></div>
+        
+        <div class="menu-box z-10">
+            <!-- Sidebar Header -->
+            <div class="flex justify-between items-center mb-8 menu-item" style="transition-delay: 0.1s;">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full overflow-hidden shadow-sm flex-shrink-0 bg-gradient-to-tr from-blue-600 to-cyan-400 border border-gray-200">
+                        <img src="shsl.png" class="w-full h-full object-cover" alt="Logo Icon">
+                    </div>
+                    <img src="shslname.png" class="h-5 object-contain" alt="ElectroTech Logo">
+                </div>
+                <button id="close-menu" class="text-gray-400 hover:bg-red-50 hover:text-red-500 w-10 h-10 rounded-full transition-colors flex items-center justify-center">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Sidebar Navigation Links -->
+            <div class="flex flex-col gap-2">
+                <a href="index.html#home" class="menu-item flex items-center gap-4 text-lg font-semibold text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-4 py-3.5 rounded-xl transition-all" style="transition-delay: 0.15s;">
+                    <i class="fa-solid fa-house w-6 text-center text-gray-400"></i> Home
+                </a>
+                <a href="#services" class="menu-item flex items-center gap-4 text-lg font-semibold text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-4 py-3.5 rounded-xl transition-all" style="transition-delay: 0.2s;">
+                    <i class="fa-solid fa-screwdriver-wrench w-6 text-center text-gray-400"></i> Services
+                </a>
+                <a href="#products" class="menu-item flex items-center gap-4 text-lg font-semibold text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-4 py-3.5 rounded-xl transition-all" style="transition-delay: 0.25s;">
+                    <i class="fa-solid fa-store w-6 text-center text-gray-400"></i> Store
+                </a>
+            </div>
+            
+            <!-- Sidebar Footer / Book Now Action -->
+            <div class="menu-item mt-8 pt-6 border-t border-gray-100" style="transition-delay: 0.3s;">
+                <a href="#services" class="w-full bg-gray-900 text-white py-4 rounded-xl text-md font-bold shadow-md flex items-center justify-center gap-2 hover:bg-blue-600 hover:shadow-lg transition-all">
+                    <i class="fa-regular fa-calendar-check text-lg"></i> Book Now
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Wrapper for 3D Transform -->
+    <div id="main-wrapper">
+        
+        <!-- Dynamic Island Navbar -->
+        <div class="fixed top-4 w-full z-50 flex justify-center px-4" id="navbar-wrapper">
+            <nav class="dynamic-island w-full max-w-6xl rounded-[2.5rem] px-6 py-3 flex justify-between items-center shadow-lg shadow-gray-200/50">
+                
+                <div class="flex items-center cursor-pointer group">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform overflow-hidden z-10 flex-shrink-0">
+                        <img src="shsl.png" class="w-full h-full object-cover" alt="Logo Icon">
+                    </div>
+                    
+                    <!-- Dark text placeholder for light theme -->
+                    <img src="shslname.png" 
+                         class="h-5 sm:h-6 md:h-7 object-contain absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 md:ml-3" 
+                         alt="ElectroTech Logo">
+                </div>
+
+                <div class="hidden md:flex items-center space-x-10">
+                    <a href="index.html#home" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition-all">Home</a>
+                    <a href="#services" class="text-sm font-bold text-blue-600 transition-all">Services</a>
+                    <a href="#products" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition-all">Store</a>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <!-- Updated to Book Now button -->
+                    <a href="#services" class="hidden sm:flex bg-gray-900 text-white px-6 py-2 rounded-full text-sm font-bold hover:bg-blue-600 transition-all items-center gap-2 shadow-md">
+                        <i class="fa-regular fa-calendar-check text-sm"></i> Book Now
+                    </a>
+                    <button id="mobile-menu-btn" class="md:hidden text-gray-700 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center border border-gray-200 hover:bg-gray-200 transition-colors z-10">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </nav>
+        </div>
+
+        <!-- 16:9 YouTube Ratio Hero Slider (Mobile & PC perfectly scaled) -->
+        <section id="home" class="relative w-full aspect-video max-w-[1920px] mx-auto bg-black overflow-hidden shadow-xl z-10">
+            <!-- Slider containing exactly 5 images with full visibility -->
+            <img src="acservice.png" alt="Technology Background" class="hero-slide active absolute inset-0 w-full h-full object-cover">
+            <img src="electricfencing.png" alt="Electric Setup Background" class="hero-slide absolute inset-0 w-full h-full object-cover">
+            <img src="autometic.png" alt="Cooling AC Background" class="hero-slide absolute inset-0 w-full h-full object-cover">
+            <img src="fencingstore.png" alt="Tank Tech Background" class="hero-slide absolute inset-0 w-full h-full object-cover">
+            <img src="electricfencing.png" alt="Smart System Background" class="hero-slide absolute inset-0 w-full h-full object-cover">
+        </section>
+
+        <!-- Electric Fencing Types Section -->
+        <section id="services" class="py-10 md:py-24 relative px-4 sm:px-6">
+            <div class="max-w-6xl mx-auto">
+                
+                <div class="text-center mb-8 md:mb-16">
+                    <h2 class="text-4xl md:text-5xl font-black tracking-tight text-gray-900 mb-4">Electric <span class="text-blue-600">Fencing</span></h2>
+                </div>
+
+                <!-- 3 Cards Grid (Updated for Home, Agriculture, Corporate) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 auto-rows-max">
+                    
+                    <!-- Card 1: Home Electric Fencing -->
+                    <a href="#" class="card-11d block w-full h-[250px] md:h-[350px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow">
+                        <div class="glare rounded-[2.5rem]"></div>
+                        <!-- Using onerror to load a beautiful Unsplash fallback if local image is missing -->
+                        <img src="home-fencing.png" onerror="this.src='https://images.unsplash.com/photo-1605276374104-162f154bf400?q=80&w=800&auto=format&fit=crop'"
+                             class="card-11d-image absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform duration-700" alt="Home Fencing">
+                        
+                        <div class="absolute bottom-3 left-3 right-3 z-20">
+                            <div class="bg-white/80 backdrop-blur-xl border border-white/50 rounded-full py-3 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 group-hover:shadow-xl">
+                                <h3 class="text-lg md:text-xl font-bold text-gray-900 tracking-tight group-hover:text-white transition-colors duration-300 text-center">Home Electric Fencing</h3>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Card 2: Agriculture Electric Fencing -->
+                    <a href="#" class="card-11d block w-full h-[250px] md:h-[350px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow">
+                        <div class="glare rounded-[2.5rem]"></div>
+                        <img src="agri-fencing.png" onerror="this.src='https://images.unsplash.com/photo-1599839619722-39751411ea63?q=80&w=800&auto=format&fit=crop'"
+                             class="card-11d-image absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform duration-700" alt="Agriculture Fencing">
+                        
+                        <div class="absolute bottom-3 left-3 right-3 z-20">
+                            <div class="bg-white/80 backdrop-blur-xl border border-white/50 rounded-full py-3 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 group-hover:shadow-xl">
+                                <h3 class="text-lg md:text-xl font-bold text-gray-900 tracking-tight group-hover:text-white transition-colors duration-300 text-center">Agriculture Electric Fencing</h3>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Card 3: Corporate Fencing -->
+                    <a href="#" class="card-11d block w-full h-[250px] md:h-[350px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow">
+                        <div class="glare rounded-[2.5rem]"></div>
+                        <img src="corp-fencing.png" onerror="this.src='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800&auto=format&fit=crop'"
+                             class="card-11d-image absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform duration-700" alt="Corporate Fencing">
+                        
+                        <div class="absolute bottom-3 left-3 right-3 z-20">
+                            <div class="bg-white/80 backdrop-blur-xl border border-white/50 rounded-full py-3 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 group-hover:shadow-xl">
+                                <h3 class="text-lg md:text-xl font-bold text-gray-900 tracking-tight group-hover:text-white transition-colors duration-300 text-center">Corporate Fencing</h3>
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Pro Components (Light Theme) -->
+        <section id="products" class="py-24 relative">
+            <div class="max-w-6xl mx-auto px-6">
+                <div class="flex flex-col md:flex-row gap-16 items-center">
+                    
+                    <div class="md:w-1/2">
+                        <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-6 leading-tight">Pro Components & <br><span class="text-blue-600">Hardware</span></h2>
+                        <p class="text-gray-600 text-lg mb-8 leading-relaxed font-medium">
+                            Premium grade spare parts, custom-built micro PCBs, and high-efficiency power modules for all your Zhatka machines.
+                        </p>
+                        
+                        <ul class="space-y-6">
+                            <li class="flex items-center gap-4 bg-white p-4 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+                                <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center border border-blue-100">
+                                    <i class="fa-solid fa-microchip text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-gray-900 font-bold text-lg">Custom PCBs</h4>
+                                    <p class="text-gray-500 text-sm">Engineered for extreme durability.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-center gap-4 bg-white p-4 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+                                <div class="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center border border-emerald-100">
+                                    <i class="fa-solid fa-car-battery text-emerald-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-gray-900 font-bold text-lg">Power Units</h4>
+                                    <p class="text-gray-500 text-sm">High voltage & long-lasting backup.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 3-Image Collage -->
+                    <div class="md:w-1/2 relative h-[400px] w-full group cursor-pointer">
+                        <div class="absolute top-0 right-0 w-[60%] h-[250px] rounded-3xl overflow-hidden shadow-lg border border-gray-200 transform group-hover:translate-x-4 group-hover:-translate-y-4 transition-transform duration-500 z-10">
+                            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover" alt="PCB">
+                            <span class="absolute bottom-4 right-4 bg-white/90 backdrop-blur-md px-4 py-1 text-gray-900 font-bold rounded-full text-sm border border-gray-200 shadow-sm">Micro PCBs</span>
+                        </div>
+                        
+                        <div class="absolute bottom-0 left-0 w-[55%] h-[220px] rounded-3xl overflow-hidden shadow-lg border border-gray-200 transform group-hover:-translate-x-4 group-hover:translate-y-4 transition-transform duration-500 z-20">
+                            <img src="https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover" alt="Circuit">
+                            <span class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-md px-4 py-1 text-gray-900 font-bold rounded-full text-sm border border-gray-200 shadow-sm">Sensors</span>
+                        </div>
+
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50%] h-[200px] rounded-3xl overflow-hidden shadow-2xl border-4 border-white transform group-hover:scale-110 transition-transform duration-500 z-30">
+                            <img src="https://images.unsplash.com/photo-1559863414-b15b5e39df16?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover" alt="Tech">
+                            <div class="absolute inset-0 bg-blue-500/10"></div>
+                            <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-blue-600/90 backdrop-blur-md px-5 py-2 text-white font-bold rounded-full text-sm shadow-xl">Core Engine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer (Light Theme) -->
+        <footer class="relative mt-20 bg-white/80 backdrop-blur-3xl border-t border-gray-200 pt-20 pb-10">
+            <div class="max-w-7xl mx-auto px-6 relative z-10">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                    
+                    <div class="md:col-span-2 text-center md:text-left">
+                        <div class="flex items-center justify-center md:justify-start gap-4 mb-6">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center shadow-md overflow-hidden flex-shrink-0">
+                                <img src="shsl.png" class="w-full h-full object-cover" alt="Logo Icon">
+                            </div>
+                            <img src="shslname.png" class="h-8 md:h-9 object-contain" alt="ElectroTech Logo">
+                        </div>
+                        <p class="text-gray-600 text-lg leading-relaxed max-w-sm font-medium mb-8 mx-auto md:mx-0">
+                            Pioneering electrical safety and automation across India. Delivering premium zhatka machines, AC care, and smart alarms.
+                        </p>
+                        <div class="flex gap-4 justify-center md:justify-start">
+                            <a href="#" class="w-10 h-10 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-blue-500 hover:text-white transition-all shadow-sm">
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-sky-500 hover:text-white transition-all shadow-sm">
+                                <i class="fa-brands fa-twitter"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-pink-500 hover:text-white transition-all shadow-sm">
+                                <i class="fa-brands fa-instagram"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="text-center md:text-left">
+                        <h4 class="text-gray-900 font-bold text-lg mb-6 uppercase tracking-wider">Quick Links</h4>
+                        <ul class="space-y-4">
+                            <li><a href="#home" class="text-gray-500 hover:text-blue-600 transition-colors inline-flex items-center gap-2"><i class="fa-solid fa-chevron-right text-xs"></i> Home</a></li>
+                            <li><a href="#services" class="text-gray-500 hover:text-blue-600 transition-colors inline-flex items-center gap-2"><i class="fa-solid fa-chevron-right text-xs"></i> Services</a></li>
+                            <li><a href="#products" class="text-gray-500 hover:text-blue-600 transition-colors inline-flex items-center gap-2"><i class="fa-solid fa-chevron-right text-xs"></i> Store</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="text-center md:text-left">
+                        <h4 class="text-gray-900 font-bold text-lg mb-6 uppercase tracking-wider">Contact</h4>
+                        <ul class="space-y-4 inline-block text-left">
+                            <li class="flex items-start gap-3 text-gray-500">
+                                <i class="fa-solid fa-location-dot mt-1 text-blue-500"></i>
+                                <span>123 Innovation Drive,<br>Tech Park, Delhi 110001</span>
+                            </li>
+                            <li class="flex items-center gap-3 text-gray-500">
+                                <i class="fa-solid fa-phone text-blue-500"></i>
+                                <a href="tel:+919876543210" class="hover:text-gray-900 transition-colors">+91 98765 43210</a>
+                            </li>
+                            <li class="flex items-center gap-3 text-gray-500">
+                                <i class="fa-solid fa-envelope text-blue-500"></i>
+                                <a href="mailto:hello@electrotech.com" class="hover:text-gray-900 transition-colors">hello@electrotech.com</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-center">
+                    <p class="text-gray-500 text-sm">© 2026 ElectroTech India. All rights reserved.</p>
+                    <div class="flex gap-6 text-sm text-gray-500 justify-center">
+                        <a href="#" class="hover:text-gray-900 transition-colors">Privacy Policy</a>
+                        <a href="#" class="hover:text-gray-900 transition-colors">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div> 
+
+    <!-- Floating Icons -->
+    <div class="fixed bottom-8 right-6 z-[200] flex flex-col gap-5">
+        
+        <a href="https://wa.me/919876543210" target="_blank" class="auto-hover-icon w-14 h-14 bg-green-500 text-white rounded-full flex items-center justify-center text-3xl hover:bg-green-600 transition-colors" style="color: #22c55e;">
+            <i class="fa-brands fa-whatsapp text-white"></i>
+        </a>
+    </div>
+
+    <script>
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu');
+        const menuOverlay = document.getElementById('menu-overlay');
+        const spatialMenuLinks = document.querySelectorAll('#spatial-menu a');
+
+        function toggleMenu() {
+            document.body.classList.toggle('menu-open');
+            if(document.body.classList.contains('menu-open')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        closeMenuBtn.addEventListener('click', toggleMenu);
+        if(menuOverlay) menuOverlay.addEventListener('click', toggleMenu);
+        
+        spatialMenuLinks.forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+
+        // --- HERO SLIDER LOGIC ---
+        const slides = document.querySelectorAll('.hero-slide');
+        if(slides.length > 0) {
+            let currentSlide = 0;
+            setInterval(() => {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }, 5000); // 5 seconds interval
+        }
+
+        if (window.matchMedia("(hover: hover)").matches) {
+            const cards = document.querySelectorAll('.card-11d');
+            
+            cards.forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateX = ((y - centerY) / centerY) * -12; 
+                    const rotateY = ((x - centerX) / centerX) * 12;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                    
+                    const glare = card.querySelector('.glare');
+                    if(glare) {
+                        glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.8) 0%, transparent 60%)`;
+                    }
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+                    const glare = card.querySelector('.glare');
+                    if(glare) {
+                        glare.style.background = 'transparent';
+                        card.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
+                    }
+                });
+                
+                card.addEventListener('mouseenter', () => {
+                    card.style.transition = 'none';
+                });
+            });
+        }
+    </script>
+</body>
+</html>
