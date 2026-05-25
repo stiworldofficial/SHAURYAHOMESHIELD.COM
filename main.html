@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Shauryahomeshield | Ac Services | Electric Fencing | Water Tank Controling System | And All Services Accesries </title>
+    <title>Shauryahomeshield | Premium Home Services & Hardware</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -14,6 +14,9 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
     
+    <!-- Razorpay Checkout Library -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
     <!-- Tailwind Config -->
     <script>
         tailwind.config = {
@@ -36,106 +39,19 @@
         ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #2563eb; }
 
-        /* --- VISIBLE BODY COLOR (WHITE SMOKE THEME) --- */
         body {
-            /* Elegant White Smoke Gradient */
             background: radial-gradient(circle at 50% 10%, #ffffff 0%, #f5f5f5 60%, #e5e5e5 100%);
             overflow-x: hidden;
             background-attachment: fixed;
-            color: #1f2937; /* Default dark text */
+            color: #1f2937;
         }
 
-        /* --- 3D EFFECT FOR MAIN WRAPPER --- */
         #main-wrapper {
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.6s, opacity 0.6s, filter 0.6s;
-            transform-origin: center center;
-            background-color: transparent;
+            transition: filter 0.3s ease;
             min-height: 100vh;
             width: 100%;
             position: relative;
             z-index: 10;
-        }
-
-        /* Push main content slightly back when sidebar opens */
-        body.menu-open #main-wrapper {
-            transform: scale(0.96) translateY(-1vh); 
-            border-radius: 2rem;
-            opacity: 0.8;
-            filter: blur(4px);
-            pointer-events: none;
-        }
-
-        /* --- PROFESSIONAL CENTERED MODAL OVERLAY --- */
-        #spatial-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            z-index: 1000;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            background: rgba(0, 0, 0, 0.4); /* Darker overlay for better focus */
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-        }
-
-        body.menu-open #spatial-menu {
-            opacity: 1;
-            pointer-events: all;
-        }
-        
-        /* Perfectly Centered Menu Box */
-        .menu-box {
-            position: absolute;
-            top: 50%;
-            left: 50%; /* Horizontal Center */
-            width: 340px; /* Slightly wider */
-            max-width: 90vw; /* Responsive for small phones */
-            height: auto; 
-            max-height: 90vh;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            border-radius: 1.5rem; 
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); /* Premium drop shadow */
-            padding: 2rem 1.5rem;
-            display: flex;
-            flex-direction: column;
-            
-            /* Hidden State: Scaled down and moved slightly down, centered horizontally */
-            transform: translate(-50%, -45%) scale(0.95); 
-            opacity: 0;
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
-            overflow-y: auto;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-            pointer-events: none;
-        }
-
-        .menu-box::-webkit-scrollbar {
-            display: none;
-        }
-
-        /* Active State: Perfectly centered horizontally and vertically */
-        body.menu-open .menu-box {
-            transform: translate(-50%, -50%) scale(1); 
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        /* Menu Items Animation (Slide up instead of slide right) */
-        .menu-item {
-            transform: translateY(15px);
-            opacity: 0;
-            transition: transform 0.4s ease, opacity 0.4s ease;
-        }
-
-        body.menu-open .menu-item {
-            transform: translateY(0);
-            opacity: 1;
         }
 
         /* --- SHINING AUTO-HOVER ICONS --- */
@@ -174,7 +90,7 @@
             100% { transform: scale(1.6); opacity: 0; }
         }
 
-        /* --- 11D CARD EFFECTS --- */
+        /* 11D Card Effect */
         .card-11d {
             transform-style: preserve-3d;
             perspective: 1000px;
@@ -185,15 +101,15 @@
             pointer-events: none; z-index: 50; mix-blend-mode: overlay;
         }
         
-        /* Glass Navbar (Light Theme) */
+        /* Glass Navbar */
         .dynamic-island {
-            background: rgba(255, 255, 255, 0.75);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
-        /* --- HERO SLIDER (NO CONTENT) --- */
+        /* Hero Slider */
         .hero-slide {
             opacity: 0;
             transition: opacity 1.5s ease-in-out;
@@ -203,95 +119,69 @@
             opacity: 1;
             z-index: 2;
         }
+
+        /* Centered popup style */
+        .modal-active {
+            overflow: hidden;
+        }
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+        }
     </style>
 </head>
 <body class="font-sans pt-24"> 
 
-    <!-- PROFESSIONAL CENTERED MODAL MENU -->
-    <div id="spatial-menu">
-        <!-- Overlay to close menu on click -->
-        <div class="absolute inset-0 w-full h-full cursor-pointer" id="menu-overlay"></div>
-        
-        <div class="menu-box z-10">
-            <!-- Sidebar Header -->
-            <div class="flex justify-between items-center mb-8 menu-item" style="transition-delay: 0.1s;">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full overflow-hidden shadow-sm flex-shrink-0 bg-gradient-to-tr from-blue-600 to-cyan-400 border border-gray-200">
-                        <img src="shsl.png" class="w-full h-full object-cover" alt="Logo Icon">
-                    </div>
-                    <img src="shslname.png" class="h-5 object-contain" alt="ElectroTech Logo">
-                </div>
-                <button id="close-menu" class="text-gray-400 hover:bg-red-50 hover:text-red-500 w-10 h-10 rounded-full transition-colors flex items-center justify-center">
-                    <i class="fa-solid fa-xmark text-xl"></i>
-                </button>
-            </div>
-
-            <!-- Sidebar Navigation Links -->
-            <div class="flex flex-col gap-2">
-                <a href="#home" class="menu-item flex items-center gap-4 text-lg font-semibold text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-4 py-3.5 rounded-xl transition-all" style="transition-delay: 0.15s;">
-                    <i class="fa-solid fa-house w-6 text-center text-gray-400"></i> Home
-                </a>
-                <a href="#services" class="menu-item flex items-center gap-4 text-lg font-semibold text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-4 py-3.5 rounded-xl transition-all" style="transition-delay: 0.2s;">
-                    <i class="fa-solid fa-screwdriver-wrench w-6 text-center text-gray-400"></i> Services
-                </a>
-                <a href="#products" class="menu-item flex items-center gap-4 text-lg font-semibold text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-4 py-3.5 rounded-xl transition-all" style="transition-delay: 0.25s;">
-                    <i class="fa-solid fa-store w-6 text-center text-gray-400"></i> Store
-                </a>
-            </div>
-            
-            <!-- Sidebar Footer / Book Now Action -->
-            <div class="menu-item mt-8 pt-6 border-t border-gray-100" style="transition-delay: 0.3s;">
-                <a href="#services" class="w-full bg-gray-900 text-white py-4 rounded-xl text-md font-bold shadow-md flex items-center justify-center gap-2 hover:bg-blue-600 hover:shadow-lg transition-all">
-                    <i class="fa-regular fa-calendar-check text-lg"></i> Book Now
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Wrapper for 3D Transform -->
+    <!-- MAIN CONTAINER -->
     <div id="main-wrapper">
         
         <!-- Dynamic Island Navbar -->
         <div class="fixed top-4 w-full z-50 flex justify-center px-4" id="navbar-wrapper">
             <nav class="dynamic-island w-full max-w-6xl rounded-[2.5rem] px-6 py-3 flex justify-between items-center shadow-lg shadow-gray-200/50">
                 
-                <div class="flex items-center cursor-pointer group">
+                <!-- Logo & Brand Name -->
+                <div class="flex items-center cursor-pointer group" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
                     <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform overflow-hidden z-10 flex-shrink-0">
-                        <img src="shsl.png" class="w-full h-full object-cover" alt="Logo Icon">
+                        <!-- fallback loading handle to show styling -->
+                        <img src="shsl.png" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=80&auto=format&fit=crop'" class="w-full h-full object-cover" alt="Logo Icon">
                     </div>
                     
-                    <!-- Dark text placeholder for light theme -->
-                    <img src="shslname.png" 
-                         class="h-5 sm:h-6 md:h-7 object-contain absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 md:ml-3" 
-                         alt="ElectroTech Logo">
+                    <span class="ml-3 font-black text-lg tracking-tight hidden xs:inline-block bg-gradient-to-r from-gray-900 to-blue-700 bg-clip-text text-transparent">
+                        SHAURYAHOMESHIELD
+                    </span>
                 </div>
 
+                <!-- Center Navigation -->
                 <div class="hidden md:flex items-center space-x-10">
                     <a href="#home" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition-all">Home</a>
                     <a href="#services" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition-all">Services</a>
-                    <a href="#products" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition-all">Store</a>
+                    <a href="#products" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition-all">Store Components</a>
                 </div>
 
+                <!-- Right Action Buttons (Cart & Quick Book) -->
                 <div class="flex items-center gap-4">
-                    <!-- Updated to Book Now button -->
-                    <a href="#services" class="hidden sm:flex bg-gray-900 text-white px-6 py-2 rounded-full text-sm font-bold hover:bg-blue-600 transition-all items-center gap-2 shadow-md">
-                        <i class="fa-regular fa-calendar-check text-sm"></i> Book Now
-                    </a>
-                    <button id="mobile-menu-btn" class="md:hidden text-gray-700 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center border border-gray-200 hover:bg-gray-200 transition-colors z-10">
-                        <i class="fa-solid fa-bars text-lg"></i>
+                    <!-- CART ICON (Accessible in both Desktop & Mobile) -->
+                    <button onclick="openCartDrawer()" class="relative p-2.5 rounded-full bg-gray-100 hover:bg-blue-50 hover:text-blue-600 transition-all border border-gray-200 shadow-sm flex items-center justify-center">
+                        <i class="fa-solid fa-basket-shopping text-lg"></i>
+                        <span id="cart-badge-count" class="absolute -top-1 -right-1 bg-blue-600 text-white text-xs font-black rounded-full h-5 w-5 flex items-center justify-center scale-90 shadow">0</span>
                     </button>
+
+                    <!-- QUICK CONTACT / BOOK -->
+                    <a href="#services" class="hidden sm:flex bg-gray-900 text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-blue-600 transition-all items-center gap-2 shadow-md">
+                        <i class="fa-regular fa-calendar-check text-sm"></i> Services
+                    </a>
                 </div>
             </nav>
         </div>
 
-        <!-- 16:9 YouTube Ratio Hero Slider (Mobile & PC perfectly scaled) -->
+        <!-- 16:9 YouTube Ratio Hero Slider -->
         <section id="home" class="relative w-full aspect-video max-w-[1920px] mx-auto bg-black overflow-hidden shadow-xl z-10">
             <!-- Slider containing exactly 5 images with full visibility -->
-            <img src="acservice.png" alt="Technology Background" class="hero-slide active absolute inset-0 w-full h-full object-cover">
-            <img src="electricfencing.png" alt="Electric Setup Background" class="hero-slide absolute inset-0 w-full h-full object-cover">
-            <img src="autometic.png" alt="Cooling AC Background" class="hero-slide absolute inset-0 w-full h-full object-cover">
-            <img src="fencingstore.png" alt="Tank Tech Background" class="hero-slide absolute inset-0 w-full h-full object-cover">
-            <img src="electricfencing.png" alt="Smart System Background" class="hero-slide absolute inset-0 w-full h-full object-cover">
+            <img src="acservice.png" onerror="this.src='https://images.unsplash.com/photo-1517646287270-a5a9ca602e5c?w=1600&auto=format&fit=crop'" alt="Technology Background" class="hero-slide active absolute inset-0 w-full h-full object-cover">
+            <img src="electricfencing.png" onerror="this.src='https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=1600&auto=format&fit=crop'" alt="Electric Setup Background" class="hero-slide absolute inset-0 w-full h-full object-cover">
+            <img src="autometic.png" onerror="this.src='https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=1600&auto=format&fit=crop'" alt="Cooling AC Background" class="hero-slide absolute inset-0 w-full h-full object-cover">
+            <img src="fencingstore.png" onerror="this.src='https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=1600&auto=format&fit=crop'" alt="Tank Tech Background" class="hero-slide absolute inset-0 w-full h-full object-cover">
+            <img src="electricfencing.png" onerror="this.src='https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=1600&auto=format&fit=crop'" alt="Smart System Background" class="hero-slide absolute inset-0 w-full h-full object-cover">
         </section>
 
         <!-- Core Services Section -->
@@ -300,69 +190,70 @@
                 
                 <div class="text-center mb-8 md:mb-16">
                     <h2 class="text-4xl md:text-5xl font-black tracking-tight text-gray-900 mb-4">Serv<span class="text-blue-600">ices</span></h2>
+                    <p class="text-gray-500 font-semibold text-sm md:text-base">Niche home protection, cooling care, and automated control devices.</p>
                 </div>
 
                 <!-- Cards Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 auto-rows-max">
                     
-                    <!-- Card 1 -->
-                    <a href="electric-fencing.html" class="card-11d block w-full h-[210px] md:h-[320px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow">
+                    <!-- Card 1 (Zhatka Machine Fence) -->
+                    <div onclick="openCard1Popup()" class="card-11d cursor-pointer block w-full h-[210px] md:h-[320px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-all">
                         <div class="glare rounded-[2.5rem]"></div>
-                        <img src="fencingworld.png" 
+                        <img src="fencingworld.png" onerror="this.src='https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&auto=format&fit=crop'" 
                              class="card-11d-image absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform duration-700" alt="Fencing">
                         
                         <div class="absolute bottom-3 left-3 right-3 z-20">
-                            <div class="bg-white/80 backdrop-blur-xl border border-white/50 rounded-full py-2 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 group-hover:shadow-xl">
-                                <h3 class="text-lg font-bold text-gray-900 tracking-tight group-hover:text-white transition-colors duration-300">Zhatka Machine</h3>
+                            <div class="bg-white/85 backdrop-blur-xl border border-white/50 rounded-full py-2.5 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 group-hover:shadow-xl">
+                                <h3 class="text-lg font-bold text-gray-900 tracking-tight group-hover:text-white transition-colors duration-300">Zhatka Machine Fence Services</h3>
                             </div>
                         </div>
-                    </a>
+                    </div>
 
-                    <!-- Card 2 -->
-                    <a href="ac-service.html" class="card-11d block w-full h-[210px] md:h-[320px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow">
+                    <!-- Card 2 (AC Services) -->
+                    <div onclick="openCard2Popup()" class="card-11d cursor-pointer block w-full h-[210px] md:h-[320px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-all">
                         <div class="glare rounded-[2.5rem]"></div>
-                        <img src="acserviceworld.png" 
+                        <img src="acserviceworld.png" onerror="this.src='https://images.unsplash.com/photo-1527018601619-a508a2be00cd?w=800&auto=format&fit=crop'" 
                              class="card-11d-image absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform duration-700" alt="AC">
                         
                         <div class="absolute bottom-3 left-3 right-3 z-20">
-                            <div class="bg-white/80 backdrop-blur-xl border border-white/50 rounded-full py-2 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 group-hover:shadow-xl">
-                                <h3 class="text-lg font-bold text-gray-900 tracking-tight group-hover:text-white transition-colors duration-300">AC Services</h3>
+                            <div class="bg-white/85 backdrop-blur-xl border border-white/50 rounded-full py-2.5 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 group-hover:shadow-xl">
+                                <h3 class="text-lg font-bold text-gray-900 tracking-tight group-hover:text-white transition-colors duration-300">AC Repair & Maintenance</h3>
                             </div>
                         </div>
-                    </a>
+                    </div>
 
-                    <!-- Card 3 -->
-                    <a href="tank-alarm.html" class="card-11d block w-full h-[210px] md:h-[320px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow">
+                    <!-- Card 3 (Tank Alarm) -->
+                    <div onclick="openCard3Popup()" class="card-11d cursor-pointer block w-full h-[210px] md:h-[320px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-all">
                         <div class="glare rounded-[2.5rem]"></div>
-                        <img src="wateralarm.png" 
+                        <img src="wateralarm.png" onerror="this.src='https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=800&auto=format&fit=crop'" 
                              class="card-11d-image absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform duration-700" alt="Tank">
                         
                         <div class="absolute bottom-3 left-3 right-3 z-20">
-                            <div class="bg-white/80 backdrop-blur-xl border border-white/50 rounded-full py-2 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 group-hover:shadow-xl">
-                                <h3 class="text-lg font-bold text-gray-900 tracking-tight group-hover:text-white transition-colors duration-300">Tank Alarm</h3>
+                            <div class="bg-white/85 backdrop-blur-xl border border-white/50 rounded-full py-2.5 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 group-hover:shadow-xl">
+                                <h3 class="text-lg font-bold text-gray-900 tracking-tight group-hover:text-white transition-colors duration-300">Water Tank Smart Alarm System</h3>
                             </div>
                         </div>
-                    </a>
+                    </div>
 
-                    <!-- Card 4 -->
-                    <a href="store.html" class="card-11d block w-full h-[210px] md:h-[320px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow">
+                    <!-- Card 4 (Spare Parts & Store) -->
+                    <div onclick="openCard4Popup()" class="card-11d cursor-pointer block w-full h-[210px] md:h-[320px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-all">
                         <div class="glare rounded-[2.5rem]"></div>
-                        <img src="shauryastore.png" 
+                        <img src="shauryastore.png" onerror="this.src='https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop'" 
                              class="card-11d-image absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform duration-700" alt="Parts">
                         
                         <div class="absolute bottom-3 left-3 right-3 z-20">
-                            <div class="bg-white/80 backdrop-blur-xl border border-white/50 rounded-full py-2 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 group-hover:shadow-xl">
-                                <h3 class="text-lg font-bold text-gray-900 tracking-tight group-hover:text-white transition-colors duration-300">Spare Parts</h3>
+                            <div class="bg-white/85 backdrop-blur-xl border border-white/50 rounded-full py-2.5 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 group-hover:shadow-xl">
+                                <h3 class="text-lg font-bold text-gray-900 tracking-tight group-hover:text-white transition-colors duration-300">Explore Accessories & Spare Store</h3>
                             </div>
                         </div>
-                    </a>
+                    </div>
 
                 </div>
             </div>
         </section>
 
-        <!-- Pro Components (Light Theme) -->
-        <section id="products" class="py-24 relative">
+        <!-- Pro Components Showcase Section -->
+        <section id="products" class="py-24 relative bg-gray-50/50">
             <div class="max-w-6xl mx-auto px-6">
                 <div class="flex flex-col md:flex-row gap-16 items-center">
                     
@@ -379,7 +270,7 @@
                                 </div>
                                 <div>
                                     <h4 class="text-gray-900 font-bold text-lg">Custom PCBs</h4>
-                                    <p class="text-gray-500 text-sm">Engineered for extreme durability.</p>
+                                    <p class="text-gray-500 text-sm">Engineered for extreme durability and heavy discharge cycles.</p>
                                 </div>
                             </li>
                             <li class="flex items-center gap-4 bg-white p-4 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
@@ -388,14 +279,14 @@
                                 </div>
                                 <div>
                                     <h4 class="text-gray-900 font-bold text-lg">Power Units</h4>
-                                    <p class="text-gray-500 text-sm">High voltage & long-lasting backup.</p>
+                                    <p class="text-gray-500 text-sm">High voltage spikes with zero micro-controller failure rate.</p>
                                 </div>
                             </li>
                         </ul>
                     </div>
 
                     <!-- 3-Image Collage -->
-                    <div class="md:w-1/2 relative h-[400px] w-full group cursor-pointer">
+                    <div class="md:w-1/2 relative h-[400px] w-full group cursor-pointer" onclick="openCard4Popup()">
                         <div class="absolute top-0 right-0 w-[60%] h-[250px] rounded-3xl overflow-hidden shadow-lg border border-gray-200 transform group-hover:translate-x-4 group-hover:-translate-y-4 transition-transform duration-500 z-10">
                             <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover" alt="PCB">
                             <span class="absolute bottom-4 right-4 bg-white/90 backdrop-blur-md px-4 py-1 text-gray-900 font-bold rounded-full text-sm border border-gray-200 shadow-sm">Micro PCBs</span>
@@ -409,14 +300,14 @@
                         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50%] h-[200px] rounded-3xl overflow-hidden shadow-2xl border-4 border-white transform group-hover:scale-110 transition-transform duration-500 z-30">
                             <img src="https://images.unsplash.com/photo-1559863414-b15b5e39df16?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover" alt="Tech">
                             <div class="absolute inset-0 bg-blue-500/10"></div>
-                            <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-blue-600/90 backdrop-blur-md px-5 py-2 text-white font-bold rounded-full text-sm shadow-xl">Core Engine</span>
+                            <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-blue-600/90 backdrop-blur-md px-5 py-2 text-white font-bold rounded-full text-sm shadow-xl">Hardware Store</span>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Footer (Light Theme) -->
+        <!-- Footer -->
         <footer class="relative mt-20 bg-white/80 backdrop-blur-3xl border-t border-gray-200 pt-20 pb-10">
             <div class="max-w-7xl mx-auto px-6 relative z-10">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
@@ -424,9 +315,9 @@
                     <div class="md:col-span-2 text-center md:text-left">
                         <div class="flex items-center justify-center md:justify-start gap-4 mb-6">
                             <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center shadow-md overflow-hidden flex-shrink-0">
-                                <img src="shsl.png" class="w-full h-full object-cover" alt="Logo Icon">
+                                <img src="shsl.png" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=80&auto=format&fit=crop'" class="w-full h-full object-cover" alt="Logo Icon">
                             </div>
-                            <img src="shslname.png" class="h-8 md:h-9 object-contain" alt="ElectroTech Logo">
+                            <span class="font-black text-2xl tracking-tight text-gray-900">SHAURYAHOMESHIELD</span>
                         </div>
                         <p class="text-gray-600 text-lg leading-relaxed max-w-sm font-medium mb-8 mx-auto md:mx-0">
                             Pioneering electrical safety and automation across India. Delivering premium zhatka machines, AC care, and smart alarms.
@@ -458,7 +349,7 @@
                         <ul class="space-y-4 inline-block text-left">
                             <li class="flex items-start gap-3 text-gray-500">
                                 <i class="fa-solid fa-location-dot mt-1 text-blue-500"></i>
-                                <span>123 Innovation Drive,<br>Tech Park, Delhi 110001</span>
+                                <span>Haryana, India</span>
                             </li>
                             <li class="flex items-center gap-3 text-gray-500">
                                 <i class="fa-solid fa-phone text-blue-500"></i>
@@ -466,14 +357,14 @@
                             </li>
                             <li class="flex items-center gap-3 text-gray-500">
                                 <i class="fa-solid fa-envelope text-blue-500"></i>
-                                <a href="mailto:hello@electrotech.com" class="hover:text-gray-900 transition-colors">hello@electrotech.com</a>
+                                <a href="mailto:info@shauryahomeshield.com" class="hover:text-gray-900 transition-colors">info@shauryahomeshield.com</a>
                             </li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="border-t border-gray-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-center">
-                    <p class="text-gray-500 text-sm">© 2026 ElectroTech India. All rights reserved.</p>
+                    <p class="text-gray-500 text-sm">© 2026 Shauryahomeshield India. All rights reserved.</p>
                     <div class="flex gap-6 text-sm text-gray-500 justify-center">
                         <a href="#" class="hover:text-gray-900 transition-colors">Privacy Policy</a>
                         <a href="#" class="hover:text-gray-900 transition-colors">Terms of Service</a>
@@ -484,38 +375,287 @@
 
     </div> 
 
-    <!-- Floating Icons -->
+    <!-- Dynamic Bottom Floating WhatsApp Indicator -->
     <div class="fixed bottom-8 right-6 z-[200] flex flex-col gap-5">
-        
-        <a href="https://wa.me/919876543210" target="_blank" class="auto-hover-icon w-14 h-14 bg-green-500 text-white rounded-full flex items-center justify-center text-3xl hover:bg-green-600 transition-colors" style="color: #22c55e;">
+        <a href="https://wa.me/919876543210?text=Hello%20Shauryahomeshield,%20I%20am%20interested%20in%20your%20fencing%20and%20AC%20services." target="_blank" class="auto-hover-icon w-14 h-14 bg-green-500 text-white rounded-full flex items-center justify-center text-3xl hover:bg-green-600 transition-colors" style="color: #22c55e;">
             <i class="fa-brands fa-whatsapp text-white"></i>
         </a>
     </div>
 
-    <script>
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const closeMenuBtn = document.getElementById('close-menu');
-        const menuOverlay = document.getElementById('menu-overlay');
-        const spatialMenuLinks = document.querySelectorAll('#spatial-menu a');
+    <!-- ==================== DYNAMIC CENTRAL POPUPS (MODAL) ==================== -->
 
-        function toggleMenu() {
-            document.body.classList.toggle('menu-open');
-            if(document.body.classList.contains('menu-open')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = '';
-            }
-        }
+    <!-- BACKDROP COVER FOR ALL MODALS -->
+    <div id="modal-backdrop" class="fixed inset-0 z-[100] hidden modal-backdrop transition-opacity duration-300"></div>
 
-        mobileMenuBtn.addEventListener('click', toggleMenu);
-        closeMenuBtn.addEventListener('click', toggleMenu);
-        if(menuOverlay) menuOverlay.addEventListener('click', toggleMenu);
+    <!-- POPUP CONTAINER 1: Zhatka Machine Option Selection -->
+    <div id="popup-card1" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[101] w-full max-w-lg hidden bg-white rounded-3xl p-6 shadow-2xl border border-gray-100 max-h-[90vh] overflow-y-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-2xl font-black text-gray-900">Choose Fence Type</h3>
+            <button onclick="closeActiveModal()" class="text-gray-400 hover:text-red-500 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+        <p class="text-gray-500 mb-6 font-semibold">Select your required application to proceed with Booking at ₹9 (Refundable Setup Fee)</p>
         
-        spatialMenuLinks.forEach(link => {
-            link.addEventListener('click', toggleMenu);
-        });
+        <div class="flex flex-col gap-4">
+            <button onclick="openBookingForm('Zhatka Fence - Home Fencing', 9)" class="flex justify-between items-center p-4 rounded-2xl border-2 border-gray-200 hover:border-blue-600 hover:bg-blue-50 transition-all text-left">
+                <div>
+                    <h4 class="font-bold text-gray-900 text-lg">Home Fencing</h4>
+                    <p class="text-sm text-gray-500">Perfect protection for residential areas & private villas</p>
+                </div>
+                <i class="fa-solid fa-chevron-right text-blue-600"></i>
+            </button>
+            
+            <button onclick="openBookingForm('Zhatka Fence - Agriculture Fencing', 9)" class="flex justify-between items-center p-4 rounded-2xl border-2 border-gray-200 hover:border-blue-600 hover:bg-blue-50 transition-all text-left">
+                <div>
+                    <h4 class="font-bold text-gray-900 text-lg">Agriculture Fencing</h4>
+                    <p class="text-sm text-gray-500">Heavy-duty power grids for farms and remote lands</p>
+                </div>
+                <i class="fa-solid fa-chevron-right text-blue-600"></i>
+            </button>
 
-        // --- HERO SLIDER LOGIC ---
+            <button onclick="openBookingForm('Zhatka Fence - Corporate Fencing', 9)" class="flex justify-between items-center p-4 rounded-2xl border-2 border-gray-200 hover:border-blue-600 hover:bg-blue-50 transition-all text-left">
+                <div>
+                    <h4 class="font-bold text-gray-900 text-lg">Corporate Fencing</h4>
+                    <p class="text-sm text-gray-500">Premium commercial setup with perimeter surveillance</p>
+                </div>
+                <i class="fa-solid fa-chevron-right text-blue-600"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- POPUP CONTAINER 2: 7 AC Services Selection -->
+    <div id="popup-card2" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[101] w-full max-w-lg hidden bg-white rounded-3xl p-6 shadow-2xl border border-gray-100 max-h-[90vh] overflow-y-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-2xl font-black text-gray-900">AC Professional Services</h3>
+            <button onclick="closeActiveModal()" class="text-gray-400 hover:text-red-500 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+        <p class="text-gray-500 mb-6 font-semibold">Select an expert service to continue. Instant Booking at ₹21 only</p>
+        
+        <div class="flex flex-col gap-3">
+            <button onclick="openBookingForm('AC Service - Deep Jet Wash Service', 21)" class="flex justify-between items-center p-3 px-4 rounded-xl border border-gray-200 hover:border-blue-600 hover:bg-blue-50 transition-all text-left">
+                <span class="font-bold text-gray-800">1. Deep Jet Wash Service</span>
+                <span class="text-blue-600 text-sm font-semibold">Book at ₹21</span>
+            </button>
+            <button onclick="openBookingForm('AC Service - Gas Charging', 21)" class="flex justify-between items-center p-3 px-4 rounded-xl border border-gray-200 hover:border-blue-600 hover:bg-blue-50 transition-all text-left">
+                <span class="font-bold text-gray-800">2. Gas Leakage & Charging</span>
+                <span class="text-blue-600 text-sm font-semibold">Book at ₹21</span>
+            </button>
+            <button onclick="openBookingForm('AC Service - Installation Service', 21)" class="flex justify-between items-center p-3 px-4 rounded-xl border border-gray-200 hover:border-blue-600 hover:bg-blue-50 transition-all text-left">
+                <span class="font-bold text-gray-800">3. Complete AC Installation</span>
+                <span class="text-blue-600 text-sm font-semibold">Book at ₹21</span>
+            </button>
+            <button onclick="openBookingForm('AC Service - Uninstallation Service', 21)" class="flex justify-between items-center p-3 px-4 rounded-xl border border-gray-200 hover:border-blue-600 hover:bg-blue-50 transition-all text-left">
+                <span class="font-bold text-gray-800">4. AC Uninstallation</span>
+                <span class="text-blue-600 text-sm font-semibold">Book at ₹21</span>
+            </button>
+            <button onclick="openBookingForm('AC Service - Comprehensive Repair', 21)" class="flex justify-between items-center p-3 px-4 rounded-xl border border-gray-200 hover:border-blue-600 hover:bg-blue-50 transition-all text-left">
+                <span class="font-bold text-gray-800">5. Complete Repair Diagnostics</span>
+                <span class="text-blue-600 text-sm font-semibold">Book at ₹21</span>
+            </button>
+            <button onclick="openBookingForm('AC Service - Fan Motor Repair', 21)" class="flex justify-between items-center p-3 px-4 rounded-xl border border-gray-200 hover:border-blue-600 hover:bg-blue-50 transition-all text-left">
+                <span class="font-bold text-gray-800">6. Fan Motor Repair / Replace</span>
+                <span class="text-blue-600 text-sm font-semibold">Book at ₹21</span>
+            </button>
+            <button onclick="openBookingForm('AC Service - Sensor & PCB Repair', 21)" class="flex justify-between items-center p-3 px-4 rounded-xl border border-gray-200 hover:border-blue-600 hover:bg-blue-50 transition-all text-left">
+                <span class="font-bold text-gray-800">7. Sensor & PCB Controller Repair</span>
+                <span class="text-blue-600 text-sm font-semibold">Book at ₹21</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- POPUP CONTAINER 4: Spare Parts & Products Store (10 Items) -->
+    <div id="popup-card4" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[101] w-full max-w-4xl hidden bg-white rounded-3xl p-6 shadow-2xl border border-gray-100 max-h-[90vh] overflow-y-auto">
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <h3 class="text-2xl font-black text-gray-900">Accessories & Spare Store</h3>
+                <p class="text-xs text-gray-500 font-bold mt-1">Upgrade your machine setups directly</p>
+            </div>
+            <button onclick="closeActiveModal()" class="text-gray-400 hover:text-red-500 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="store-items-grid">
+            <!-- Dynamically populated 10 items with details -->
+        </div>
+    </div>
+
+    <!-- POPUP CONTAINER: Booking Form Modal (For Payments and Sheet Submissions) -->
+    <div id="popup-booking-form" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[102] w-full max-w-md hidden bg-white rounded-3xl p-6 shadow-2xl border border-gray-200 max-h-[95vh] overflow-y-auto">
+        <div class="flex justify-between items-center mb-4">
+            <div>
+                <h3 class="text-xl font-black text-gray-900">Booking Details</h3>
+                <p id="booking-service-title" class="text-sm font-bold text-blue-600"></p>
+            </div>
+            <button onclick="closeBookingFormModal()" class="text-gray-400 hover:text-red-500 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                <i class="fa-solid fa-arrow-left text-lg"></i>
+            </button>
+        </div>
+
+        <form id="service-booking-form" onsubmit="handleFormSubmission(event)">
+            <!-- Hidden Fields for Booking Details -->
+            <input type="hidden" id="form-service-name" value="">
+            <input type="hidden" id="form-booking-charge" value="0">
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Full Name</label>
+                    <input type="text" id="cust-name" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none text-sm" placeholder="e.g. Rahul Sharma">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">WhatsApp / Phone Number</label>
+                    <input type="tel" id="cust-phone" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none text-sm" placeholder="e.g. 9876543210">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Address / Landmark</label>
+                    <textarea id="cust-address" required rows="2" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none text-sm" placeholder="House no, Area, Landmark"></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">City / Location</label>
+                    <input type="text" id="cust-location" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none text-sm" placeholder="e.g. Gurugram, Haryana">
+                </div>
+
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 flex justify-between items-center mt-6">
+                    <div>
+                        <p class="text-xs text-gray-400 font-bold">Payable Booking Charge</p>
+                        <p id="charge-text-badge" class="text-lg font-black text-gray-900">₹0 (Free Booking)</p>
+                    </div>
+                    <span id="gateway-secure-tag" class="text-xs font-bold bg-green-50 text-green-700 px-3 py-1.5 rounded-full flex items-center gap-1">
+                        <i class="fa-solid fa-shield-halved"></i> Razorpay Secure
+                    </span>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="w-full bg-blue-600 text-white py-4 rounded-xl text-md font-bold hover:bg-blue-700 shadow-md flex items-center justify-center gap-2 mt-4 transition-all">
+                    <span id="submit-btn-text">Confirm Booking</span> <i class="fa-solid fa-arrow-right-long"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- CART SIDE DRAWER MODAL -->
+    <div id="cart-drawer" class="fixed top-0 right-0 z-[110] w-full max-w-md h-screen hidden bg-white shadow-2xl border-l border-gray-100 flex-col">
+        <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-basket-shopping text-blue-600 text-xl"></i>
+                <h3 class="text-xl font-black text-gray-900">Selected Items</h3>
+            </div>
+            <button onclick="closeCartDrawer()" class="text-gray-400 hover:text-red-500 w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+
+        <!-- Scrollable items inside cart -->
+        <div class="flex-1 overflow-y-auto p-6 space-y-4" id="cart-items-wrapper">
+            <!-- Loaded dynamically -->
+        </div>
+
+        <!-- Footer / Checkout controls inside Cart Drawer -->
+        <div class="p-6 border-t border-gray-100 bg-gray-50">
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-gray-600 font-semibold text-sm">Cart Subtotal:</span>
+                <span id="cart-total-value" class="text-xl font-black text-blue-600">₹0</span>
+            </div>
+
+            <button id="cart-checkout-btn" onclick="openCartCheckoutForm()" class="w-full bg-gray-900 text-white py-4 rounded-xl text-md font-bold hover:bg-blue-600 shadow-md flex items-center justify-center gap-2 transition-all">
+                Proceed to Pay & Book <i class="fa-solid fa-circle-check"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- CART CHECKOUT DETAILS FORM -->
+    <div id="popup-cart-checkout" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[115] w-full max-w-md hidden bg-white rounded-3xl p-6 shadow-2xl border border-gray-200 max-h-[95vh] overflow-y-auto">
+        <div class="flex justify-between items-center mb-4">
+            <div>
+                <h3 class="text-xl font-black text-gray-900">Delivery & Billing</h3>
+                <p class="text-xs font-bold text-gray-400">Total payable: <span id="checkout-amount-span" class="text-blue-600">₹0</span></p>
+            </div>
+            <button onclick="closeCartCheckoutForm()" class="text-gray-400 hover:text-red-500 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                <i class="fa-solid fa-arrow-left text-lg"></i>
+            </button>
+        </div>
+
+        <form id="cart-details-form" onsubmit="handleCartSubmission(event)">
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Full Name</label>
+                    <input type="text" id="cart-cust-name" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none text-sm" placeholder="e.g. Amit Kumar">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">WhatsApp Phone Number</label>
+                    <input type="tel" id="cart-cust-phone" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none text-sm" placeholder="e.g. 9876543210">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Delivery Address</label>
+                    <textarea id="cart-cust-address" required rows="2" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none text-sm" placeholder="House/Shop No, Area, Landmark"></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">City / Location</label>
+                    <input type="text" id="cart-cust-location" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none text-sm" placeholder="e.g. Rohtak, Haryana">
+                </div>
+
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 flex flex-col gap-2">
+                    <p class="text-xs font-bold text-gray-500">PAYMENT OPTIONS</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <label class="flex items-center gap-2 p-3 rounded-lg border border-blue-600 bg-blue-50/50 cursor-pointer">
+                            <input type="radio" name="paymentMethod" value="online" checked class="text-blue-600">
+                            <span class="text-xs font-bold text-gray-800">Online UPI/Card</span>
+                        </label>
+                        <label class="flex items-center gap-2 p-3 rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-100">
+                            <input type="radio" name="paymentMethod" value="cod" class="text-blue-600">
+                            <span class="text-xs font-bold text-gray-800">Cash on Delivery</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 text-white py-4 rounded-xl text-md font-bold hover:bg-blue-700 shadow-md flex items-center justify-center gap-2 mt-4 transition-all">
+                    <span>Pay & Complete Order</span> <i class="fa-solid fa-truck"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- MESSAGE / STATUS POPUP (Replacing browser Alert) -->
+    <div id="status-modal" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[200] w-full max-w-sm hidden bg-white rounded-3xl p-6 shadow-2xl border border-gray-200 text-center">
+        <div id="status-icon-box" class="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center">
+            <!-- Icons load dynamically -->
+        </div>
+        <h4 id="status-title" class="text-xl font-black text-gray-900 mb-2">Success!</h4>
+        <p id="status-desc" class="text-gray-500 text-sm mb-6"></p>
+        <button onclick="closeStatusModal()" class="w-full py-3 bg-gray-900 hover:bg-blue-600 text-white font-bold rounded-xl transition-all">Close</button>
+    </div>
+
+    <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+    <script>
+        // --- GOOGLE SHEETS WEBHOOK INTEGRATION CONFIG ---
+        // REPLACE THIS URL WITH YOUR GOOGLE WEBHOOK URL FROM APPS SCRIPT
+        const GOOGLE_SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbz_9q9jC9Wp6L3O4Z3O8fF_YV4P-Xz_H0Lz3tZ/exec";
+
+        // --- RAZORPAY PAYMENT KEY CONFIG ---
+        // Replace with your Live Razorpay Key ID
+        const RAZORPAY_KEY_ID = "rzp_live_default_key_change_me"; 
+
+        // --- SPARE PARTS & COMPONENT ITEMS DATA (10 Items) ---
+        const STORE_PRODUCTS = [
+            { id: "sp1", name: "Heavy Duty 10KV Zhatka Transformer", price: 449, image: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=300&auto=format&fit=crop", desc: "Pure copper winding transformer with high insulation capacity." },
+            { id: "sp2", name: "Premium Zhatka PCB Card Board", price: 299, image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=300&auto=format&fit=crop", desc: "Advanced logic microcontroller for automatic power regulation." },
+            { id: "sp3", name: "Automated Power Pulse Controller", price: 180, image: "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=300&auto=format&fit=crop", desc: "Interval scheduler for optimizing electric pulse timing." },
+            { id: "sp4", name: "High Voltage Capacitor 25mfd", price: 120, image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=300&auto=format&fit=crop", desc: "Industrial standard capacitor built for continuous discharge." },
+            { id: "sp5", name: "Zhatka Machine Battery Charger", price: 349, image: "https://images.unsplash.com/photo-1559863414-b15b5e39df16?w=300&auto=format&fit=crop", desc: "Smart automatic cutoff charger for 12V lead batteries." },
+            { id: "sp6", name: "Insulators & Tension High Rings (Set of 100)", price: 199, image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=300&auto=format&fit=crop", desc: "Highly robust plastic insulators with UV protection shielding." },
+            { id: "sp7", name: "Water Tank Overflow Auto-Off Sensor", price: 249, image: "https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=300&auto=format&fit=crop", desc: "No rust magnetic float switch for automatic pump controls." },
+            { id: "sp8", name: "Remote Control Fencing Unit Receiver", price: 499, image: "https://images.unsplash.com/photo-1517646287270-a5a9ca602e5c?w=300&auto=format&fit=crop", desc: "Instantly turn Zhatka machine ON/OFF with 100m range remote." },
+            { id: "sp9", name: "Siren Alarm Speaker 15W Heavy Output", price: 150, image: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=300&auto=format&fit=crop", desc: "Ultra-loud audio hooter triggered upon wire breach." },
+            { id: "sp10", name: "High Tension Galvanized Fence Wire (1kg)", price: 280, image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=300&auto=format&fit=crop", desc: "Non-corrosive high-conductivity wire for reliable shock supply." }
+        ];
+
+        // --- CART STATE ---
+        let cart = [];
+
+        // --- HERO SLIDER ANIMATION ---
         const slides = document.querySelectorAll('.hero-slide');
         if(slides.length > 0) {
             let currentSlide = 0;
@@ -523,9 +663,454 @@
                 slides[currentSlide].classList.remove('active');
                 currentSlide = (currentSlide + 1) % slides.length;
                 slides[currentSlide].classList.add('active');
-            }, 5000); // 5 seconds interval
+            }, 5000);
         }
 
+        // --- INITIAL LAYOUT GENERATION FOR SPARE PARTS ---
+        function renderStoreItems() {
+            const grid = document.getElementById('store-items-grid');
+            grid.innerHTML = '';
+            STORE_PRODUCTS.forEach(item => {
+                grid.innerHTML += `
+                    <div class="border border-gray-100 p-4 rounded-2xl flex flex-col sm:flex-row gap-4 hover:shadow-lg transition-shadow bg-gray-50/50">
+                        <img src="${item.image}" alt="${item.name}" class="w-full sm:w-24 h-24 object-cover rounded-xl border border-gray-100 bg-white">
+                        <div class="flex-1 flex flex-col justify-between">
+                            <div>
+                                <h4 class="text-gray-900 font-bold text-base leading-tight">${item.name}</h4>
+                                <p class="text-gray-500 text-xs mt-1 font-medium">${item.desc}</p>
+                            </div>
+                            <div class="flex items-center justify-between mt-3">
+                                <span class="text-lg font-black text-blue-600">₹${item.price}</span>
+                                <button onclick="addToCart('${item.id}')" class="bg-gray-900 text-white hover:bg-blue-600 text-xs font-bold px-4 py-2 rounded-lg transition-colors flex items-center gap-1.5">
+                                    <i class="fa-solid fa-cart-plus"></i> Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        renderStoreItems();
+
+        // --- GLOBAL ACTIVE MODAL STATE TRACKING ---
+        let activeModalId = null;
+
+        function showBackdrop() {
+            const backdrop = document.getElementById('modal-backdrop');
+            backdrop.classList.remove('hidden');
+            document.body.classList.add('modal-active');
+        }
+
+        function hideBackdrop() {
+            const backdrop = document.getElementById('modal-backdrop');
+            backdrop.classList.add('hidden');
+            document.body.classList.remove('modal-active');
+        }
+
+        function closeActiveModal() {
+            if (activeModalId) {
+                document.getElementById(activeModalId).classList.add('hidden');
+                activeModalId = null;
+            }
+            hideBackdrop();
+        }
+
+        // Close when clicking background backdrop
+        document.getElementById('modal-backdrop').addEventListener('click', () => {
+            closeActiveModal();
+            closeBookingFormModal();
+            closeCartDrawer();
+            closeCartCheckoutForm();
+            closeStatusModal();
+        });
+
+        // --- MODAL UTILITIES & CARD POPUPS ---
+        function openCard1Popup() {
+            closeActiveModal();
+            activeModalId = 'popup-card1';
+            showBackdrop();
+            document.getElementById('popup-card1').classList.remove('hidden');
+        }
+
+        function openCard2Popup() {
+            closeActiveModal();
+            activeModalId = 'popup-card2';
+            showBackdrop();
+            document.getElementById('popup-card2').classList.remove('hidden');
+        }
+
+        function openCard3Popup() {
+            // Card 3 opens directly with ₹0 booking charge form (Free Booking)
+            openBookingForm('Water Tank Smart Alarm System Setup', 0);
+        }
+
+        function openCard4Popup() {
+            closeActiveModal();
+            activeModalId = 'popup-card4';
+            showBackdrop();
+            document.getElementById('popup-card4').classList.remove('hidden');
+        }
+
+        // --- FORM DISPLAY LOGIC (FOR SERVICES SUB-OPTIONS) ---
+        function openBookingForm(serviceName, charge) {
+            // Close selection popup
+            if (activeModalId) {
+                document.getElementById(activeModalId).classList.add('hidden');
+            }
+            
+            showBackdrop();
+            document.getElementById('popup-booking-form').classList.remove('hidden');
+            
+            document.getElementById('booking-service-title').innerText = serviceName;
+            document.getElementById('form-service-name').value = serviceName;
+            document.getElementById('form-booking-charge').value = charge;
+            
+            const textBadge = document.getElementById('charge-text-badge');
+            const submitBtnText = document.getElementById('submit-btn-text');
+            const secureTag = document.getElementById('gateway-secure-tag');
+
+            if (charge > 0) {
+                textBadge.innerText = `₹${charge} (Confirm via Razorpay)`;
+                submitBtnText.innerText = `Pay ₹${charge} & Book Now`;
+                secureTag.classList.remove('hidden');
+            } else {
+                textBadge.innerText = `₹0 (FREE - No Payment)`;
+                submitBtnText.innerText = `Confirm Free Booking`;
+                secureTag.classList.add('hidden');
+            }
+        }
+
+        function closeBookingFormModal() {
+            document.getElementById('popup-booking-form').classList.add('hidden');
+            // If we came from a sub-selection, restore selection backdrop
+            if (activeModalId) {
+                document.getElementById(activeModalId).classList.remove('hidden');
+            } else {
+                hideBackdrop();
+            }
+        }
+
+        // --- CART INTERNAL FUNCTIONS ---
+        function addToCart(productId) {
+            const product = STORE_PRODUCTS.find(p => p.id === productId);
+            if (!product) return;
+
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.qty += 1;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+            
+            updateCartUI();
+            showCustomNotification("Success", `${product.name} added to your cart!`, "success");
+        }
+
+        function updateCartQty(productId, amount) {
+            const item = cart.find(p => p.id === productId);
+            if (!item) return;
+
+            item.qty += amount;
+            if (item.qty <= 0) {
+                cart = cart.filter(p => p.id !== productId);
+            }
+            updateCartUI();
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            // Calculate Total and Count
+            let total = 0;
+            let totalItems = 0;
+            
+            const container = document.getElementById('cart-items-wrapper');
+            container.innerHTML = '';
+
+            cart.forEach(item => {
+                total += item.price * item.qty;
+                totalItems += item.qty;
+
+                container.innerHTML += `
+                    <div class="flex gap-4 p-3.5 bg-gray-50 border border-gray-100 rounded-2xl items-center">
+                        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-xl border border-gray-200">
+                        <div class="flex-1">
+                            <h4 class="font-bold text-sm text-gray-900 leading-tight">${item.name}</h4>
+                            <p class="text-xs text-blue-600 font-bold mt-1">₹${item.price} each</p>
+                            
+                            <div class="flex items-center gap-2 mt-2">
+                                <button onclick="updateCartQty('${item.id}', -1)" class="w-6 h-6 rounded bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-xs font-bold text-gray-700">-</button>
+                                <span class="text-xs font-bold text-gray-900 px-1">${item.qty}</span>
+                                <button onclick="updateCartQty('${item.id}', 1)" class="w-6 h-6 rounded bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-xs font-bold text-gray-700">+</button>
+                            </div>
+                        </div>
+                        <button onclick="removeFromCart('${item.id}')" class="text-gray-400 hover:text-red-500 p-2 text-base">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </button>
+                    </div>
+                `;
+            });
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-center text-gray-400 py-16">
+                        <i class="fa-solid fa-basket-shopping text-5xl mb-3"></i>
+                        <p class="text-sm font-semibold">Your cart is currently empty</p>
+                        <p class="text-xs mt-1">Add spare parts from our accessories catalog</p>
+                    </div>
+                `;
+            }
+
+            document.getElementById('cart-badge-count').innerText = totalItems;
+            document.getElementById('cart-total-value').innerText = `₹${total}`;
+        }
+
+        // --- CART MODAL CONTROLS ---
+        function openCartDrawer() {
+            closeActiveModal();
+            showBackdrop();
+            document.getElementById('cart-drawer').classList.remove('hidden');
+        }
+
+        function closeCartDrawer() {
+            document.getElementById('cart-drawer').classList.add('hidden');
+            hideBackdrop();
+        }
+
+        function openCartCheckoutForm() {
+            if (cart.length === 0) {
+                showCustomNotification("Cart is Empty", "Please add some high grade spare parts before checking out.", "error");
+                return;
+            }
+            document.getElementById('cart-drawer').classList.add('hidden');
+            
+            let total = 0;
+            cart.forEach(item => total += item.price * item.qty);
+
+            document.getElementById('checkout-amount-span').innerText = `₹${total}`;
+            showBackdrop();
+            document.getElementById('popup-cart-checkout').classList.remove('hidden');
+        }
+
+        function closeCartCheckoutForm() {
+            document.getElementById('popup-cart-checkout').classList.add('hidden');
+            document.getElementById('cart-drawer').classList.remove('hidden');
+        }
+
+
+        // ==================== CHECKOUT AND WEBHOOK SEND LOGIC ====================
+
+        // Helper: Convert details and forward to Google Sheet App Script
+        async function sendDataToGoogleSheet(dataPayload) {
+            if (!GOOGLE_SHEET_WEBHOOK_URL || GOOGLE_SHEET_WEBHOOK_URL.includes("your-google-webhook")) {
+                console.warn("Google Sheet Apps Script URL is not set. Skipping sheet insertion.");
+                return true; 
+            }
+            try {
+                // Post as raw JSON payload / urlencoded depending on Google Webhook implementation standard
+                await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // standard workaround for App Script CORS issues
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dataPayload)
+                });
+                return true;
+            } catch (error) {
+                console.error("Error sending booking payload to Google Sheets: ", error);
+                return false;
+            }
+        }
+
+        // --- GATEWAY TRANSACTION INTEGRATION (RAZORPAY) ---
+        function triggerRazorpayCheckout(paymentOptions, successCallback) {
+            // Create transaction using script configuration
+            const options = {
+                "key": RAZORPAY_KEY_ID, 
+                "amount": paymentOptions.amount * 100, // in paisa
+                "currency": "INR",
+                "name": "Shauryahomeshield",
+                "description": paymentOptions.description,
+                "image": "shsl.png",
+                "handler": function (response) {
+                    // Payment successful
+                    paymentOptions.payment_id = response.razorpay_payment_id;
+                    successCallback(paymentOptions);
+                },
+                "prefill": {
+                    "name": paymentOptions.name,
+                    "contact": paymentOptions.phone
+                },
+                "theme": {
+                    "color": "#0A84FF"
+                }
+            };
+
+            const rzp = new Razorpay(options);
+            rzp.on('payment.failed', function (response){
+                showCustomNotification("Payment Failed", "Transaction was declined by bank gateway or cancelled. Try again.", "error");
+            });
+            rzp.open();
+        }
+
+        // --- HANDLER: SERVICE MODAL SUBMISSION ---
+        async function handleFormSubmission(event) {
+            event.preventDefault();
+
+            const serviceName = document.getElementById('form-service-name').value;
+            const charge = parseInt(document.getElementById('form-booking-charge').value) || 0;
+
+            const name = document.getElementById('cust-name').value;
+            const phone = document.getElementById('cust-phone').value;
+            const address = document.getElementById('cust-address').value;
+            const location = document.getElementById('cust-location').value;
+
+            const payload = {
+                type: 'Service Booking',
+                service: serviceName,
+                charge: charge,
+                customer_name: name,
+                customer_phone: phone,
+                customer_address: address,
+                customer_location: location,
+                payment_method: charge > 0 ? 'Online Razorpay' : 'Free Booking',
+                payment_id: 'N/A',
+                timestamp: new Date().toLocaleString(),
+                ordered_items: ''
+            };
+
+            if (charge > 0) {
+                // Trigger Payment
+                triggerRazorpayCheckout({
+                    amount: charge,
+                    description: `Booking Fee for ${serviceName}`,
+                    name: name,
+                    phone: phone
+                }, async (paymentResponse) => {
+                    payload.payment_id = paymentResponse.payment_id;
+                    
+                    // Proceed with sheet delivery after successful payment
+                    showCustomNotification("Processing...", "Finalizing your automated secure booking with our regional staff.", "info");
+                    await sendDataToGoogleSheet(payload);
+                    
+                    // Reset and Close
+                    document.getElementById('service-booking-form').reset();
+                    document.getElementById('popup-booking-form').classList.add('hidden');
+                    hideBackdrop();
+                    
+                    showCustomNotification("Booking Successful!", `We have received ₹${charge} for ${serviceName}. Reference ID: ${payload.payment_id}. Our technician will contact you on WhatsApp shortly.`, "success");
+                });
+            } else {
+                // Free Booking flow (₹0)
+                showCustomNotification("Booking...", "Submitting details directly to local server registers.", "info");
+                await sendDataToGoogleSheet(payload);
+
+                document.getElementById('service-booking-form').reset();
+                document.getElementById('popup-booking-form').classList.add('hidden');
+                hideBackdrop();
+
+                showCustomNotification("Confirmed!", `Your Booking for "${serviceName}" has been successfully verified! Zero platform charge required. Our staff is preparing diagnostics.`, "success");
+            }
+        }
+
+        // --- HANDLER: CART MODAL SUBMISSION ---
+        async function handleCartSubmission(event) {
+            event.preventDefault();
+
+            let total = 0;
+            let itemsString = cart.map(item => `${item.name} (Qty: ${item.qty} | Price: ₹${item.price})`).join(', ');
+            cart.forEach(item => total += item.price * item.qty);
+
+            const name = document.getElementById('cart-cust-name').value;
+            const phone = document.getElementById('cart-cust-phone').value;
+            const address = document.getElementById('cart-cust-address').value;
+            const location = document.getElementById('cart-cust-location').value;
+            const paymentMethodSelected = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+            const payload = {
+                type: 'Store Order',
+                service: 'Accessories Spare Purchase',
+                charge: total,
+                customer_name: name,
+                customer_phone: phone,
+                customer_address: address,
+                customer_location: location,
+                payment_method: paymentMethodSelected === 'online' ? 'Online Razorpay' : 'Cash on Delivery (COD)',
+                payment_id: 'N/A',
+                timestamp: new Date().toLocaleString(),
+                ordered_items: itemsString
+            };
+
+            if (paymentMethodSelected === 'online') {
+                // Online Payment Route
+                triggerRazorpayCheckout({
+                    amount: total,
+                    description: `Hardware Order - ${cart.length} items`,
+                    name: name,
+                    phone: phone
+                }, async (paymentResponse) => {
+                    payload.payment_id = paymentResponse.payment_id;
+
+                    showCustomNotification("Placing Order...", "Finalizing secure delivery protocols and database validation.", "info");
+                    await sendDataToGoogleSheet(payload);
+
+                    // Reset and Clear Cart
+                    cart = [];
+                    updateCartUI();
+                    document.getElementById('cart-details-form').reset();
+                    document.getElementById('popup-cart-checkout').classList.add('hidden');
+                    hideBackdrop();
+
+                    showCustomNotification("Order Placed!", `Your secure payment of ₹${total} was successfully validated. Items: "${itemsString}". Check WhatsApp for real-time live GPS tracking link!`, "success");
+                });
+            } else {
+                // COD Route
+                showCustomNotification("Placing Order...", "Submitting Cash on Delivery parcel data to our courier dispatch team.", "info");
+                await sendDataToGoogleSheet(payload);
+
+                cart = [];
+                updateCartUI();
+                document.getElementById('cart-details-form').reset();
+                document.getElementById('popup-cart-checkout').classList.add('hidden');
+                hideBackdrop();
+
+                showCustomNotification("COD Order Placed!", `Your COD Order for ${total} has been logged! Payment is due during parcel delivery. Product shipment processing begins immediately.`, "success");
+            }
+        }
+
+        // ==================== POPUP STATUS/ALERT MODAL UTILITY ====================
+        function showCustomNotification(title, message, type = "success") {
+            const statusModal = document.getElementById('status-modal');
+            const iconBox = document.getElementById('status-icon-box');
+            
+            document.getElementById('status-title').innerText = title;
+            document.getElementById('status-desc').innerText = message;
+
+            if (type === "success") {
+                iconBox.className = "w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center bg-green-100 text-green-600";
+                iconBox.innerHTML = '<i class="fa-solid fa-circle-check text-3xl"></i>';
+            } else if (type === "info") {
+                iconBox.className = "w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center bg-blue-100 text-blue-600 animate-pulse";
+                iconBox.innerHTML = '<i class="fa-solid fa-circle-info text-3xl"></i>';
+            } else {
+                iconBox.className = "w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center bg-red-100 text-red-600";
+                iconBox.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-3xl"></i>';
+            }
+
+            statusModal.classList.remove('hidden');
+            showBackdrop();
+        }
+
+        function closeStatusModal() {
+            document.getElementById('status-modal').classList.add('hidden');
+            hideBackdrop();
+        }
+
+        // --- 11D CARD PERSPECTIVE TILTING (HOVER) EFFECT ---
         if (window.matchMedia("(hover: hover)").matches) {
             const cards = document.querySelectorAll('.card-11d');
             
