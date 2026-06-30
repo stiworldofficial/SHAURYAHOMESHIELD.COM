@@ -3,625 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Shauryahomeshield | Ac Services | Electric Fencing | Water Tank Controling System | And All Services Accesries </title>
+    <title>Shauryahomeshield | Home</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
     
-    <!-- Tailwind Config -->
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'] },
-                    colors: {
-                        'whitesmoke': '#f5f5f5',
-                        'apple-accent': '#0A84FF',
-                    }
-                }
-            }
-        }
+        tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] } } } }
+        // REPLACE WITH YOUR GOOGLE SCRIPT URL
+        const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
     </script>
 
     <style>
-        /* Custom Scrollbar for Light Theme */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #e5e7eb; }
         ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #2563eb; }
-
-        /* --- VISIBLE BODY COLOR (WHITE SMOKE THEME) --- */
-        body {
-            /* Elegant White Smoke Gradient */
-            background: radial-gradient(circle at 50% 10%, #ffffff 0%, #f5f5f5 60%, #e5e5e5 100%);
-            overflow-x: hidden;
-            background-attachment: fixed;
-            color: #1f2937; /* Default dark text */
-        }
-
-        /* --- 3D EFFECT FOR MAIN WRAPPER --- */
-        #main-wrapper {
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.6s, opacity 0.6s, filter 0.6s;
-            transform-origin: center center;
-            background-color: transparent;
-            min-height: 100vh;
-            width: 100%;
-            position: relative;
-            z-index: 10;
-        }
-
-        /* Push main content slightly back when sidebar opens */
-        body.menu-open #main-wrapper {
-            transform: scale(0.96) translateY(-1vh); 
-            border-radius: 2rem;
-            opacity: 0.8;
-            filter: blur(4px);
-            pointer-events: none;
-        }
-
-        /* --- PROFESSIONAL CENTERED MODAL OVERLAY --- */
-        #spatial-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            z-index: 1000;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            background: rgba(0, 0, 0, 0.4); /* Darker overlay for better focus */
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-        }
-
-        body.menu-open #spatial-menu {
-            opacity: 1;
-            pointer-events: all;
-        }
         
-        /* Perfectly Centered Menu Box */
-        .menu-box {
-            position: absolute;
-            top: 50%;
-            left: 50%; /* Horizontal Center */
-            width: 340px; /* Slightly wider */
-            max-width: 90vw; /* Responsive for small phones */
-            height: auto; 
-            max-height: 90vh;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            border-radius: 1.5rem; 
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); /* Premium drop shadow */
-            padding: 2rem 1.5rem;
-            display: flex;
-            flex-direction: column;
-            
-            /* Hidden State: Scaled down and moved slightly down, centered horizontally */
-            transform: translate(-50%, -45%) scale(0.95); 
-            opacity: 0;
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
-            overflow-y: auto;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-            pointer-events: none;
-        }
-
-        .menu-box::-webkit-scrollbar {
-            display: none;
-        }
-
-        /* Active State: Perfectly centered horizontally and vertically */
-        body.menu-open .menu-box {
-            transform: translate(-50%, -50%) scale(1); 
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        /* Menu Items Animation (Slide up instead of slide right) */
-        .menu-item {
-            transform: translateY(15px);
-            opacity: 0;
-            transition: transform 0.4s ease, opacity 0.4s ease;
-        }
-
-        body.menu-open .menu-item {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        /* --- SHINING AUTO-HOVER ICONS --- */
-        @keyframes auto-pulse-float {
-            0% { 
-                transform: translateY(0) scale(1); 
-                box-shadow: 0 5px 15px rgba(0,0,0,0.2), 0 0 20px currentColor; 
-            }
-            50% { 
-                transform: translateY(-12px) scale(1.1); 
-                box-shadow: 0 15px 25px rgba(0,0,0,0.2), 0 0 35px currentColor; 
-            }
-            100% { 
-                transform: translateY(0) scale(1); 
-                box-shadow: 0 5px 15px rgba(0,0,0,0.2), 0 0 20px currentColor; 
-            }
-        }
+        body { background: radial-gradient(circle at 50% 10%, #ffffff 0%, #f5f5f5 60%, #e5e5e5 100%); overflow-x: hidden; }
+        #main-wrapper { transition: transform 0.6s, opacity 0.6s; }
+        body.menu-open #main-wrapper { transform: scale(0.96) translateY(-1vh); opacity: 0.8; filter: blur(4px); pointer-events: none; }
         
-        .auto-hover-icon {
-            animation: auto-pulse-float 2.5s infinite ease-in-out;
-            position: relative;
-        }
+        .dynamic-island { background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(20px); border: 1px solid rgba(0, 0, 0, 0.05); }
+        .hero-slide { opacity: 0; transition: opacity 1.5s ease-in-out; z-index: 1; }
+        .hero-slide.active { opacity: 1; z-index: 2; }
         
-        .auto-hover-icon::before {
-            content: '';
-            position: absolute;
-            inset: -5px;
-            border-radius: 50%;
-            border: 2px solid currentColor;
-            opacity: 0;
-            animation: ripple 2.5s infinite ease-out;
-        }
-
-        @keyframes ripple {
-            0% { transform: scale(1); opacity: 0.5; }
-            100% { transform: scale(1.6); opacity: 0; }
-        }
-
-        /* --- 11D CARD EFFECTS --- */
-        .card-11d {
-            transform-style: preserve-3d;
-            perspective: 1000px;
-        }
-        .glare {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 50; mix-blend-mode: overlay;
-        }
+        .card-11d { transform-style: preserve-3d; perspective: 1000px; }
+        .glare { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; mix-blend-mode: overlay; }
         
-        /* Glass Navbar (Light Theme) */
-        .dynamic-island {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        /* --- HERO SLIDER (NO CONTENT) --- */
-        .hero-slide {
-            opacity: 0;
-            transition: opacity 1.5s ease-in-out;
-            z-index: 1;
-        }
-        .hero-slide.active {
-            opacity: 1;
-            z-index: 2;
-        }
+        /* Modals setup */
+        .modal-overlay { background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(5px); }
     </style>
 </head>
 <body class="font-sans pt-24"> 
 
-    <!-- PROFESSIONAL CENTERED MODAL MENU -->
-    <div id="spatial-menu">
-        <!-- Overlay to close menu on click -->
-        <div class="absolute inset-0 w-full h-full cursor-pointer" id="menu-overlay"></div>
-        
-        <div class="menu-box z-10">
-            <!-- Sidebar Header -->
-            <div class="flex justify-between items-center mb-8 menu-item" style="transition-delay: 0.1s;">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full overflow-hidden shadow-sm flex-shrink-0 bg-gradient-to-tr from-blue-600 to-cyan-400 border border-gray-200">
-                        <img src="shsl.png" class="w-full h-full object-cover" alt="Logo Icon">
-                    </div>
-                    <img src="shslname.png" class="h-5 object-contain" alt="ElectroTech Logo">
-                </div>
-                <button id="close-menu" class="text-gray-400 hover:bg-red-50 hover:text-red-500 w-10 h-10 rounded-full transition-colors flex items-center justify-center">
-                    <i class="fa-solid fa-xmark text-xl"></i>
-                </button>
-            </div>
-
-            <!-- Sidebar Navigation Links -->
-            <div class="flex flex-col gap-2">
-                <a href="#home" class="menu-item flex items-center gap-4 text-lg font-semibold text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-4 py-3.5 rounded-xl transition-all" style="transition-delay: 0.15s;">
-                    <i class="fa-solid fa-house w-6 text-center text-gray-400"></i> Home
-                </a>
-                <a href="#services" class="menu-item flex items-center gap-4 text-lg font-semibold text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-4 py-3.5 rounded-xl transition-all" style="transition-delay: 0.2s;">
-                    <i class="fa-solid fa-screwdriver-wrench w-6 text-center text-gray-400"></i> Services
-                </a>
-                <a href="#products" class="menu-item flex items-center gap-4 text-lg font-semibold text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-4 py-3.5 rounded-xl transition-all" style="transition-delay: 0.25s;">
-                    <i class="fa-solid fa-store w-6 text-center text-gray-400"></i> Store
-                </a>
-            </div>
-            
-            <!-- Sidebar Footer / Book Now Action -->
-            <div class="menu-item mt-8 pt-6 border-t border-gray-100" style="transition-delay: 0.3s;">
-                <a href="#services" class="w-full bg-gray-900 text-white py-4 rounded-xl text-md font-bold shadow-md flex items-center justify-center gap-2 hover:bg-blue-600 hover:shadow-lg transition-all">
-                    <i class="fa-regular fa-calendar-check text-lg"></i> Book Now
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Wrapper for 3D Transform -->
     <div id="main-wrapper">
         
-        <!-- Dynamic Island Navbar -->
         <div class="fixed top-4 w-full z-50 flex justify-center px-4" id="navbar-wrapper">
-            <nav class="dynamic-island w-full max-w-6xl rounded-[2.5rem] px-6 py-3 flex justify-between items-center shadow-lg shadow-gray-200/50">
-                
+            <nav class="dynamic-island w-full max-w-6xl rounded-[2.5rem] px-6 py-3 flex justify-between items-center shadow-lg">
                 <div class="flex items-center cursor-pointer group">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform overflow-hidden z-10 flex-shrink-0">
-                        <img src="shsl.png" class="w-full h-full object-cover" alt="Logo Icon">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center shadow-md">
+                        <span class="text-white font-bold">SH</span>
                     </div>
-                    
-                    <!-- Dark text placeholder for light theme -->
-                    <img src="shslname.png" 
-                         class="h-5 sm:h-6 md:h-7 object-contain absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 md:ml-3" 
-                         alt="ElectroTech Logo">
+                    <span class="hidden md:block font-bold text-gray-800 ml-3">Shaurya Shield</span>
                 </div>
-
+                
                 <div class="hidden md:flex items-center space-x-10">
-                    <a href="#home" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition-all">Home</a>
-                    <a href="#services" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition-all">Services</a>
-                    <a href="#products" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition-all">Store</a>
+                    <a href="#home" class="text-sm font-bold text-gray-600 hover:text-blue-600">Home</a>
+                    <a href="#services" class="text-sm font-bold text-gray-600 hover:text-blue-600">Services</a>
+                    <a href="store.html" class="text-sm font-bold text-gray-600 hover:text-blue-600">Store</a>
                 </div>
-
+                
                 <div class="flex items-center gap-4">
-                    <!-- Updated to Book Now button -->
-                    <a href="#services" class="hidden sm:flex bg-gray-900 text-white px-6 py-2 rounded-full text-sm font-bold hover:bg-blue-600 transition-all items-center gap-2 shadow-md">
-                        <i class="fa-regular fa-calendar-check text-sm"></i> Book Now
-                    </a>
-                    <button id="mobile-menu-btn" class="md:hidden text-gray-700 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center border border-gray-200 hover:bg-gray-200 transition-colors z-10">
-                        <i class="fa-solid fa-bars text-lg"></i>
+                    <button onclick="toggleProfileModal()" class="w-10 h-10 rounded-full bg-gray-100 border border-gray-200 hover:bg-gray-200 transition-colors z-10 flex items-center justify-center">
+                        <i id="user-icon" class="fa-solid fa-user text-gray-700"></i>
                     </button>
                 </div>
             </nav>
         </div>
 
-        <!-- 16:9 YouTube Ratio Hero Slider (Mobile & PC perfectly scaled) -->
+        <!-- AUTH MODAL -->
+        <div id="auth-modal" class="fixed inset-0 z-[2000] hidden flex items-center justify-center p-4">
+            <div class="absolute inset-0 modal-overlay cursor-pointer" onclick="closeAuthModal()"></div>
+            <div class="relative bg-white rounded-3xl w-full max-w-md p-8 shadow-2xl">
+                <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-red-500"><i class="fa-solid fa-xmark"></i></button>
+                <h3 class="text-2xl font-black mb-2" id="auth-title">Create Account</h3>
+                <p class="text-gray-500 mb-6 text-sm">Services access karne ke liye login karein.</p>
+                
+                <form id="auth-form" class="space-y-4">
+                    <input type="hidden" id="auth-mode" value="signup">
+                    <input type="text" id="reg-name" placeholder="Full Name" required class="w-full px-4 py-3 rounded-xl border bg-gray-50 outline-none signup-only">
+                    <input type="email" id="reg-email" placeholder="Email Address" required class="w-full px-4 py-3 rounded-xl border bg-gray-50 outline-none">
+                    <input type="tel" id="reg-phone" placeholder="Phone Number" required class="w-full px-4 py-3 rounded-xl border bg-gray-50 outline-none signup-only">
+                    <textarea id="reg-address" placeholder="Full Address" required class="w-full px-4 py-3 rounded-xl border bg-gray-50 outline-none signup-only"></textarea>
+                    <input type="password" id="reg-password" placeholder="Password" required class="w-full px-4 py-3 rounded-xl border bg-gray-50 outline-none">
+                    
+                    <button type="submit" id="auth-submit-btn" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-all">Sign Up</button>
+                </form>
+                <div class="mt-4 text-center">
+                    <button onclick="switchAuthMode()" id="auth-switch-btn" class="text-sm text-blue-600 font-bold">Already have an account? Login</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROFILE DASHBOARD MODAL -->
+        <div id="profile-modal" class="fixed inset-0 z-[2000] hidden flex items-center justify-center p-4">
+            <div class="absolute inset-0 modal-overlay cursor-pointer" onclick="closeProfileModal()"></div>
+            <div class="relative bg-white rounded-3xl w-full max-w-md p-8 shadow-2xl">
+                <button onclick="closeProfileModal()" class="absolute top-4 right-4 text-gray-400 hover:text-red-500"><i class="fa-solid fa-xmark"></i></button>
+                
+                <div class="flex items-center gap-4 mb-6 border-b pb-4">
+                    <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-2xl font-bold"><i class="fa-solid fa-user-check"></i></div>
+                    <div><h3 class="text-xl font-black" id="profile-name">User</h3><p class="text-gray-500 text-sm" id="profile-phone">+91</p></div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="bg-gray-50 p-4 rounded-xl text-center border">
+                        <h4 class="text-3xl font-black text-blue-600" id="total-bookings">0</h4><p class="text-xs text-gray-500 font-bold uppercase">Bookings</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl text-center border">
+                        <h4 class="text-3xl font-black text-green-600" id="success-bookings">0</h4><p class="text-xs text-gray-500 font-bold uppercase">Success</p>
+                    </div>
+                </div>
+
+                <div class="max-h-40 overflow-y-auto mb-6 text-sm" id="booking-history-list"></div>
+                <button onclick="logout()" class="w-full bg-red-50 text-red-600 font-bold py-3 rounded-xl hover:bg-red-600 hover:text-white transition-all">Logout</button>
+            </div>
+        </div>
+
+        <!-- Hero Slider -->
         <section id="home" class="relative w-full aspect-video max-w-[1920px] mx-auto bg-black overflow-hidden shadow-xl z-10">
-            <!-- Slider containing exactly 5 images with full visibility -->
-            <img src="acservice.png" alt="Technology Background" class="hero-slide active absolute inset-0 w-full h-full object-cover">
-            <img src="electricfencing.png" alt="Electric Setup Background" class="hero-slide absolute inset-0 w-full h-full object-cover">
-            <img src="autometic.png" alt="Cooling AC Background" class="hero-slide absolute inset-0 w-full h-full object-cover">
-            <img src="fencingstore.png" alt="Tank Tech Background" class="hero-slide absolute inset-0 w-full h-full object-cover">
-            <img src="electricfencing.png" alt="Smart System Background" class="hero-slide absolute inset-0 w-full h-full object-cover">
+            <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?q=80&w=1920&auto=format&fit=crop" class="hero-slide active absolute inset-0 w-full h-full object-cover">
+            <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1920&auto=format&fit=crop" class="hero-slide absolute inset-0 w-full h-full object-cover">
+            <img src="https://images.unsplash.com/photo-1558611848-73f7eb4001a1?q=80&w=1920&auto=format&fit=crop" class="hero-slide absolute inset-0 w-full h-full object-cover">
         </section>
 
-        <!-- Core Services Section -->
+        <!-- Services Section -->
         <section id="services" class="py-10 md:py-24 relative px-4 sm:px-6">
             <div class="max-w-6xl mx-auto">
-                
-                <div class="text-center mb-8 md:mb-16">
-                    <h2 class="text-4xl md:text-5xl font-black tracking-tight text-gray-900 mb-4">Serv<span class="text-blue-600">ices</span></h2>
-                </div>
-
-                <!-- Cards Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 auto-rows-max">
-                    
-                    <!-- Card 1 -->
-                    <a href="electric-fencing.html" class="card-11d block w-full h-[210px] md:h-[320px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow">
-                        <div class="glare rounded-[2.5rem]"></div>
-                        <img src="fencingworld.png" 
-                             class="card-11d-image absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform duration-700" alt="Fencing">
-                        
-                        <div class="absolute bottom-3 left-3 right-3 z-20">
-                            <div class="bg-white/80 backdrop-blur-xl border border-white/50 rounded-full py-2 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 group-hover:shadow-xl">
-                                <h3 class="text-lg font-bold text-gray-900 tracking-tight group-hover:text-white transition-colors duration-300">Zhatka Machine</h3>
-                            </div>
-                        </div>
+                <div class="text-center mb-8 md:mb-16"><h2 class="text-4xl md:text-5xl font-black tracking-tight text-gray-900 mb-4">Serv<span class="text-blue-600">ices</span></h2></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
+                    <a href="electric-fencing.html" class="card-11d block w-full h-[250px] rounded-[2.5rem] border border-gray-200 bg-white shadow-md relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover opacity-90">
+                        <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-xl shadow-lg"><h3 class="font-bold">Zhatka Machine</h3></div>
                     </a>
-
-                    <!-- Card 2 -->
-                    <a href="ac-service.html" class="card-11d block w-full h-[210px] md:h-[320px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow">
-                        <div class="glare rounded-[2.5rem]"></div>
-                        <img src="acserviceworld.png" 
-                             class="card-11d-image absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform duration-700" alt="AC">
-                        
-                        <div class="absolute bottom-3 left-3 right-3 z-20">
-                            <div class="bg-white/80 backdrop-blur-xl border border-white/50 rounded-full py-2 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 group-hover:shadow-xl">
-                                <h3 class="text-lg font-bold text-gray-900 tracking-tight group-hover:text-white transition-colors duration-300">AC Services</h3>
-                            </div>
-                        </div>
+                    <a href="ac-service.html" class="card-11d block w-full h-[250px] rounded-[2.5rem] border border-gray-200 bg-white shadow-md relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1527689638836-411945a2b57c?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover opacity-90">
+                        <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-xl shadow-lg"><h3 class="font-bold">AC Services</h3></div>
                     </a>
-
-                    <!-- Card 3 -->
-                    <a href="tank-alarm.html" class="card-11d block w-full h-[210px] md:h-[320px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow">
-                        <div class="glare rounded-[2.5rem]"></div>
-                        <img src="wateralarm.png" 
-                             class="card-11d-image absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform duration-700" alt="Tank">
-                        
-                        <div class="absolute bottom-3 left-3 right-3 z-20">
-                            <div class="bg-white/80 backdrop-blur-xl border border-white/50 rounded-full py-2 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 group-hover:shadow-xl">
-                                <h3 class="text-lg font-bold text-gray-900 tracking-tight group-hover:text-white transition-colors duration-300">Tank Alarm</h3>
-                            </div>
-                        </div>
+                    <a href="tank-alarm.html" class="card-11d block w-full h-[250px] rounded-[2.5rem] border border-gray-200 bg-white shadow-md relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1558611848-73f7eb4001a1?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover opacity-90">
+                        <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-xl shadow-lg"><h3 class="font-bold">Tank Alarm</h3></div>
                     </a>
-
-                    <!-- Card 4 -->
-                    <a href="store.html" class="card-11d block w-full h-[210px] md:h-[320px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow">
-                        <div class="glare rounded-[2.5rem]"></div>
-                        <img src="shauryastore.png" 
-                             class="card-11d-image absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform duration-700" alt="Parts">
-                        
-                        <div class="absolute bottom-3 left-3 right-3 z-20">
-                            <div class="bg-white/80 backdrop-blur-xl border border-white/50 rounded-full py-2 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 group-hover:shadow-xl">
-                                <h3 class="text-lg font-bold text-gray-900 tracking-tight group-hover:text-white transition-colors duration-300">Spare Parts</h3>
-                            </div>
-                        </div>
+                    <a href="store.html" class="card-11d block w-full h-[250px] rounded-[2.5rem] border border-gray-200 bg-white shadow-md relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1580983546522-837890b0d912?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover opacity-90">
+                        <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-xl shadow-lg"><h3 class="font-bold">Spare Parts</h3></div>
                     </a>
-
                 </div>
             </div>
         </section>
-
-        <!-- Pro Components (Light Theme) -->
-        <section id="products" class="py-24 relative">
-            <div class="max-w-6xl mx-auto px-6">
-                <div class="flex flex-col lg:flex-row gap-16 items-center">
-                    
-                    <!-- Left Side: Content & 4 Items List -->
-                    <div class="lg:w-[55%] w-full">
-                        <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-6 leading-tight">Pro Components & <br><span class="text-blue-600">Hardware</span></h2>
-                        <p class="text-gray-600 text-lg mb-8 leading-relaxed font-medium">
-                            Premium grade spare parts, custom-built micro PCBs, and high-efficiency power modules for all your professional machines.
-                        </p>
-                        
-                        <!-- 4 Item Grid -->
-                        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                            
-                            <!-- Item 1 -->
-                            <li class="flex items-start gap-4 bg-white p-5 rounded-3xl border border-gray-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                                <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center border border-blue-100 flex-shrink-0">
-                                    <i class="fa-solid fa-microchip text-blue-600"></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-gray-900 font-bold text-lg mb-1">Custom PCBs</h4>
-                                    <p class="text-gray-500 text-sm leading-snug">Engineered for extreme durability.</p>
-                                </div>
-                            </li>
-                            
-                            <!-- Item 2 -->
-                            <li class="flex items-start gap-4 bg-white p-5 rounded-3xl border border-gray-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                                <div class="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center border border-emerald-100 flex-shrink-0">
-                                    <i class="fa-solid fa-car-battery text-emerald-600"></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-gray-900 font-bold text-lg mb-1">Power Units</h4>
-                                    <p class="text-gray-500 text-sm leading-snug">High voltage & strong backup.</p>
-                                </div>
-                            </li>
-
-                            <!-- Item 3 -->
-                            <li class="flex items-start gap-4 bg-white p-5 rounded-3xl border border-gray-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                                <div class="w-12 h-12 rounded-full bg-purple-50 flex items-center justify-center border border-purple-100 flex-shrink-0">
-                                    <i class="fa-solid fa-satellite-dish text-purple-600"></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-gray-900 font-bold text-lg mb-1">Controllers</h4>
-                                    <p class="text-gray-500 text-sm leading-snug">Automated smart alarm systems.</p>
-                                </div>
-                            </li>
-
-                            <!-- Item 4 -->
-                            <li class="flex items-start gap-4 bg-white p-5 rounded-3xl border border-gray-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                                <div class="w-12 h-12 rounded-full bg-orange-50 flex items-center justify-center border border-orange-100 flex-shrink-0">
-                                    <i class="fa-solid fa-gears text-orange-600"></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-gray-900 font-bold text-lg mb-1">Spare Parts</h4>
-                                    <p class="text-gray-500 text-sm leading-snug">High-grade materials & accessories.</p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Right Side: 4-Image Stylish Collage (Staggered Grid) -->
-                    <div class="lg:w-[45%] w-full relative">
-                        <div class="grid grid-cols-2 gap-4 md:gap-5 relative group cursor-pointer">
-                            
-                            <!-- Column 1 (Moves UP on hover) -->
-                            <div class="flex flex-col gap-4 md:gap-5 translate-y-8 transform transition-transform duration-500 group-hover:-translate-y-2">
-                                
-                                <!-- Collage Image 1 -->
-                                <div class="rounded-3xl overflow-hidden shadow-lg border border-gray-200 h-48 md:h-56 relative">
-                                    <img src="fencingworld.png" class="w-full h-full object-cover" alt="Fencing Tech">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                                    <span class="absolute bottom-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 text-gray-900 font-bold rounded-full text-xs shadow-sm">Zhatka Tech</span>
-                                </div>
-                                
-                                <!-- Collage Image 2 -->
-                                <div class="rounded-3xl overflow-hidden shadow-lg border border-gray-200 h-56 md:h-64 relative">
-                                    <img src="wateralarm.png" class="w-full h-full object-cover" alt="Tank Alarms">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                                    <span class="absolute bottom-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 text-gray-900 font-bold rounded-full text-xs shadow-sm">Smart Alarms</span>
-                                </div>
-                            </div>
-                            
-                            <!-- Column 2 (Moves DOWN on hover) -->
-                            <div class="flex flex-col gap-4 md:gap-5 -translate-y-4 transform transition-transform duration-500 group-hover:translate-y-2">
-                                
-                                <!-- Collage Image 3 -->
-                                <div class="rounded-3xl overflow-hidden shadow-lg border border-gray-200 h-56 md:h-64 relative">
-                                    <img src="acserviceworld.png" class="w-full h-full object-cover" alt="AC Services">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                                    <span class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 text-gray-900 font-bold rounded-full text-xs shadow-sm">AC Care</span>
-                                </div>
-                                
-                                <!-- Collage Image 4 -->
-                                <div class="rounded-3xl overflow-hidden shadow-lg border border-gray-200 h-48 md:h-56 relative">
-                                    <img src="shauryastore.png" class="w-full h-full object-cover" alt="Store Parts">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                                    <span class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 text-gray-900 font-bold rounded-full text-xs shadow-sm">Spare Parts</span>
-                                </div>
-                            </div>
-
-                            <!-- Center Floating PRO Badge -->
-                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-blue-600/95 backdrop-blur-xl w-[4.5rem] h-[4.5rem] rounded-full flex flex-col items-center justify-center text-white shadow-[0_0_30px_rgba(37,99,235,0.4)] border-4 border-white transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 z-30">
-                                <i class="fa-solid fa-microchip text-xl mb-0.5"></i>
-                                <span class="text-[10px] font-black uppercase tracking-wider">PRO</span>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer (Light Theme) -->
-        <footer class="relative mt-20 bg-white/80 backdrop-blur-3xl border-t border-gray-200 pt-20 pb-10">
-            <div class="max-w-7xl mx-auto px-6 relative z-10">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-                    
-                    <div class="md:col-span-2 text-center md:text-left">
-                        <div class="flex items-center justify-center md:justify-start gap-4 mb-6">
-                            <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center shadow-md overflow-hidden flex-shrink-0">
-                                <img src="shsl.png" class="w-full h-full object-cover" alt="Logo Icon">
-                            </div>
-                            <img src="shslname.png" class="h-8 md:h-9 object-contain" alt="ElectroTech Logo">
-                        </div>
-                        <p class="text-gray-600 text-lg leading-relaxed max-w-sm font-medium mb-8 mx-auto md:mx-0">
-                            Pioneering electrical safety and automation across India. Delivering premium zhatka machines, AC care, and smart alarms.
-                        </p>
-                        <div class="flex gap-4 justify-center md:justify-start">
-                            <a href="#" class="w-10 h-10 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-blue-500 hover:text-white transition-all shadow-sm">
-                                <i class="fa-brands fa-facebook-f"></i>
-                            </a>
-                            <a href="#" class="w-10 h-10 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-sky-500 hover:text-white transition-all shadow-sm">
-                                <i class="fa-brands fa-twitter"></i>
-                            </a>
-                            <a href="#" class="w-10 h-10 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-pink-500 hover:text-white transition-all shadow-sm">
-                                <i class="fa-brands fa-instagram"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="text-center md:text-left">
-                        <h4 class="text-gray-900 font-bold text-lg mb-6 uppercase tracking-wider">Quick Links</h4>
-                        <ul class="space-y-4">
-                            <li><a href="#home" class="text-gray-500 hover:text-blue-600 transition-colors inline-flex items-center gap-2"><i class="fa-solid fa-chevron-right text-xs"></i> Home</a></li>
-                            <li><a href="#services" class="text-gray-500 hover:text-blue-600 transition-colors inline-flex items-center gap-2"><i class="fa-solid fa-chevron-right text-xs"></i> Services</a></li>
-                            <li><a href="#products" class="text-gray-500 hover:text-blue-600 transition-colors inline-flex items-center gap-2"><i class="fa-solid fa-chevron-right text-xs"></i> Store</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="text-center md:text-left">
-                        <h4 class="text-gray-900 font-bold text-lg mb-6 uppercase tracking-wider">Contact</h4>
-                        <ul class="space-y-4 inline-block text-left">
-                            <li class="flex items-start gap-3 text-gray-500">
-                                <i class="fa-solid fa-location-dot mt-1 text-blue-500"></i>
-                                <span>123 Innovation Drive,<br>Tech Park, Delhi 110001</span>
-                            </li>
-                            <li class="flex items-center gap-3 text-gray-500">
-                                <i class="fa-solid fa-phone text-blue-500"></i>
-                                <a href="tel:+919876543210" class="hover:text-gray-900 transition-colors">+91 98765 43210</a>
-                            </li>
-                            <li class="flex items-center gap-3 text-gray-500">
-                                <i class="fa-solid fa-envelope text-blue-500"></i>
-                                <a href="mailto:hello@electrotech.com" class="hover:text-gray-900 transition-colors">hello@electrotech.com</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="border-t border-gray-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-center">
-                    <p class="text-gray-500 text-sm">© 2026 ElectroTech India. All rights reserved.</p>
-                    <div class="flex gap-6 text-sm text-gray-500 justify-center">
-                        <a href="#" class="hover:text-gray-900 transition-colors">Privacy Policy</a>
-                        <a href="#" class="hover:text-gray-900 transition-colors">Terms of Service</a>
-                    </div>
-                </div>
-            </div>
-        </footer>
-
-    </div> 
-
-    <!-- Floating Icons -->
-    <div class="fixed bottom-8 right-6 z-[200] flex flex-col gap-5">
-        
-        <a href="https://wa.me/919876543210" target="_blank" class="auto-hover-icon w-14 h-14 bg-green-500 text-white rounded-full flex items-center justify-center text-3xl hover:bg-green-600 transition-colors" style="color: #22c55e;">
-            <i class="fa-brands fa-whatsapp text-white"></i>
-        </a>
     </div>
 
     <script>
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const closeMenuBtn = document.getElementById('close-menu');
-        const menuOverlay = document.getElementById('menu-overlay');
-        const spatialMenuLinks = document.querySelectorAll('#spatial-menu a');
-
-        function toggleMenu() {
-            document.body.classList.toggle('menu-open');
-            if(document.body.classList.contains('menu-open')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = '';
-            }
-        }
-
-        mobileMenuBtn.addEventListener('click', toggleMenu);
-        closeMenuBtn.addEventListener('click', toggleMenu);
-        if(menuOverlay) menuOverlay.addEventListener('click', toggleMenu);
-        
-        spatialMenuLinks.forEach(link => {
-            link.addEventListener('click', toggleMenu);
-        });
-
-        // --- HERO SLIDER LOGIC ---
+        // --- Slider ---
         const slides = document.querySelectorAll('.hero-slide');
         if(slides.length > 0) {
             let currentSlide = 0;
-            setInterval(() => {
-                slides[currentSlide].classList.remove('active');
-                currentSlide = (currentSlide + 1) % slides.length;
-                slides[currentSlide].classList.add('active');
-            }, 5000); // 5 seconds interval
+            setInterval(() => { slides[currentSlide].classList.remove('active'); currentSlide = (currentSlide + 1) % slides.length; slides[currentSlide].classList.add('active'); }, 5000); 
         }
 
-        if (window.matchMedia("(hover: hover)").matches) {
-            const cards = document.querySelectorAll('.card-11d');
-            
-            cards.forEach(card => {
-                card.addEventListener('mousemove', e => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    
-                    const rotateX = ((y - centerY) / centerY) * -12; 
-                    const rotateY = ((x - centerX) / centerX) * 12;
-                    
-                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-                    
-                    const glare = card.querySelector('.glare');
-                    if(glare) {
-                        glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.8) 0%, transparent 60%)`;
-                    }
-                });
-                
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-                    const glare = card.querySelector('.glare');
-                    if(glare) {
-                        glare.style.background = 'transparent';
-                        card.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
-                    }
-                });
-                
-                card.addEventListener('mouseenter', () => {
-                    card.style.transition = 'none';
-                });
-            });
+        // --- Auth Logic ---
+        function checkLoginState() {
+            const user = JSON.parse(localStorage.getItem('shaurya_user'));
+            const icon = document.getElementById('user-icon');
+            if(user) { icon.classList.replace('fa-user', 'fa-user-check'); icon.classList.add('text-green-500'); return true; } 
+            else { icon.classList.replace('fa-user-check', 'fa-user'); icon.classList.remove('text-green-500'); return false; }
         }
+        window.onload = checkLoginState;
+
+        function toggleProfileModal() {
+            if(checkLoginState()) {
+                const user = JSON.parse(localStorage.getItem('shaurya_user'));
+                document.getElementById('profile-name').innerText = user.name; document.getElementById('profile-phone').innerText = user.phone;
+                let history = JSON.parse(localStorage.getItem('shaurya_history')) || [];
+                document.getElementById('total-bookings').innerText = history.length; document.getElementById('success-bookings').innerText = history.length;
+                
+                let historyHTML = '';
+                history.forEach(item => { historyHTML += `<div class="p-2 border-b border-gray-100 flex justify-between"><span class="font-bold">${item.id}</span> <span class="text-gray-500">${item.type}</span></div>`; });
+                document.getElementById('booking-history-list').innerHTML = historyHTML || '<p class="text-gray-400 text-center">No bookings yet</p>';
+                document.getElementById('profile-modal').classList.remove('hidden');
+            } else { document.getElementById('auth-modal').classList.remove('hidden'); }
+        }
+
+        function closeProfileModal() { document.getElementById('profile-modal').classList.add('hidden'); }
+        function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
+
+        function switchAuthMode() {
+            const mode = document.getElementById('auth-mode');
+            const onlySignup = document.querySelectorAll('.signup-only');
+            if(mode.value === 'signup') {
+                mode.value = 'login';
+                document.getElementById('auth-title').innerText = 'Login';
+                document.getElementById('auth-submit-btn').innerText = 'Login';
+                document.getElementById('auth-switch-btn').innerText = 'Create new account';
+                onlySignup.forEach(el => { el.style.display = 'none'; el.removeAttribute('required'); });
+            } else {
+                mode.value = 'signup';
+                document.getElementById('auth-title').innerText = 'Create Account';
+                document.getElementById('auth-submit-btn').innerText = 'Sign Up';
+                document.getElementById('auth-switch-btn').innerText = 'Already have an account? Login';
+                onlySignup.forEach(el => { el.style.display = 'block'; el.setAttribute('required', 'true'); });
+            }
+        }
+
+        function logout() { localStorage.removeItem('shaurya_user'); closeProfileModal(); checkLoginState(); }
+
+        document.getElementById('auth-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('auth-submit-btn');
+            const mode = document.getElementById('auth-mode').value;
+            const originalText = btn.innerText;
+            btn.innerHTML = 'Processing...'; btn.disabled = true;
+
+            const formData = new URLSearchParams();
+            formData.append('action', mode);
+            formData.append('email', document.getElementById('reg-email').value);
+            formData.append('password', document.getElementById('reg-password').value);
+            
+            if(mode === 'signup') {
+                formData.append('name', document.getElementById('reg-name').value);
+                formData.append('phone', document.getElementById('reg-phone').value);
+                formData.append('address', document.getElementById('reg-address').value);
+            }
+
+            fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: formData })
+            .then(res => res.json()).then(data => {
+                if(data.status === 'success') {
+                    if(mode === 'signup') {
+                        alert("Account created! Please login now.");
+                        switchAuthMode(); // Switch to login view
+                    } else {
+                        // User successfully logged in
+                        localStorage.setItem('shaurya_user', JSON.stringify(data.user));
+                        closeAuthModal(); checkLoginState();
+                    }
+                } else { alert(data.message); }
+                btn.innerHTML = originalText; btn.disabled = false;
+            }).catch(err => { alert("Error connecting to server."); btn.innerHTML = originalText; btn.disabled = false; });
+        });
     </script>
 </body>
 </html>
