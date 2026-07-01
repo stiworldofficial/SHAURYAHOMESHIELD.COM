@@ -480,9 +480,9 @@
 
     <script>
         // ========================================================
-        // 🚨 IMPORTANT: REPLACE THIS URL WITH YOUR GOOGLE WEB APP URL
+        // LIVE GOOGLE SCRIPT WEB APP URL (Updated)
         // ========================================================
-        const SCRIPT_URL = "YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE"; 
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyNgDZlEYE_poLgN3Hfd8rEMNx0XO0kzaAOJd2iNXVw9QwQw5x3TlV7KWKCHk9-dd-0/exec"; 
         
         let pendingServiceBooking = null;
 
@@ -605,13 +605,11 @@
 
         async function handleAuth(e, action) {
             e.preventDefault();
-            if(SCRIPT_URL === "YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE") {
-                alert("Developer Note: Pehle Google Script URL update karein!"); return;
-            }
 
             const formId = action === 'login' ? 'login-form' : 'signup-form';
             toggleLoading(formId, true);
-            document.getElementById('auth-error').classList.add('hidden');
+            const errDiv = document.getElementById('auth-error');
+            errDiv.classList.add('hidden');
 
             let payload = { action: action };
             if (action === 'signup') {
@@ -626,7 +624,11 @@
             }
 
             try {
-                const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
+                // Fetch call explicitly using stringified body
+                const response = await fetch(SCRIPT_URL, { 
+                    method: 'POST', 
+                    body: JSON.stringify(payload) 
+                });
                 const result = await response.json();
                 
                 if (result.status === 'success') {
@@ -635,18 +637,19 @@
                     updateHeaderUI();
                     
                     if(pendingServiceBooking) {
-                        // User logged in to book something, resume booking
                         openBookingModal(pendingServiceBooking);
                         pendingServiceBooking = null;
                     } else {
                         showSuccessModal(action === 'signup' ? "Account Created!" : "Welcome Back!", `Hello, ${result.user.name}. Aapka swagat hai.`);
                     }
                 } else {
-                    const err = document.getElementById('auth-error');
-                    err.innerText = result.message; err.classList.remove('hidden');
+                    errDiv.innerText = result.message; 
+                    errDiv.classList.remove('hidden');
                 }
             } catch (error) {
-                alert("Network error."); console.error(error);
+                console.error("Fetch Error:", error);
+                errDiv.innerText = "Network error. Kripya thodi der me try karein."; 
+                errDiv.classList.remove('hidden');
             } finally { toggleLoading(formId, false); }
         }
 
@@ -677,8 +680,8 @@
 
         function addActivity(type, title, dateStr) {
             let acts = JSON.parse(localStorage.getItem('sh_activities') || '[]');
-            acts.unshift({ type, title, date: dateStr }); // add to beginning
-            if(acts.length > 10) acts.pop(); // keep last 10
+            acts.unshift({ type, title, date: dateStr }); 
+            if(acts.length > 10) acts.pop(); 
             localStorage.setItem('sh_activities', JSON.stringify(acts));
         }
 
@@ -687,7 +690,6 @@
             const noActMsg = document.getElementById('no-activity-msg');
             const acts = JSON.parse(localStorage.getItem('sh_activities') || '[]');
             
-            // Clear existing non-message children
             Array.from(actContainer.children).forEach(c => {
                 if(c.id !== 'no-activity-msg') c.remove();
             });
@@ -700,7 +702,7 @@
                     const div = document.createElement('div');
                     div.className = 'bg-gray-50 border border-gray-100 p-3 rounded-xl flex items-center gap-3';
                     
-                    let icon = 'fa-video text-green-500'; // default meeting
+                    let icon = 'fa-video text-green-500'; 
                     if(act.type === 'Purchase') icon = 'fa-bag-shopping text-blue-500';
                     
                     div.innerHTML = `
@@ -722,11 +724,9 @@
         function initiateBooking(serviceName) {
             const userStr = localStorage.getItem('sh_user');
             if(!userStr) {
-                // Not logged in -> Save intent and show login
                 pendingServiceBooking = serviceName;
                 openAuthModal();
             } else {
-                // Logged in -> open booking modal directly
                 openBookingModal(serviceName);
             }
         }
@@ -734,7 +734,6 @@
         function openBookingModal(serviceName) {
             const user = JSON.parse(localStorage.getItem('sh_user'));
             
-            // Pre-fill Data (Editable)
             document.getElementById('booking-service-name').innerText = serviceName;
             document.getElementById('book-service-hidden').value = serviceName;
             
@@ -742,7 +741,6 @@
             document.getElementById('book-phone').value = user.phone;
             document.getElementById('book-email').value = user.email;
             
-            // Clear date/time
             document.getElementById('book-date').value = '';
             document.getElementById('book-time').value = '';
             
@@ -752,7 +750,6 @@
 
         async function submitBooking(e) {
             e.preventDefault();
-            if(SCRIPT_URL === "https://script.google.com/macros/s/AKfycbyNgDZlEYE_poLgN3Hfd8rEMNx0XO0kzaAOJd2iNXVw9QwQw5x3TlV7KWKCHk9-dd-0/exec") return;
 
             toggleLoading('booking-form', true);
             const errorDiv = document.getElementById('booking-error');
@@ -769,21 +766,26 @@
             };
 
             try {
-                const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
+                const response = await fetch(SCRIPT_URL, { 
+                    method: 'POST', 
+                    body: JSON.stringify(payload) 
+                });
                 const result = await response.json();
                 
                 if (result.status === 'success') {
-                    // Save to local activity
                     const dateStr = `${payload.meetingDate} at ${payload.meetingTime}`;
                     addActivity('Meeting Booked', payload.serviceName, dateStr);
                     
                     closeModal('booking-overlay');
                     showSuccessModal("Meeting Confirmed!", `We have received your request for ${payload.serviceName} on ${payload.meetingDate}. We will connect with you soon.`);
                 } else {
-                    errorDiv.innerText = result.message; errorDiv.classList.remove('hidden');
+                    errorDiv.innerText = result.message; 
+                    errorDiv.classList.remove('hidden');
                 }
             } catch (error) {
-                errorDiv.innerText = "Network error. Please try again."; errorDiv.classList.remove('hidden');
+                console.error("Fetch Error:", error);
+                errorDiv.innerText = "Network error. Please try again."; 
+                errorDiv.classList.remove('hidden');
             } finally {
                 toggleLoading('booking-form', false);
             }
