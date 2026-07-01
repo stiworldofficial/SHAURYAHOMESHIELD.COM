@@ -588,13 +588,6 @@
             }
         }
 
-        async function hashPassword(password) {
-            const msgUint8 = new TextEncoder().encode(password);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-
         function toggleLoading(formId, isLoading) {
             const btn = document.querySelector(`#${formId} button[type="submit"]`);
             const txt = btn.querySelector('.btn-text');
@@ -617,10 +610,10 @@
                 payload.phone = document.getElementById('signup-phone').value;
                 payload.email = document.getElementById('signup-email').value;
                 payload.address = document.getElementById('signup-address').value;
-                payload.password = await hashPassword(document.getElementById('signup-password').value);
+                payload.password = document.getElementById('signup-password').value; // Plain text password
             } else {
                 payload.email = document.getElementById('login-email').value;
-                payload.password = await hashPassword(document.getElementById('login-password').value);
+                payload.password = document.getElementById('login-password').value; // Plain text password
             }
 
             try {
