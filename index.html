@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Shauryahomeshield | Ac Services | Electric Fencing | Water Tank Controling System</title>
+    <title>Shauryahomeshield | Ac Services | Electric Fencing | Water Tank Controling System | And All Services Accesries </title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -29,71 +29,20 @@
         ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #2563eb; }
 
-        body {
-            background: radial-gradient(circle at 50% 10%, #ffffff 0%, #f5f5f5 60%, #e5e5e5 100%);
-            overflow-x: hidden;
-            background-attachment: fixed;
-            color: #1f2937; 
-        }
+        body { background: radial-gradient(circle at 50% 10%, #ffffff 0%, #f5f5f5 60%, #e5e5e5 100%); overflow-x: hidden; background-attachment: fixed; color: #1f2937; }
+        #main-wrapper { transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s; width: 100%; position: relative; z-index: 10; }
+        body.modal-open #main-wrapper { transform: scale(0.97); filter: blur(8px); pointer-events: none; }
 
-        #main-wrapper {
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s;
-            width: 100%;
-            position: relative;
-            z-index: 10;
-        }
-
-        body.modal-open #main-wrapper {
-            transform: scale(0.97); 
-            filter: blur(8px);
-            pointer-events: none;
-        }
-
-        /* --- ULTRA PRO MAX MODALS (GLASSMORPHISM) --- */
-        .custom-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            background: rgba(15, 23, 42, 0.4); 
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            z-index: 9999;
-            opacity: 0; pointer-events: none;
-            transition: opacity 0.4s ease;
-            display: flex; justify-content: center; align-items: center;
-            padding: 1rem;
-        }
+        /* ULTRA PRO MAX MODALS */
+        .custom-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; display: flex; justify-content: center; align-items: center; padding: 1rem; }
         .custom-overlay.active { opacity: 1; pointer-events: all; }
-
-        .custom-box {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            width: 100%; max-width: 440px;
-            border-radius: 2rem;
-            padding: 2.5rem;
-            box-shadow: 0 40px 60px -15px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.8);
-            border: 1px solid rgba(255,255,255,0.4);
-            transform: translateY(40px) scale(0.92);
-            opacity: 0;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
+        .custom-box { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); width: 100%; max-width: 440px; border-radius: 2rem; padding: 2.5rem; box-shadow: 0 40px 60px -15px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.8); border: 1px solid rgba(255,255,255,0.4); transform: translateY(40px) scale(0.92); opacity: 0; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); position: relative; max-height: 90vh; overflow-y: auto; }
         .custom-box::-webkit-scrollbar { display: none; }
         .custom-overlay.active .custom-box { transform: translateY(0) scale(1); opacity: 1; }
 
-        .premium-input {
-            width: 100%; background: rgba(243, 244, 246, 0.7); border: 1px solid rgba(229, 231, 235, 0.8);
-            border-radius: 1.25rem; padding: 0.875rem 1.25rem; font-size: 0.875rem; font-weight: 500; color: #1f2937;
-            transition: all 0.3s ease;
-        }
+        .premium-input { width: 100%; background: rgba(243, 244, 246, 0.7); border: 1px solid rgba(229, 231, 235, 0.8); border-radius: 1.25rem; padding: 0.875rem 1.25rem; font-size: 0.875rem; font-weight: 500; color: #1f2937; transition: all 0.3s ease; }
         .premium-input:focus { outline: none; background: #ffffff; border-color: #3b82f6; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); }
-        
-        .premium-btn {
-            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
-            color: white; font-weight: 700; border-radius: 1.25rem; padding: 1rem;
-            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5);
-            transition: all 0.3s ease; position: relative; overflow: hidden;
-        }
+        .premium-btn { background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%); color: white; font-weight: 700; border-radius: 1.25rem; padding: 1rem; box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5); transition: all 0.3s ease; position: relative; overflow: hidden; }
         .premium-btn:hover { transform: translateY(-2px); box-shadow: 0 15px 35px -5px rgba(59, 130, 246, 0.6); }
 
         .auth-form { display: none; animation: slideUpFade 0.4s ease forwards; }
@@ -103,21 +52,15 @@
         .loader-spinner { border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid white; border-radius: 50%; width: 22px; height: 22px; animation: spin 1s linear infinite; display: none; margin: 0 auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        .profile-header {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); margin: -2.5rem -2.5rem 1.5rem -2.5rem;
-            padding: 3rem 2rem 2rem 2rem; border-radius: 2rem 2rem 1.5rem 1.5rem; text-align: center; position: relative; overflow: hidden;
-        }
+        /* Compact Profile Header */
+        .profile-header { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); margin: -2.5rem -2.5rem 1.5rem -2.5rem; padding: 2rem; border-radius: 2rem 2rem 1.5rem 1.5rem; position: relative; overflow: hidden; }
 
-        @keyframes auto-pulse-float {
-            0% { transform: translateY(0) scale(1); box-shadow: 0 5px 15px rgba(0,0,0,0.2), 0 0 20px currentColor; }
-            50% { transform: translateY(-12px) scale(1.1); box-shadow: 0 15px 25px rgba(0,0,0,0.2), 0 0 35px currentColor; }
-            100% { transform: translateY(0) scale(1); box-shadow: 0 5px 15px rgba(0,0,0,0.2), 0 0 20px currentColor; }
-        }
+        @keyframes auto-pulse-float { 0% { transform: translateY(0) scale(1); box-shadow: 0 5px 15px rgba(0,0,0,0.2), 0 0 20px currentColor; } 50% { transform: translateY(-12px) scale(1.1); box-shadow: 0 15px 25px rgba(0,0,0,0.2), 0 0 35px currentColor; } 100% { transform: translateY(0) scale(1); box-shadow: 0 5px 15px rgba(0,0,0,0.2), 0 0 20px currentColor; } }
         .auto-hover-icon { animation: auto-pulse-float 2.5s infinite ease-in-out; position: relative; }
         
-        .card-11d { transform-style: preserve-3d; perspective: 1000px; cursor: pointer; }
+        .card-11d { transform-style: preserve-3d; perspective: 1000px; cursor: pointer;}
         .glare { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; mix-blend-mode: overlay; }
-        .dynamic-island { background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(0, 0, 0, 0.05); }
+        .dynamic-island { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(0, 0, 0, 0.05); }
         .hero-slide { opacity: 0; transition: opacity 1.5s ease-in-out; z-index: 1; }
         .hero-slide.active { opacity: 1; z-index: 2; }
         
@@ -141,17 +84,17 @@
                 <div class="hidden md:flex items-center space-x-10">
                     <a href="#home" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition-all">Home</a>
                     <a href="#services" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition-all">Services</a>
-                    <a href="#products" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition-all">Features</a>
+                    <a href="#products" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition-all">Store</a>
                 </div>
 
                 <div class="flex items-center gap-3 sm:gap-4">
-                    <!-- Bold Phone Number -->
-                    <a href="tel:+919876543210" class="hidden md:flex items-center gap-2 bg-gray-100/80 px-4 py-1.5 rounded-full border border-gray-200 text-gray-900 font-black text-sm hover:bg-blue-50 transition-colors">
-                        <i class="fa-solid fa-phone text-blue-600"></i> +91 98765 43210
+                    <!-- Bold Phone Number (Visible on Mobile & Desktop) -->
+                    <a href="tel:+919876543210" class="flex items-center gap-2 px-3 py-1.5 rounded-full text-blue-900 font-black text-sm hover:text-blue-700 transition-colors tracking-tight">
+                        <i class="fa-solid fa-phone"></i> <span class="hidden sm:inline">+91 98765 43210</span>
                     </a>
 
                     <!-- Guest View -->
-                    <button onclick="openAuthModal()" id="login-btn-header" class="bg-gray-900 text-white px-5 py-2 rounded-full text-sm font-bold hover:bg-blue-600 transition-all flex items-center gap-2 shadow-md">
+                    <button onclick="openAuthModal()" id="login-btn-header" class="bg-gray-900 text-white px-5 py-2.5 rounded-full text-sm font-bold hover:bg-blue-600 transition-all flex items-center gap-2 shadow-md">
                         <i class="fa-regular fa-user"></i> <span class="hidden sm:inline">Login / Signup</span>
                     </button>
                     
@@ -365,45 +308,37 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- ULTRA PRO MAX PROFILE MODAL                -->
+    <!-- COMPACT ULTRA PRO MAX PROFILE MODAL (LIVE) -->
     <!-- ========================================== -->
     <div class="custom-overlay" id="profile-overlay">
-        <div class="custom-box !p-0 overflow-hidden !max-w-md">
-            <div class="profile-header">
-                <button onclick="closeModal('profile-overlay')" class="absolute top-4 right-4 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 w-8 h-8 rounded-full flex items-center justify-center transition-all z-10 backdrop-blur-sm">
+        <div class="custom-box !p-0 overflow-hidden !max-w-md flex flex-col" style="max-height: 85vh;">
+            <!-- Compact Header without Avatar -->
+            <div class="profile-header flex justify-between items-start pb-4 border-b border-white/10">
+                <div class="text-left w-full text-white">
+                    <h3 class="text-xl font-black tracking-tight mb-3" id="profile-name">User Name</h3>
+                    <div class="space-y-1.5 opacity-90 text-sm font-medium">
+                        <p class="flex items-center gap-2"><i class="fa-solid fa-phone w-4 text-center"></i> <span id="profile-phone">-</span></p>
+                        <p class="flex items-center gap-2"><i class="fa-solid fa-envelope w-4 text-center"></i> <span id="profile-email">-</span></p>
+                        <p class="flex items-start gap-2"><i class="fa-solid fa-location-dot w-4 text-center mt-1"></i> <span id="profile-address" class="leading-tight">-</span></p>
+                    </div>
+                </div>
+                <button onclick="closeModal('profile-overlay')" class="text-white/70 hover:text-white bg-white/10 hover:bg-white/20 w-8 h-8 rounded-full flex items-center justify-center transition-all z-10 backdrop-blur-sm flex-shrink-0">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
-                <div class="w-24 h-24 mx-auto bg-white text-blue-600 rounded-[2rem] flex items-center justify-center text-4xl font-black mb-4 shadow-[0_0_40px_rgba(255,255,255,0.2)] border-4 border-white/20 backdrop-blur-md relative z-10" id="profile-avatar">U</div>
-                <h3 class="text-2xl font-black text-white tracking-tight relative z-10" id="profile-name">User Name</h3>
-                <p class="text-blue-200 text-sm font-medium mt-1 relative z-10" id="profile-email">user@email.com</p>
             </div>
-            <div class="p-6">
-                <div class="grid grid-cols-2 gap-3 mb-6">
-                    <div class="bg-gray-50/80 p-4 rounded-2xl border border-gray-100">
-                        <i class="fa-solid fa-phone text-blue-500 mb-2"></i>
-                        <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-0.5">Phone</p>
-                        <p class="text-sm font-semibold text-gray-800 truncate" id="profile-phone">-</p>
-                    </div>
-                    <div class="bg-gray-50/80 p-4 rounded-2xl border border-gray-100">
-                        <i class="fa-solid fa-location-dot text-blue-500 mb-2"></i>
-                        <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-0.5">Location</p>
-                        <p class="text-sm font-semibold text-gray-800 truncate" id="profile-address" title="Address">-</p>
-                    </div>
-                </div>
-
-                <div>
-                    <div class="flex justify-between items-center mb-4">
-                        <h4 class="text-sm font-bold text-gray-900">Meeting History & Status</h4>
-                        <span class="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-md">Live</span>
-                    </div>
-                    <div class="activity-list max-h-48 overflow-y-auto pr-1 space-y-3" id="profile-activities">
-                        <div class="bg-gray-50/80 border border-gray-100 p-4 rounded-2xl flex items-center justify-center" id="no-activity-msg">
-                            <p class="text-gray-400 text-sm font-medium">No recent activity found.</p>
-                        </div>
-                    </div>
+            
+            <!-- Expanded History Section -->
+            <div class="p-6 flex-1 flex flex-col overflow-hidden bg-gray-50/50">
+                <div class="flex justify-between items-center mb-4">
+                    <h4 class="text-sm font-bold text-gray-900">Recent History & Status</h4>
+                    <span class="text-[10px] font-bold text-blue-600 bg-blue-100 px-2 py-1 rounded-md animate-pulse">Live</span>
                 </div>
                 
-                <button onclick="logout()" class="w-full mt-6 bg-red-50 text-red-600 font-bold rounded-xl py-3.5 hover:bg-red-100 transition-colors border border-red-100 flex items-center justify-center gap-2">
+                <div class="activity-list flex-1 overflow-y-auto pr-1 space-y-3" id="profile-activities">
+                    <!-- Loaded via Fetch -->
+                </div>
+                
+                <button onclick="logout()" class="w-full mt-5 bg-white text-red-600 font-bold rounded-xl py-3.5 hover:bg-red-50 transition-colors border border-gray-200 shadow-sm flex items-center justify-center gap-2">
                     <i class="fa-solid fa-power-off"></i> Sign Out
                 </button>
             </div>
@@ -427,6 +362,9 @@
     </div>
 
     <script>
+        // ========================================================
+        // 🚨 IMPORTANT: REPLACE THIS URL WITH YOUR GOOGLE WEB APP URL
+        // ========================================================
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyNgDZlEYE_poLgN3Hfd8rEMNx0XO0kzaAOJd2iNXVw9QwQw5x3TlV7KWKCHk9-dd-0/exec"; 
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -478,15 +416,8 @@
             }
         }
 
-        function openModal(id) {
-            document.getElementById(id).classList.add('active');
-            document.body.classList.add('modal-open');
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('active');
-            document.body.classList.remove('modal-open');
-        }
+        function openModal(id) { document.getElementById(id).classList.add('active'); document.body.classList.add('modal-open'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.classList.remove('modal-open'); }
 
         function openAuthModal() {
             document.getElementById('auth-error').classList.add('hidden');
@@ -502,13 +433,11 @@
             if (type === 'signup') {
                 document.getElementById('login-form').classList.remove('active');
                 document.getElementById('signup-form').classList.add('active');
-                title.innerText = "Create Account";
-                subtitle.innerText = "Setup your secure profile in seconds.";
+                title.innerText = "Create Account"; subtitle.innerText = "Setup your secure profile in seconds.";
             } else {
                 document.getElementById('signup-form').classList.remove('active');
                 document.getElementById('login-form').classList.add('active');
-                title.innerText = "Welcome Back";
-                subtitle.innerText = "Login to access premium services.";
+                title.innerText = "Welcome Back"; subtitle.innerText = "Login to access premium services.";
             }
         }
 
@@ -528,6 +457,8 @@
 
         async function handleAuth(e, action) {
             e.preventDefault();
+            if(SCRIPT_URL === "YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE") { alert("Developer Note: Please add Google Script URL"); return; }
+            
             const formId = action === 'login' ? 'login-form' : 'signup-form';
             toggleLoading(formId, true);
             const errDiv = document.getElementById('auth-error');
@@ -573,7 +504,6 @@
             if(!userStr) return;
             const user = JSON.parse(userStr);
             
-            document.getElementById('profile-avatar').innerText = user.name.charAt(0).toUpperCase();
             document.getElementById('profile-name').innerText = user.name;
             document.getElementById('profile-email').innerText = user.email;
             document.getElementById('profile-phone').innerText = user.phone;
@@ -581,6 +511,22 @@
             
             openModal('profile-overlay');
             fetchActivities(user.email);
+        }
+
+        // Helper to format date strings nicely
+        function formatDateTimeStr(dateStr, timeStr) {
+            if(!dateStr || !timeStr) return "N/A";
+            try {
+                const d = new Date(`${dateStr}T${timeStr}`);
+                if(isNaN(d)) return `${dateStr} at ${timeStr}`; // Fallback if parsing fails
+                
+                const optionsDate = { day: '2-digit', month: 'short', year: 'numeric' };
+                const optionsTime = { hour: '2-digit', minute: '2-digit', hour12: true };
+                
+                return `${d.toLocaleDateString('en-GB', optionsDate).replace(/ /g, '-')} at ${d.toLocaleTimeString('en-US', optionsTime)}`;
+            } catch(e) {
+                return `${dateStr} at ${timeStr}`;
+            }
         }
 
         async function fetchActivities(email) {
@@ -599,35 +545,41 @@
                 if (result.status === 'success' && result.activities.length > 0) {
                     result.activities.forEach(act => {
                         const div = document.createElement('div');
-                        div.className = 'bg-white border border-gray-100 p-4 rounded-2xl shadow-sm mb-3 relative overflow-hidden';
+                        div.className = 'bg-white border border-gray-200 p-4 rounded-2xl shadow-sm mb-3 relative overflow-hidden transition-all hover:shadow-md hover:border-blue-200';
                         
                         let statusColor = 'text-amber-600 bg-amber-50 border-amber-200';
                         let statusIcon = 'fa-clock';
                         let st = (act.status || '').toLowerCase();
                         
-                        if(st.includes('confirm') || st.includes('done')) { statusColor = 'text-emerald-600 bg-emerald-50 border-emerald-200'; statusIcon = 'fa-check-double'; }
-                        if(st.includes('cancel')) { statusColor = 'text-red-600 bg-red-50 border-red-200'; statusIcon = 'fa-ban'; }
+                        if(st.includes('confirm') || st.includes('done') || st.includes('success')) { statusColor = 'text-emerald-600 bg-emerald-50 border-emerald-200'; statusIcon = 'fa-check-double'; }
+                        if(st.includes('cancel') || st.includes('fail')) { statusColor = 'text-red-600 bg-red-50 border-red-200'; statusIcon = 'fa-ban'; }
+
+                        const bookedForStr = formatDateTimeStr(act.meetingDate, act.meetingTime);
 
                         div.innerHTML = `
-                            <div class="flex items-start gap-3 mb-3">
-                                <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                    <i class="fa-solid fa-calendar-check text-blue-500"></i>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <p class="text-sm font-bold text-gray-800 truncate">${act.serviceName}</p>
-                                    <p class="text-[11px] font-bold text-gray-400 mt-0.5"><i class="fa-regular fa-calendar mr-1"></i> Date: ${act.meetingDate}</p>
-                                    <p class="text-[11px] font-bold text-gray-400"><i class="fa-regular fa-clock mr-1"></i> Time: ${act.meetingTime}</p>
+                            <div class="mb-3">
+                                <p class="text-[10px] font-bold text-gray-400 mb-1 tracking-wide uppercase">Booked on ${act.dateSubmitted}</p>
+                                <div class="flex items-start gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0 border border-blue-100">
+                                        <i class="fa-solid fa-screwdriver-wrench text-blue-500 text-sm"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm font-black text-gray-900 truncate leading-tight">${act.serviceName}</p>
+                                        <p class="text-[11px] font-bold text-blue-600 mt-1 bg-blue-50 inline-block px-2 py-0.5 rounded">
+                                            Booked for: ${bookedForStr}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="p-3 rounded-xl border ${statusColor} text-[11px] font-semibold whitespace-normal break-words leading-relaxed relative">
-                                <span class="font-black uppercase tracking-wider text-[9px] opacity-70 block mb-1"><i class="fa-solid ${statusIcon} mr-1"></i> Update from Admin</span>
+                            <div class="p-3 rounded-xl border ${statusColor} text-xs font-semibold whitespace-normal break-words leading-relaxed relative">
+                                <span class="font-black uppercase tracking-wider text-[9px] opacity-70 block mb-1 flex items-center gap-1"><i class="fa-solid ${statusIcon}"></i> Live Update</span>
                                 ${act.status || 'Pending Review'}
                             </div>
                         `;
                         actContainer.appendChild(div);
                     });
                 } else {
-                    actContainer.innerHTML = '<div class="bg-gray-50/80 border border-gray-100 p-5 rounded-2xl flex flex-col items-center justify-center text-center"><div class="w-12 h-12 bg-gray-100 text-gray-400 rounded-full flex items-center justify-center mb-2"><i class="fa-solid fa-folder-open"></i></div><p class="text-gray-500 text-sm font-bold">No History Found</p><p class="text-xs text-gray-400 mt-1">Your bookings will appear here.</p></div>';
+                    actContainer.innerHTML = '<div class="bg-white border border-gray-100 p-5 rounded-2xl flex flex-col items-center justify-center text-center"><div class="w-12 h-12 bg-gray-50 text-gray-400 rounded-full flex items-center justify-center mb-2"><i class="fa-solid fa-folder-open"></i></div><p class="text-gray-900 text-sm font-bold">No History Found</p><p class="text-xs text-gray-500 mt-1">Your bookings will appear here.</p></div>';
                 }
             } catch(e) {
                 actContainer.innerHTML = '<div class="text-red-500 text-xs font-bold text-center py-4 bg-red-50 rounded-xl border border-red-100">Failed to sync data. Please check connection.</div>';
