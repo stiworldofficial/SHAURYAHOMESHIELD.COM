@@ -5,19 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Water Tank Alarm | Shauryahomeshield - Smart Water Management</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Razorpay Checkout Script -->
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
-    <!-- Tailwind Config -->
     <script>
         tailwind.config = {
             theme: {
@@ -33,116 +24,53 @@
     </script>
 
     <style>
-        /* Custom Scrollbar for Light Theme */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #e5e7eb; }
         ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #2563eb; }
 
-        body {
-            background: radial-gradient(circle at 50% 10%, #ffffff 0%, #f5f5f5 60%, #e5e5e5 100%);
-            overflow-x: hidden;
-            background-attachment: fixed;
-            color: #1f2937;
-        }
+        body { background: radial-gradient(circle at 50% 10%, #ffffff 0%, #f5f5f5 60%, #e5e5e5 100%); overflow-x: hidden; background-attachment: fixed; color: #1f2937; }
+        #main-wrapper { transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s; width: 100%; position: relative; z-index: 10; }
+        body.modal-open #main-wrapper { transform: scale(0.97); filter: blur(8px); pointer-events: none; }
 
-        #main-wrapper {
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.6s, opacity 0.6s, filter 0.6s;
-            transform-origin: center center;
-            background-color: transparent;
-            min-height: 100vh;
-            width: 100%;
-            position: relative;
-            z-index: 10;
-        }
-
-        body.modal-open #main-wrapper {
-            transform: scale(0.97); 
-            filter: blur(5px);
-            pointer-events: none;
-        }
-
-        /* --- MODERN MODALS --- */
-        .custom-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-            z-index: 9999;
-            opacity: 0; pointer-events: none;
-            transition: opacity 0.3s ease;
-            display: flex; justify-content: center; align-items: center;
-        }
+        /* ULTRA PRO MAX MODALS */
+        .custom-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; display: flex; justify-content: center; align-items: center; padding: 1rem; }
         .custom-overlay.active { opacity: 1; pointer-events: all; }
+        .custom-box { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); width: 100%; max-width: 440px; border-radius: 2rem; padding: 2.5rem; box-shadow: 0 40px 60px -15px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.8); border: 1px solid rgba(255,255,255,0.4); transform: translateY(40px) scale(0.92); opacity: 0; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); position: relative; max-height: 90vh; overflow-y: auto; }
+        .custom-box::-webkit-scrollbar { display: none; }
+        .custom-overlay.active .custom-box { transform: translateY(0) scale(1); opacity: 1; }
 
-        .custom-box {
-            background: white;
-            width: 100%; max-width: 450px;
-            border-radius: 1.5rem;
-            padding: 2rem;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-            transform: translateY(30px) scale(0.95);
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        .custom-overlay.active .custom-box {
-            transform: translateY(0) scale(1); opacity: 1;
-        }
+        .premium-input { width: 100%; background: rgba(243, 244, 246, 0.7); border: 1px solid rgba(229, 231, 235, 0.8); border-radius: 1.25rem; padding: 0.875rem 1.25rem; font-size: 0.875rem; font-weight: 500; color: #1f2937; transition: all 0.3s ease; }
+        .premium-input:focus { outline: none; background: #ffffff; border-color: #3b82f6; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); }
+        .premium-btn { background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%); color: white; font-weight: 700; border-radius: 1.25rem; padding: 1rem; box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5); transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .premium-btn:hover { transform: translateY(-2px); box-shadow: 0 15px 35px -5px rgba(59, 130, 246, 0.6); }
 
-        .auth-form { display: none; animation: fadeIn 0.4s ease forwards; }
+        .auth-form { display: none; animation: slideUpFade 0.4s ease forwards; }
         .auth-form.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUpFade { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        .loader-spinner { border: 3px solid #f3f3f3; border-top: 3px solid #3b82f6; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; display: none; margin: 0 auto; }
+        .loader-spinner { border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid white; border-radius: 50%; width: 22px; height: 22px; animation: spin 1s linear infinite; display: none; margin: 0 auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* --- SHINING AUTO-HOVER ICONS --- */
-        @keyframes auto-pulse-float {
-            0% { transform: translateY(0) scale(1); box-shadow: 0 5px 15px rgba(0,0,0,0.2), 0 0 20px currentColor; }
-            50% { transform: translateY(-12px) scale(1.1); box-shadow: 0 15px 25px rgba(0,0,0,0.2), 0 0 35px currentColor; }
-            100% { transform: translateY(0) scale(1); box-shadow: 0 5px 15px rgba(0,0,0,0.2), 0 0 20px currentColor; }
-        }
-        
-        .auto-hover-icon {
-            animation: auto-pulse-float 2.5s infinite ease-in-out;
-            position: relative;
-        }
-        
-        .auto-hover-icon::before {
-            content: ''; position: absolute; inset: -5px; border-radius: 50%; border: 2px solid currentColor; opacity: 0; animation: ripple 2.5s infinite ease-out;
-        }
-        @keyframes ripple { 0% { transform: scale(1); opacity: 0.5; } 100% { transform: scale(1.6); opacity: 0; } }
+        .profile-header { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); margin: -2.5rem -2.5rem 1.5rem -2.5rem; padding: 3rem 2rem 2rem 2rem; border-radius: 2rem 2rem 1.5rem 1.5rem; text-align: center; position: relative; overflow: hidden; }
 
-        /* --- 11D CARD EFFECTS --- */
+        @keyframes auto-pulse-float { 0% { transform: translateY(0) scale(1); box-shadow: 0 5px 15px rgba(0,0,0,0.2), 0 0 20px currentColor; } 50% { transform: translateY(-12px) scale(1.1); box-shadow: 0 15px 25px rgba(0,0,0,0.2), 0 0 35px currentColor; } 100% { transform: translateY(0) scale(1); box-shadow: 0 5px 15px rgba(0,0,0,0.2), 0 0 20px currentColor; } }
+        .auto-hover-icon { animation: auto-pulse-float 2.5s infinite ease-in-out; position: relative; }
+        
         .card-11d { transform-style: preserve-3d; perspective: 1000px; cursor: pointer;}
         .glare { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; mix-blend-mode: overlay; }
-        
-        /* Glass Navbar */
         .dynamic-island { background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(0, 0, 0, 0.05); }
-
-        /* --- HERO SLIDER --- */
         .hero-slide { opacity: 0; transition: opacity 1.5s ease-in-out; z-index: 1; }
         .hero-slide.active { opacity: 1; z-index: 2; }
         
-        /* Activity List Scrollbar */
-        .activity-list::-webkit-scrollbar { width: 4px; }
-        .activity-list::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        
-        /* Modal Active Animation */
-        .modal-active .modal-content { transform: scale(1); opacity: 1; }
-        .modal-content { transform: scale(0.95); opacity: 0; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease; }
+        .fetch-loader { border: 3px solid #e5e7eb; border-top: 3px solid #3b82f6; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; display: inline-block; }
     </style>
 </head>
 <body class="font-sans pt-24"> 
 
-    <!-- Main Wrapper for 3D Transform -->
     <div id="main-wrapper">
-        
-        <!-- Dynamic Island Navbar -->
         <div class="fixed top-4 w-full z-50 flex justify-center px-4" id="navbar-wrapper">
-            <nav class="dynamic-island w-full max-w-6xl rounded-[2.5rem] px-6 py-3 flex justify-between items-center shadow-lg shadow-gray-200/50">
+            <nav class="dynamic-island w-full max-w-6xl rounded-[2.5rem] px-4 py-3 flex justify-between items-center shadow-lg shadow-gray-200/50">
                 
                 <div class="flex items-center cursor-pointer group" onclick="window.location.href='index.html'">
                     <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform overflow-hidden z-10 flex-shrink-0">
@@ -158,22 +86,22 @@
                     <a href="#features" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition-all">Features</a>
                 </div>
 
-                <div class="flex items-center gap-4">
-                    <!-- Guest View -->
-                    <button onclick="openAuthModal()" id="login-btn-header" class="bg-gray-900 text-white px-4 sm:px-6 py-2 rounded-full text-sm font-bold hover:bg-blue-600 transition-all flex items-center gap-2 shadow-md">
+                <div class="flex items-center gap-3 sm:gap-4">
+                    <a href="tel:+919876543210" class="hidden lg:flex items-center gap-2 bg-gray-100/80 px-4 py-1.5 rounded-full border border-gray-200 text-gray-900 font-black text-sm hover:bg-blue-50 transition-colors">
+                        <i class="fa-solid fa-phone text-blue-600"></i> +91 98765 43210
+                    </a>
+                    <button onclick="openAuthModal()" id="login-btn-header" class="bg-gray-900 text-white px-5 py-2.5 rounded-full text-sm font-bold hover:bg-blue-600 transition-all flex items-center gap-2 shadow-md">
                         <i class="fa-regular fa-user"></i> <span class="hidden sm:inline">Login / Signup</span>
                     </button>
                     
-                    <!-- Logged In View Profile Icon -->
-                    <div id="profile-section-header" class="hidden flex items-center gap-2 bg-blue-50 px-3 py-1.5 rounded-full border border-blue-100 cursor-pointer hover:bg-blue-100 transition shadow-sm" onclick="openProfileModal()">
-                        <div class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-inner" id="header-user-initial">A</div>
-                        <span class="text-sm font-bold text-blue-900 hidden sm:block pr-1" id="header-user-name">User</span>
+                    <div id="profile-section-header" class="hidden flex items-center gap-2 bg-blue-50/80 backdrop-blur-md px-2 py-1.5 rounded-full border border-blue-100 cursor-pointer hover:bg-blue-100 transition shadow-sm group" onclick="openProfileModal()">
+                        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-600 to-blue-400 text-white flex items-center justify-center font-bold text-sm shadow-md group-hover:scale-105 transition-transform" id="header-user-initial">A</div>
+                        <span class="text-sm font-bold text-blue-900 hidden sm:block pr-3" id="header-user-name">User</span>
                     </div>
                 </div>
             </nav>
         </div>
 
-        <!-- Hero Slider (Water Tank & Smart Tech Visuals) -->
         <section id="home" class="relative w-full aspect-video max-w-[1920px] mx-auto bg-black overflow-hidden shadow-xl z-10">
             <img src="https://images.unsplash.com/photo-1548839140-29a749e1bc4e?q=80&w=1920&auto=format&fit=crop" alt="Save Water Concept" class="hero-slide active absolute inset-0 w-full h-full object-cover">
             <img src="https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?q=80&w=1920&auto=format&fit=crop" alt="Smart Device Sensor" class="hero-slide absolute inset-0 w-full h-full object-cover">
@@ -182,7 +110,6 @@
             <div class="absolute inset-0 bg-gradient-to-r from-blue-900/40 to-transparent pointer-events-none"></div>
         </section>
 
-        <!-- Core Services Section (Water Tank Alarm Categories) -->
         <section id="services" class="py-10 md:py-24 relative px-4 sm:px-6">
             <div class="max-w-6xl mx-auto">
                 <div class="text-center mb-8 md:mb-16">
@@ -190,7 +117,6 @@
                     <p class="text-gray-500 font-medium max-w-2xl mx-auto">Stop water wastage with our automated alarms and smart motor controllers. Get alerts before your tank overflows.</p>
                 </div>
 
-                <!-- Cards Grid (3 Items) -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 auto-rows-max">
                     <div onclick="initiateBooking('Basic Overflow Tank Alarm')" class="card-11d block w-full h-[250px] md:h-[360px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow cursor-pointer">
                         <div class="glare rounded-[2.5rem]"></div>
@@ -199,8 +125,8 @@
                         <div class="absolute bottom-4 left-4 right-4 z-20">
                             <h3 class="text-2xl font-black text-white mb-1 tracking-tight drop-shadow-md">Basic Overflow Alarm</h3>
                             <p class="text-white/80 text-sm font-medium mb-3">Wired standard tank buzzer</p>
-                            <div class="bg-white/20 backdrop-blur-xl border border-white/30 rounded-full py-2 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500">
-                                <span class="text-sm font-bold text-white tracking-wide">Book Now (₹21)</span>
+                            <div class="bg-blue-600/90 backdrop-blur-xl border border-blue-400 rounded-full py-2 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-white group-hover:text-blue-700">
+                                <span class="text-sm font-bold text-white group-hover:text-blue-700 tracking-wide flex items-center gap-2"><i class="fa-regular fa-calendar-check"></i> Book Meeting</span>
                             </div>
                         </div>
                     </div>
@@ -212,8 +138,8 @@
                         <div class="absolute bottom-4 left-4 right-4 z-20">
                             <h3 class="text-2xl font-black text-white mb-1 tracking-tight drop-shadow-md">Wireless Smart Alarm</h3>
                             <p class="text-white/80 text-sm font-medium mb-3 leading-snug">No messy wires, hassle-free alert</p>
-                            <div class="bg-white/20 backdrop-blur-xl border border-white/30 rounded-full py-2 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500">
-                                <span class="text-sm font-bold text-white tracking-wide">Book Now (₹21)</span>
+                            <div class="bg-blue-600/90 backdrop-blur-xl border border-blue-400 rounded-full py-2 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-white group-hover:text-blue-700">
+                                <span class="text-sm font-bold text-white group-hover:text-blue-700 tracking-wide flex items-center gap-2"><i class="fa-regular fa-calendar-check"></i> Book Meeting</span>
                             </div>
                         </div>
                     </div>
@@ -225,8 +151,8 @@
                         <div class="absolute bottom-4 left-4 right-4 z-20">
                             <h3 class="text-2xl font-black text-white mb-1 tracking-tight drop-shadow-md">Auto Level Controller</h3>
                             <p class="text-white/80 text-sm font-medium mb-3">Auto Motor ON/OFF System</p>
-                            <div class="bg-white/20 backdrop-blur-xl border border-white/30 rounded-full py-2 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500">
-                                <span class="text-sm font-bold text-white tracking-wide">Book Now (₹21)</span>
+                            <div class="bg-blue-600/90 backdrop-blur-xl border border-blue-400 rounded-full py-2 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-white group-hover:text-blue-700">
+                                <span class="text-sm font-bold text-white group-hover:text-blue-700 tracking-wide flex items-center gap-2"><i class="fa-regular fa-calendar-check"></i> Book Meeting</span>
                             </div>
                         </div>
                     </div>
@@ -234,7 +160,7 @@
             </div>
         </section>
 
-        <!-- Water Alarm Features & Icons -->
+        <!-- Features Section same as index -->
         <section id="features" class="py-24 relative bg-white/50 border-t border-gray-100">
             <div class="max-w-6xl mx-auto px-6">
                 <div class="flex flex-col lg:flex-row gap-16 items-center">
@@ -296,7 +222,6 @@
             </div>
         </section>
 
-        <!-- Footer -->
         <footer class="relative mt-20 bg-white/80 backdrop-blur-3xl border-t border-gray-200 pt-20 pb-10">
             <div class="max-w-7xl mx-auto px-6 relative z-10">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
@@ -310,11 +235,6 @@
                         <p class="text-gray-600 text-lg leading-relaxed max-w-sm font-medium mb-8 mx-auto md:mx-0">
                             Pioneering electrical safety and automation across India. Delivering premium zhatka machines, AC care, and smart alarms.
                         </p>
-                        <div class="flex gap-4 justify-center md:justify-start">
-                            <a href="#" class="w-10 h-10 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-blue-500 hover:text-white transition-all shadow-sm">
-                                <i class="fa-brands fa-facebook-f"></i>
-                            </a>
-                        </div>
                     </div>
                     <div class="text-center md:text-left">
                         <h4 class="text-gray-900 font-bold text-lg mb-6 uppercase tracking-wider">Quick Links</h4>
@@ -340,153 +260,144 @@
 
     </div> 
 
-    <!-- Floating Icons -->
+    <!-- Whatsapp Floating Icon -->
     <div class="fixed bottom-8 right-6 z-[200] flex flex-col gap-5">
         <a href="https://wa.me/919876543210" target="_blank" class="auto-hover-icon w-14 h-14 bg-green-500 text-white rounded-full flex items-center justify-center text-3xl hover:bg-green-600 transition-colors" style="color: #22c55e;">
             <i class="fa-brands fa-whatsapp text-white"></i>
         </a>
     </div>
 
-    <!-- ========================================== -->
-    <!-- AUTHENTICATION MODAL (LOGIN & SIGNUP)      -->
-    <!-- ========================================== -->
+    <!-- ULTRA PRO MAX AUTH MODAL -->
     <div class="custom-overlay" id="auth-overlay">
         <div class="custom-box">
-            <button onclick="closeModal('auth-overlay')" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 bg-gray-100 hover:bg-red-50 w-8 h-8 rounded-full flex items-center justify-center transition z-50">
+            <button onclick="closeModal('auth-overlay')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 bg-gray-100/50 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center transition-all z-50">
                 <i class="fa-solid fa-xmark"></i>
             </button>
-            <div class="text-center mb-6">
-                <div class="w-12 h-12 mx-auto bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xl mb-2"><i class="fa-solid fa-shield-halved"></i></div>
-                <h3 class="text-2xl font-black text-gray-900" id="auth-title">Welcome Back</h3>
+            <div class="text-center mb-6 mt-2">
+                <div class="w-14 h-14 mx-auto bg-gradient-to-tr from-blue-600 to-blue-400 text-white rounded-[1rem] shadow-lg flex items-center justify-center text-2xl mb-4 transform -rotate-6"><i class="fa-solid fa-shield-halved"></i></div>
+                <h3 class="text-2xl font-black text-gray-900 tracking-tight" id="auth-title">Welcome Back</h3>
                 <p class="text-gray-500 text-sm mt-1" id="auth-subtitle">Login to access premium services.</p>
             </div>
             <form id="login-form" class="auth-form active" onsubmit="handleAuth(event, 'login')">
                 <div class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Email</label>
-                        <input type="email" id="login-email" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Password</label>
-                        <input type="password" id="login-password" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500">
-                    </div>
-                    <button type="submit" id="login-btn" class="w-full bg-blue-600 text-white font-bold rounded-xl py-3 shadow-md hover:bg-blue-700 transition">
-                        <span class="btn-text">Login</span><div class="loader-spinner"></div>
+                    <div><input type="email" id="login-email" required class="premium-input" placeholder="Email Address"></div>
+                    <div><input type="password" id="login-password" required class="premium-input" placeholder="Password"></div>
+                    <button type="submit" id="login-btn" class="w-full premium-btn mt-2">
+                        <span class="btn-text">Log In</span><div class="loader-spinner"></div>
                     </button>
-                    <p class="text-center text-sm text-gray-500 mt-4">Don't have an account? <a href="#" onclick="switchAuth('signup')" class="text-blue-600 font-bold hover:underline">Sign up</a></p>
+                    <p class="text-center text-sm text-gray-500 mt-5">Don't have an account? <a href="#" onclick="switchAuth('signup')" class="text-blue-600 font-bold hover:text-blue-700 transition">Create one</a></p>
                 </div>
             </form>
             <form id="signup-form" class="auth-form" onsubmit="handleAuth(event, 'signup')">
                 <div class="space-y-3">
-                    <input type="text" id="signup-name" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm" placeholder="Full Name">
-                    <input type="tel" id="signup-phone" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm" placeholder="Phone Number">
-                    <input type="email" id="signup-email" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm" placeholder="Email Address">
-                    <textarea id="signup-address" required rows="2" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm" placeholder="Complete Address"></textarea>
-                    <input type="password" id="signup-password" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm" placeholder="Create Password">
-                    <button type="submit" id="signup-btn" class="w-full bg-gray-900 text-white font-bold rounded-xl py-3 shadow-md hover:bg-black transition mt-2">
-                        <span class="btn-text">Create Account</span><div class="loader-spinner"></div>
+                    <input type="text" id="signup-name" required class="premium-input" placeholder="Full Name">
+                    <input type="tel" id="signup-phone" required class="premium-input" placeholder="Phone Number">
+                    <input type="email" id="signup-email" required class="premium-input" placeholder="Email Address">
+                    <textarea id="signup-address" required rows="2" class="premium-input" placeholder="Complete Address"></textarea>
+                    <input type="password" id="signup-password" required class="premium-input" placeholder="Create Password">
+                    <button type="submit" id="signup-btn" class="w-full premium-btn mt-2">
+                        <span class="btn-text">Sign Up</span><div class="loader-spinner"></div>
                     </button>
-                    <p class="text-center text-sm text-gray-500 mt-2">Already have an account? <a href="#" onclick="switchAuth('login')" class="text-blue-600 font-bold hover:underline">Login</a></p>
+                    <p class="text-center text-sm text-gray-500 mt-4">Already have an account? <a href="#" onclick="switchAuth('login')" class="text-blue-600 font-bold hover:text-blue-700 transition">Log in</a></p>
                 </div>
             </form>
-            <div id="auth-error" class="hidden text-red-500 text-sm text-center font-bold mt-4 bg-red-50 py-2 rounded-lg"></div>
+            <div id="auth-error" class="hidden text-red-500 text-sm text-center font-bold mt-5 bg-red-50 py-3 rounded-xl border border-red-100"></div>
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- PROFILE & ACTIVITY MODAL                   -->
-    <!-- ========================================== -->
+    <!-- ULTRA PRO MAX PROFILE MODAL (WITH LIVE FETCH) -->
     <div class="custom-overlay" id="profile-overlay">
-        <div class="custom-box !p-0 overflow-hidden">
-            <div class="bg-gradient-to-r from-blue-600 to-cyan-500 p-6 text-white text-center relative">
-                <button onclick="closeModal('profile-overlay')" class="absolute top-4 right-4 text-white hover:text-gray-200 bg-white/20 hover:bg-white/30 w-8 h-8 rounded-full flex items-center justify-center transition">
+        <div class="custom-box !p-0 overflow-hidden !max-w-md">
+            <div class="profile-header">
+                <button onclick="closeModal('profile-overlay')" class="absolute top-4 right-4 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 w-8 h-8 rounded-full flex items-center justify-center transition-all z-10 backdrop-blur-sm">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
-                <div class="w-20 h-20 mx-auto bg-white text-blue-600 rounded-full flex items-center justify-center text-3xl font-black mb-3 shadow-lg" id="profile-avatar">U</div>
-                <h3 class="text-2xl font-black" id="profile-name">User Name</h3>
-                <p class="text-blue-100 text-sm" id="profile-email">user@email.com</p>
+                <div class="w-24 h-24 mx-auto bg-white text-blue-600 rounded-[2rem] flex items-center justify-center text-4xl font-black mb-4 shadow-[0_0_40px_rgba(255,255,255,0.2)] border-4 border-white/20 backdrop-blur-md relative z-10" id="profile-avatar">U</div>
+                <h3 class="text-2xl font-black text-white tracking-tight relative z-10" id="profile-name">User Name</h3>
+                <p class="text-blue-200 text-sm font-medium mt-1 relative z-10" id="profile-email">user@email.com</p>
             </div>
             <div class="p-6">
-                <div class="mb-6">
-                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Contact Details</h4>
-                    <p class="text-gray-800 text-sm mb-1"><i class="fa-solid fa-phone text-blue-500 w-5"></i> <span id="profile-phone"></span></p>
-                    <p class="text-gray-800 text-sm"><i class="fa-solid fa-location-dot text-blue-500 w-5"></i> <span id="profile-address"></span></p>
-                </div>
-                <div>
-                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 border-t pt-4">Recent Activity</h4>
-                    <div class="activity-list max-h-40 overflow-y-auto pr-2 space-y-3" id="profile-activities">
-                        <p class="text-gray-400 text-sm italic text-center py-2" id="no-activity-msg">No recent activity found.</p>
+                <div class="grid grid-cols-2 gap-3 mb-6">
+                    <div class="bg-gray-50/80 p-4 rounded-2xl border border-gray-100">
+                        <i class="fa-solid fa-phone text-blue-500 mb-2"></i>
+                        <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-0.5">Phone</p>
+                        <p class="text-sm font-semibold text-gray-800 truncate" id="profile-phone">-</p>
+                    </div>
+                    <div class="bg-gray-50/80 p-4 rounded-2xl border border-gray-100">
+                        <i class="fa-solid fa-location-dot text-blue-500 mb-2"></i>
+                        <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-0.5">Location</p>
+                        <p class="text-sm font-semibold text-gray-800 truncate" id="profile-address" title="Address">-</p>
                     </div>
                 </div>
-                <button onclick="logout()" class="w-full mt-6 bg-red-50 text-red-600 font-bold rounded-xl py-2.5 hover:bg-red-100 transition border border-red-100">
-                    <i class="fa-solid fa-right-from-bracket mr-2"></i> Logout
+
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <h4 class="text-sm font-bold text-gray-900">Meeting History & Status</h4>
+                        <span class="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-md">Live</span>
+                    </div>
+                    <div class="activity-list max-h-48 overflow-y-auto pr-1 space-y-3" id="profile-activities">
+                        <!-- Loaded via Fetch -->
+                    </div>
+                </div>
+                
+                <button onclick="logout()" class="w-full mt-6 bg-red-50 text-red-600 font-bold rounded-xl py-3.5 hover:bg-red-100 transition-colors border border-red-100 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-power-off"></i> Sign Out
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- SUCCESS POPUP MODAL                        -->
-    <!-- ========================================== -->
-    <div class="custom-overlay" id="success-overlay">
-        <div class="custom-box text-center py-10">
-            <div class="w-20 h-20 mx-auto bg-green-100 text-green-500 rounded-full flex items-center justify-center text-4xl mb-4 shadow-inner">
-                <i class="fa-solid fa-check"></i>
-            </div>
-            <h3 class="text-3xl font-black text-gray-900 mb-2" id="success-title">Success!</h3>
-            <p class="text-gray-500 text-base mb-8 font-medium" id="success-msg">Welcome to Shauryahomeshield.</p>
-            <button onclick="closeModal('success-overlay')" class="w-full bg-green-500 text-white font-bold rounded-xl py-3.5 hover:bg-green-600 transition shadow-md">
-                Great, thanks!
+    <!-- ULTRA PRO MAX BOOKING MODAL -->
+    <div class="custom-overlay" id="booking-overlay">
+        <div class="custom-box">
+            <button onclick="closeModal('booking-overlay')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 bg-gray-100/50 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center transition-all z-50">
+                <i class="fa-solid fa-xmark"></i>
             </button>
+            <div class="text-center mb-6 mt-2">
+                <div class="w-14 h-14 mx-auto bg-gradient-to-tr from-emerald-500 to-emerald-400 text-white rounded-[1rem] shadow-lg flex items-center justify-center text-2xl mb-4 transform -rotate-6"><i class="fa-regular fa-calendar-check"></i></div>
+                <h3 class="text-2xl font-black text-gray-900 tracking-tight">Book Meeting</h3>
+                <p class="text-blue-600 font-bold text-sm mt-1 bg-blue-50 inline-block px-3 py-1 rounded-lg" id="booking-service-name">Service Name</p>
+            </div>
+            
+            <form id="booking-form" onsubmit="submitBooking(event)">
+                <div class="space-y-4">
+                    <input type="hidden" id="book-service-hidden">
+                    <div><input type="text" id="book-name" required class="premium-input" placeholder="Your Name"></div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <input type="tel" id="book-phone" required class="premium-input" placeholder="Phone Number">
+                        <input type="email" id="book-email" required class="premium-input" placeholder="Email Address">
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 pt-4 border-t border-gray-100">
+                        <div>
+                            <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1.5 ml-1">Meeting Date</label>
+                            <input type="date" id="book-date" required class="premium-input !bg-blue-50/50 focus:!bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1.5 ml-1">Preferred Time</label>
+                            <input type="time" id="book-time" required class="premium-input !bg-blue-50/50 focus:!bg-white">
+                        </div>
+                    </div>
+                    <button type="submit" id="booking-submit-btn" class="w-full premium-btn !bg-gradient-to-r !from-emerald-500 !to-teal-400 !shadow-[0_10px_25px_-5px_rgba(16,185,129,0.5)] mt-4">
+                        <span class="btn-text flex items-center justify-center gap-2"><i class="fa-regular fa-calendar-check"></i> Confirm Booking</span>
+                        <div class="loader-spinner"></div>
+                    </button>
+                </div>
+            </form>
+            <div id="booking-error" class="hidden text-red-500 text-sm text-center font-bold mt-5 bg-red-50 py-3 rounded-xl border border-red-100"></div>
         </div>
     </div>
 
-    <!-- BOOKING POPUP MODAL (Razorpay & Google Sheets form) -->
-    <div id="booking-modal" class="fixed inset-0 z-[2000] hidden flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm cursor-pointer" onclick="closeBookingModal()"></div>
-        <div id="booking-modal-content" class="modal-content relative bg-white/95 backdrop-blur-2xl rounded-3xl w-full max-w-lg p-6 md:p-8 shadow-2xl border border-white">
-            <button onclick="closeBookingModal()" class="absolute top-5 right-5 w-9 h-9 flex items-center justify-center bg-gray-100 rounded-full hover:bg-red-50 hover:text-red-500 transition-colors text-gray-500">
-                <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
-            <div class="flex items-center gap-4 mb-6">
-                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center text-white shadow-lg">
-                    <i class="fa-solid fa-droplet text-xl"></i>
-                </div>
-                <div>
-                    <h3 class="text-2xl font-black text-gray-900 tracking-tight">Book Installation</h3>
-                    <p class="text-sm font-semibold text-gray-500">Selected: <span id="modal-category" class="text-blue-600 font-bold">Tank Alarm</span></p>
-                </div>
+    <!-- SUCCESS MODAL -->
+    <div class="custom-overlay" id="success-overlay">
+        <div class="custom-box text-center py-8">
+            <div class="w-20 h-20 mx-auto bg-gradient-to-br from-green-400 to-emerald-500 text-white rounded-full flex items-center justify-center text-4xl mb-6 shadow-xl transform scale-110">
+                <i class="fa-solid fa-check"></i>
             </div>
-            <form id="booking-form" class="space-y-5">
-                <input type="hidden" id="input-category">
-                <div class="space-y-1">
-                    <label class="block text-sm font-bold text-gray-700 ml-1">Full Name</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400"><i class="fa-regular fa-user"></i></div>
-                        <input type="text" id="book-name" required placeholder="Enter your full name" class="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-blue-500 outline-none transition-all font-medium text-gray-900">
-                    </div>
-                </div>
-                <div class="space-y-1">
-                    <label class="block text-sm font-bold text-gray-700 ml-1">Phone Number</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400"><i class="fa-solid fa-phone"></i></div>
-                        <input type="tel" id="book-phone" required placeholder="+91 XXXXX XXXXX" pattern="[0-9]{10}" class="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-blue-500 outline-none transition-all font-medium text-gray-900">
-                    </div>
-                </div>
-                <div class="space-y-1">
-                    <label class="block text-sm font-bold text-gray-700 ml-1">Complete Address</label>
-                    <div class="relative">
-                        <div class="absolute top-4 left-0 pl-4 flex items-start pointer-events-none text-gray-400"><i class="fa-solid fa-location-dot"></i></div>
-                        <textarea id="book-address" required rows="3" placeholder="Enter your full address" class="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-blue-500 outline-none transition-all font-medium text-gray-900 resize-none"></textarea>
-                    </div>
-                </div>
-                <div class="pt-2">
-                    <button type="submit" id="submit-btn" class="w-full bg-gray-900 text-white font-bold text-lg py-4 rounded-2xl shadow-xl hover:shadow-2xl hover:-translate-y-0.5 hover:bg-blue-600 transition-all flex items-center justify-center gap-3 relative overflow-hidden group">
-                        <span class="relative z-10 flex items-center gap-2" id="submit-btn-text">Pay ₹21 & Book Now <i class="fa-solid fa-arrow-right"></i></span>
-                    </button>
-                    <p class="text-center text-xs text-gray-400 mt-3 font-medium"><i class="fa-solid fa-lock text-gray-300 mr-1"></i> Secured by Razorpay</p>
-                </div>
-            </form>
+            <h3 class="text-3xl font-black text-gray-900 mb-2 tracking-tight" id="success-title">Success!</h3>
+            <p class="text-gray-500 text-sm mb-8 font-medium leading-relaxed px-4" id="success-msg">Welcome to Shauryahomeshield.</p>
+            <button onclick="closeModal('success-overlay')" class="w-full premium-btn !bg-gradient-to-r !from-gray-800 !to-gray-900 !shadow-none hover:!shadow-xl">
+                Awesome, thanks!
+            </button>
         </div>
     </div>
 
@@ -495,9 +406,11 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             updateHeaderUI();
+            const dateInput = document.getElementById('book-date');
+            if(dateInput) { const today = new Date().toISOString().split('T')[0]; dateInput.setAttribute('min', today); }
         });
 
-        // --- 3D EFFECTS & SLIDER ---
+        // 3D Effects
         if (window.matchMedia("(hover: hover)").matches) {
             const cards = document.querySelectorAll('.card-11d');
             cards.forEach(card => {
@@ -525,7 +438,6 @@
             }, 5000); 
         }
 
-        // ================= AUTH LOGIC =================
         function updateHeaderUI() {
             const userStr = localStorage.getItem('sh_user');
             const loginBtn = document.getElementById('login-btn-header');
@@ -543,15 +455,8 @@
             }
         }
 
-        function openModal(id) {
-            document.getElementById(id).classList.add('active');
-            document.body.classList.add('modal-open');
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('active');
-            document.body.classList.remove('modal-open');
-        }
+        function openModal(id) { document.getElementById(id).classList.add('active'); document.body.classList.add('modal-open'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.classList.remove('modal-open'); }
 
         function openAuthModal() {
             document.getElementById('auth-error').classList.add('hidden');
@@ -567,13 +472,11 @@
             if (type === 'signup') {
                 document.getElementById('login-form').classList.remove('active');
                 document.getElementById('signup-form').classList.add('active');
-                title.innerText = "Create Account";
-                subtitle.innerText = "Setup your secure profile in seconds.";
+                title.innerText = "Create Account"; subtitle.innerText = "Setup your secure profile in seconds.";
             } else {
                 document.getElementById('signup-form').classList.remove('active');
                 document.getElementById('login-form').classList.add('active');
-                title.innerText = "Welcome Back";
-                subtitle.innerText = "Login to access premium services.";
+                title.innerText = "Welcome Back"; subtitle.innerText = "Login to access premium services.";
             }
         }
 
@@ -588,7 +491,7 @@
             const txt = btn.querySelector('.btn-text');
             const spinner = btn.querySelector('.loader-spinner');
             if (isLoading) { txt.style.display = 'none'; spinner.style.display = 'block'; btn.disabled = true; } 
-            else { txt.style.display = 'block'; spinner.style.display = 'none'; btn.disabled = false; }
+            else { txt.style.display = 'flex'; spinner.style.display = 'none'; btn.disabled = false; }
         }
 
         let pendingServiceBooking = null;
@@ -637,13 +540,10 @@
 
         function logout() {
             localStorage.removeItem('sh_user');
-            localStorage.removeItem('sh_activities');
             updateHeaderUI();
             closeModal('profile-overlay');
-            alert("Aap safely log out ho gaye hain.");
         }
 
-        // ================= PROFILE LOGIC =================
         function openProfileModal() {
             const userStr = localStorage.getItem('sh_user');
             if(!userStr) return;
@@ -655,52 +555,63 @@
             document.getElementById('profile-phone').innerText = user.phone;
             document.getElementById('profile-address').innerText = user.address || 'Address not provided';
             
-            renderActivities();
             openModal('profile-overlay');
+            fetchActivities(user.email);
         }
 
-        function addActivity(type, title, dateStr) {
-            let acts = JSON.parse(localStorage.getItem('sh_activities') || '[]');
-            acts.unshift({ type, title, date: dateStr }); 
-            if(acts.length > 10) acts.pop(); 
-            localStorage.setItem('sh_activities', JSON.stringify(acts));
-        }
-
-        function renderActivities() {
+        // Live Activities Fetch
+        async function fetchActivities(email) {
             const actContainer = document.getElementById('profile-activities');
-            const noActMsg = document.getElementById('no-activity-msg');
-            const acts = JSON.parse(localStorage.getItem('sh_activities') || '[]');
-            
-            Array.from(actContainer.children).forEach(c => {
-                if(c.id !== 'no-activity-msg') c.remove();
-            });
+            actContainer.innerHTML = '<div class="text-center py-6"><div class="fetch-loader"></div><p class="text-xs text-gray-500 mt-2 font-medium">Syncing with server...</p></div>';
 
-            if(acts.length === 0) {
-                noActMsg.style.display = 'block';
-            } else {
-                noActMsg.style.display = 'none';
-                acts.forEach(act => {
-                    const div = document.createElement('div');
-                    div.className = 'bg-gray-50 border border-gray-100 p-3 rounded-xl flex items-center gap-3';
-                    let icon = act.type === 'Purchased' ? 'fa-bag-shopping text-blue-500' : 'fa-video text-green-500';
-                    div.innerHTML = `
-                        <div class="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center flex-shrink-0">
-                            <i class="fa-solid ${icon} text-sm"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs font-bold text-gray-800">${act.type}: ${act.title}</p>
-                            <p class="text-[10px] text-gray-500">${act.date}</p>
-                        </div>
-                    `;
-                    actContainer.appendChild(div);
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'get_activities', email: email })
                 });
+                const result = await response.json();
+                
+                actContainer.innerHTML = '';
+
+                if (result.status === 'success' && result.activities.length > 0) {
+                    result.activities.forEach(act => {
+                        const div = document.createElement('div');
+                        div.className = 'bg-white border border-gray-100 p-4 rounded-2xl shadow-sm mb-3 relative overflow-hidden';
+                        
+                        let statusColor = 'text-amber-600 bg-amber-50 border-amber-200';
+                        let statusIcon = 'fa-clock';
+                        let st = (act.status || '').toLowerCase();
+                        
+                        if(st.includes('confirm') || st.includes('done')) { statusColor = 'text-emerald-600 bg-emerald-50 border-emerald-200'; statusIcon = 'fa-check-double'; }
+                        if(st.includes('cancel')) { statusColor = 'text-red-600 bg-red-50 border-red-200'; statusIcon = 'fa-ban'; }
+
+                        div.innerHTML = `
+                            <div class="flex items-start gap-3 mb-3">
+                                <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i class="fa-solid fa-calendar-check text-blue-500"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-bold text-gray-800 truncate">${act.serviceName}</p>
+                                    <p class="text-[11px] font-bold text-gray-400 mt-0.5"><i class="fa-regular fa-calendar mr-1"></i> Date: ${act.meetingDate}</p>
+                                    <p class="text-[11px] font-bold text-gray-400"><i class="fa-regular fa-clock mr-1"></i> Time: ${act.meetingTime}</p>
+                                </div>
+                            </div>
+                            <div class="p-3 rounded-xl border ${statusColor} text-[11px] font-semibold whitespace-normal break-words leading-relaxed relative">
+                                <span class="font-black uppercase tracking-wider text-[9px] opacity-70 block mb-1"><i class="fa-solid ${statusIcon} mr-1"></i> Update from Admin</span>
+                                ${act.status || 'Pending Review'}
+                            </div>
+                        `;
+                        actContainer.appendChild(div);
+                    });
+                } else {
+                    actContainer.innerHTML = '<div class="bg-gray-50/80 border border-gray-100 p-5 rounded-2xl flex flex-col items-center justify-center text-center"><div class="w-12 h-12 bg-gray-100 text-gray-400 rounded-full flex items-center justify-center mb-2"><i class="fa-solid fa-folder-open"></i></div><p class="text-gray-500 text-sm font-bold">No History Found</p><p class="text-xs text-gray-400 mt-1">Your bookings will appear here.</p></div>';
+                }
+            } catch(e) {
+                actContainer.innerHTML = '<div class="text-red-500 text-xs font-bold text-center py-4 bg-red-50 rounded-xl border border-red-100">Failed to sync data. Please check connection.</div>';
             }
         }
 
-        // ================= TANK BOOKING LOGIC =================
-        const bookingModal = document.getElementById('booking-modal');
-        const bookingForm = document.getElementById('booking-form');
-
+        // ================= BOOKING LOGIC =================
         function initiateBooking(serviceName) {
             const userStr = localStorage.getItem('sh_user');
             if(!userStr) {
@@ -711,93 +622,56 @@
             }
         }
 
-        function openBookingModal(categoryName) {
-            const userStr = localStorage.getItem('sh_user');
-            if(userStr) {
-                const user = JSON.parse(userStr);
-                document.getElementById('book-name').value = user.name || '';
-                document.getElementById('book-phone').value = user.phone || '';
-                document.getElementById('book-address').value = user.address || '';
-            }
-
-            bookingModal.classList.remove('hidden');
-            document.getElementById('modal-category').innerText = categoryName;
-            document.getElementById('input-category').value = categoryName;
+        function openBookingModal(serviceName) {
+            const user = JSON.parse(localStorage.getItem('sh_user'));
             
-            setTimeout(() => { bookingModal.classList.add('modal-active'); }, 10);
-            document.body.style.overflow = 'hidden';
+            document.getElementById('booking-service-name').innerText = serviceName;
+            document.getElementById('book-service-hidden').value = serviceName;
+            
+            document.getElementById('book-name').value = user.name;
+            document.getElementById('book-phone').value = user.phone;
+            document.getElementById('book-email').value = user.email;
+            
+            document.getElementById('book-date').value = '';
+            document.getElementById('book-time').value = '';
+            
+            document.getElementById('booking-error').classList.add('hidden');
+            openModal('booking-overlay');
         }
 
-        function closeBookingModal() {
-            bookingModal.classList.remove('modal-active');
-            setTimeout(() => {
-                bookingModal.classList.add('hidden');
-                document.body.style.overflow = '';
-            }, 300);
-        }
-
-        bookingForm.addEventListener('submit', function(e) {
+        async function submitBooking(e) {
             e.preventDefault();
-            const submitBtn = document.getElementById('submit-btn');
-            const originalBtnText = document.getElementById('submit-btn-text').innerHTML;
-            
-            document.getElementById('submit-btn-text').innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-xl"></i> Processing...';
-            submitBtn.disabled = true;
 
-            var options = {
-                "key": "rzp_test_YourDummyKeyHere", // YOUR RAZORPAY KEY
-                "amount": "2100", // ₹21
-                "currency": "INR",
-                "name": "Shaurya Home Shield",
-                "description": "Booking for " + document.getElementById('input-category').value,
-                "handler": async function (response){
-                    
-                    document.getElementById('submit-btn-text').innerHTML = '<i class="fa-solid fa-cloud-arrow-up fa-bounce text-xl"></i> Saving Details...';
+            toggleLoading('booking-form', true);
+            const errorDiv = document.getElementById('booking-error');
+            errorDiv.classList.add('hidden');
 
-                    const payload = {
-                        action: 'tank_booking',
-                        serviceName: document.getElementById('input-category').value,
-                        userName: document.getElementById('book-name').value,
-                        userPhone: document.getElementById('book-phone').value,
-                        userAddress: document.getElementById('book-address').value,
-                        paymentId: response.razorpay_payment_id,
-                        amount: '21'
-                    };
-
-                    try {
-                        const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
-                        const result = await res.json();
-                        
-                        if(result.status === 'success') {
-                            addActivity('Purchased', payload.serviceName, new Date().toLocaleString());
-                            closeBookingModal();
-                            bookingForm.reset();
-                            showSuccessModal("Booking Confirmed!", "Installation booked. Payment ID: " + response.razorpay_payment_id);
-                        } else {
-                            alert("Payment Successful but error saving data: " + result.message);
-                        }
-                    } catch (error) {
-                        alert("Network error while saving data.");
-                    } finally {
-                        document.getElementById('submit-btn-text').innerHTML = originalBtnText;
-                        submitBtn.disabled = false;
-                    }
-                },
-                "prefill": {
-                    "name": document.getElementById('book-name').value,
-                    "contact": document.getElementById('book-phone').value
-                },
-                "theme": { "color": "#0F172A" }
+            const payload = {
+                action: 'booking',
+                serviceName: document.getElementById('book-service-hidden').value,
+                userName: document.getElementById('book-name').value,
+                userPhone: document.getElementById('book-phone').value,
+                userEmail: document.getElementById('book-email').value,
+                meetingDate: document.getElementById('book-date').value,
+                meetingTime: document.getElementById('book-time').value
             };
 
-            var rzp1 = new Razorpay(options);
-            rzp1.on('payment.failed', function (response){
-                alert("Payment Failed. Reason: " + response.error.description);
-                document.getElementById('submit-btn-text').innerHTML = originalBtnText;
-                submitBtn.disabled = false;
-            });
-            rzp1.open();
-        });
+            try {
+                const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    closeModal('booking-overlay');
+                    showSuccessModal("Meeting Confirmed!", `We have received your request for ${payload.serviceName} on ${payload.meetingDate}. We will connect with you soon.`);
+                } else {
+                    errorDiv.innerText = result.message; errorDiv.classList.remove('hidden');
+                }
+            } catch (error) {
+                errorDiv.innerText = "Network error. Please try again."; errorDiv.classList.remove('hidden');
+            } finally {
+                toggleLoading('booking-form', false);
+            }
+        }
     </script>
 </body>
 </html>
