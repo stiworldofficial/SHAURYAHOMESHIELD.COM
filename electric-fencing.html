@@ -7,14 +7,9 @@
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind Config -->
     <script>
         tailwind.config = {
             theme: {
@@ -30,99 +25,54 @@
     </script>
 
     <style>
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #e5e7eb; }
         ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #2563eb; }
 
-        body {
-            background: radial-gradient(circle at 50% 10%, #ffffff 0%, #f5f5f5 60%, #e5e5e5 100%);
-            overflow-x: hidden;
-            background-attachment: fixed;
-            color: #1f2937; 
-        }
+        body { background: radial-gradient(circle at 50% 10%, #ffffff 0%, #f5f5f5 60%, #e5e5e5 100%); overflow-x: hidden; background-attachment: fixed; color: #1f2937; }
+        #main-wrapper { transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s; width: 100%; position: relative; z-index: 10; }
+        body.modal-open #main-wrapper { transform: scale(0.97); filter: blur(8px); pointer-events: none; }
 
-        #main-wrapper {
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s;
-            width: 100%;
-            position: relative;
-            z-index: 10;
-        }
-
-        body.modal-open #main-wrapper {
-            transform: scale(0.97); 
-            filter: blur(5px);
-            pointer-events: none;
-        }
-
-        /* --- MODERN MODALS --- */
-        .custom-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-            z-index: 9999;
-            opacity: 0; pointer-events: none;
-            transition: opacity 0.3s ease;
-            display: flex; justify-content: center; align-items: center;
-        }
+        /* ULTRA PRO MAX MODALS */
+        .custom-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; display: flex; justify-content: center; align-items: center; padding: 1rem; }
         .custom-overlay.active { opacity: 1; pointer-events: all; }
+        .custom-box { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); width: 100%; max-width: 440px; border-radius: 2rem; padding: 2.5rem; box-shadow: 0 40px 60px -15px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.8); border: 1px solid rgba(255,255,255,0.4); transform: translateY(40px) scale(0.92); opacity: 0; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); position: relative; max-height: 90vh; overflow-y: auto; }
+        .custom-box::-webkit-scrollbar { display: none; }
+        .custom-overlay.active .custom-box { transform: translateY(0) scale(1); opacity: 1; }
 
-        .custom-box {
-            background: white;
-            width: 100%; max-width: 450px;
-            border-radius: 1.5rem;
-            padding: 2rem;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-            transform: translateY(30px) scale(0.95);
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        .custom-overlay.active .custom-box {
-            transform: translateY(0) scale(1); opacity: 1;
-        }
+        .premium-input { width: 100%; background: rgba(243, 244, 246, 0.7); border: 1px solid rgba(229, 231, 235, 0.8); border-radius: 1.25rem; padding: 0.875rem 1.25rem; font-size: 0.875rem; font-weight: 500; color: #1f2937; transition: all 0.3s ease; }
+        .premium-input:focus { outline: none; background: #ffffff; border-color: #3b82f6; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); }
+        .premium-btn { background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%); color: white; font-weight: 700; border-radius: 1.25rem; padding: 1rem; box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5); transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .premium-btn:hover { transform: translateY(-2px); box-shadow: 0 15px 35px -5px rgba(59, 130, 246, 0.6); }
 
-        .auth-form { display: none; animation: fadeIn 0.4s ease forwards; }
+        .auth-form { display: none; animation: slideUpFade 0.4s ease forwards; }
         .auth-form.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUpFade { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        .loader-spinner { border: 3px solid #f3f3f3; border-top: 3px solid #3b82f6; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; display: none; margin: 0 auto; }
+        .loader-spinner { border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid white; border-radius: 50%; width: 22px; height: 22px; animation: spin 1s linear infinite; display: none; margin: 0 auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* Icons & Effects */
-        @keyframes auto-pulse-float {
-            0% { transform: translateY(0) scale(1); box-shadow: 0 5px 15px rgba(0,0,0,0.2), 0 0 20px currentColor; }
-            50% { transform: translateY(-12px) scale(1.1); box-shadow: 0 15px 25px rgba(0,0,0,0.2), 0 0 35px currentColor; }
-            100% { transform: translateY(0) scale(1); box-shadow: 0 5px 15px rgba(0,0,0,0.2), 0 0 20px currentColor; }
-        }
+        .profile-header { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); margin: -2.5rem -2.5rem 1.5rem -2.5rem; padding: 3rem 2rem 2rem 2rem; border-radius: 2rem 2rem 1.5rem 1.5rem; text-align: center; position: relative; overflow: hidden; }
+
+        @keyframes auto-pulse-float { 0% { transform: translateY(0) scale(1); box-shadow: 0 5px 15px rgba(0,0,0,0.2), 0 0 20px currentColor; } 50% { transform: translateY(-12px) scale(1.1); box-shadow: 0 15px 25px rgba(0,0,0,0.2), 0 0 35px currentColor; } 100% { transform: translateY(0) scale(1); box-shadow: 0 5px 15px rgba(0,0,0,0.2), 0 0 20px currentColor; } }
         .auto-hover-icon { animation: auto-pulse-float 2.5s infinite ease-in-out; position: relative; }
-        .auto-hover-icon::before { content: ''; position: absolute; inset: -5px; border-radius: 50%; border: 2px solid currentColor; opacity: 0; animation: ripple 2.5s infinite ease-out; }
-        @keyframes ripple { 0% { transform: scale(1); opacity: 0.5; } 100% { transform: scale(1.6); opacity: 0; } }
-
-        .card-11d { transform-style: preserve-3d; perspective: 1000px; cursor: pointer; }
-        .glare { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; mix-blend-mode: overlay; }
         
+        .card-11d { transform-style: preserve-3d; perspective: 1000px; cursor: pointer;}
+        .glare { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; mix-blend-mode: overlay; }
         .dynamic-island { background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(0, 0, 0, 0.05); }
-
         .hero-slide { opacity: 0; transition: opacity 1.5s ease-in-out; z-index: 1; }
         .hero-slide.active { opacity: 1; z-index: 2; }
         
-        /* Activity List Scrollbar */
-        .activity-list::-webkit-scrollbar { width: 4px; }
-        .activity-list::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .fetch-loader { border: 3px solid #e5e7eb; border-top: 3px solid #3b82f6; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; display: inline-block; }
     </style>
 </head>
 <body class="font-sans pt-24"> 
 
-    <!-- Main Wrapper -->
     <div id="main-wrapper">
-        
-        <!-- Dynamic Island Navbar (Mobile Sidebar removed, Profile Support Added) -->
+        <!-- Dynamic Island Navbar -->
         <div class="fixed top-4 w-full z-50 flex justify-center px-4" id="navbar-wrapper">
-            <nav class="dynamic-island w-full max-w-6xl rounded-[2.5rem] px-6 py-3 flex justify-between items-center shadow-lg shadow-gray-200/50">
+            <nav class="dynamic-island w-full max-w-6xl rounded-[2.5rem] px-4 py-3 flex justify-between items-center shadow-lg shadow-gray-200/50">
                 
                 <div class="flex items-center cursor-pointer group" onclick="window.location.href='index.html'">
                     <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform overflow-hidden z-10 flex-shrink-0">
@@ -133,35 +83,34 @@
 
                 <div class="hidden md:flex items-center space-x-10">
                     <a href="index.html" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition-all">Home</a>
-                    <a href="#services" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition-all">Zhatka Setup</a>
+                    <a href="#services" class="text-sm font-bold text-blue-600 transition-all">Zhatka Setup</a>
                     <a href="#products" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition-all">Features</a>
                 </div>
 
-                <div class="flex items-center gap-4">
-                    <!-- Guest View -->
-                    <button onclick="openAuthModal()" id="login-btn-header" class="bg-gray-900 text-white px-4 sm:px-6 py-2 rounded-full text-sm font-bold hover:bg-blue-600 transition-all flex items-center gap-2 shadow-md">
+                <div class="flex items-center gap-3 sm:gap-4">
+                    <!-- Bold Phone Number -->
+                    <a href="tel:+919876543210" class="hidden lg:flex items-center gap-2 bg-gray-100/80 px-4 py-1.5 rounded-full border border-gray-200 text-gray-900 font-black text-sm hover:bg-blue-50 transition-colors">
+                        <i class="fa-solid fa-phone text-blue-600"></i> +91 98765 43210
+                    </a>
+
+                    <button onclick="openAuthModal()" id="login-btn-header" class="bg-gray-900 text-white px-5 py-2.5 rounded-full text-sm font-bold hover:bg-blue-600 transition-all flex items-center gap-2 shadow-md">
                         <i class="fa-regular fa-user"></i> <span class="hidden sm:inline">Login / Signup</span>
                     </button>
                     
-                    <!-- Logged In View Profile Icon -->
-                    <div id="profile-section-header" class="hidden flex items-center gap-2 bg-blue-50 px-3 py-1.5 rounded-full border border-blue-100 cursor-pointer hover:bg-blue-100 transition shadow-sm" onclick="openProfileModal()">
-                        <div class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-inner" id="header-user-initial">A</div>
-                        <span class="text-sm font-bold text-blue-900 hidden sm:block pr-1" id="header-user-name">User</span>
+                    <div id="profile-section-header" class="hidden flex items-center gap-2 bg-blue-50/80 backdrop-blur-md px-2 py-1.5 rounded-full border border-blue-100 cursor-pointer hover:bg-blue-100 transition shadow-sm group" onclick="openProfileModal()">
+                        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-600 to-blue-400 text-white flex items-center justify-center font-bold text-sm shadow-md group-hover:scale-105 transition-transform" id="header-user-initial">A</div>
+                        <span class="text-sm font-bold text-blue-900 hidden sm:block pr-3" id="header-user-name">User</span>
                     </div>
                 </div>
             </nav>
         </div>
 
-        <!-- Hero Slider -->
         <section id="home" class="relative w-full aspect-video max-w-[1920px] mx-auto bg-black overflow-hidden shadow-xl z-10">
-            <img src="electricfencing.png" onerror="this.src='https://images.unsplash.com/photo-1544724569-5f546fd6f2b5?q=80&w=1600&auto=format&fit=crop'" alt="Zhatka Machine Technology" class="hero-slide active absolute inset-0 w-full h-full object-cover">
-            <img src="fencingstore.png" onerror="this.src='https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1600&auto=format&fit=crop'" alt="Electric Setup Background" class="hero-slide absolute inset-0 w-full h-full object-cover">
+            <img src="electricfencing.png" onerror="this.src='https://images.unsplash.com/photo-1544724569-5f546fd6f2b5?q=80&w=1600&auto=format&fit=crop'" alt="Technology" class="hero-slide active absolute inset-0 w-full h-full object-cover">
+            <img src="fencingstore.png" onerror="this.src='https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1600&auto=format&fit=crop'" alt="Electric Setup" class="hero-slide absolute inset-0 w-full h-full object-cover">
             <img src="electricfencing.png" onerror="this.src='https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1600&auto=format&fit=crop'" alt="Farm Fencing" class="hero-slide absolute inset-0 w-full h-full object-cover">
-            <img src="fencingstore.png" onerror="this.src='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1600&auto=format&fit=crop'" alt="Commercial Fencing" class="hero-slide absolute inset-0 w-full h-full object-cover">
-            <img src="electricfencing.png" onerror="this.src='https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1600&auto=format&fit=crop'" alt="Residential Fencing" class="hero-slide absolute inset-0 w-full h-full object-cover">
         </section>
 
-        <!-- Core Services Section (Zhatka Machine Types) -->
         <section id="services" class="py-10 md:py-24 relative px-4 sm:px-6">
             <div class="max-w-6xl mx-auto">
                 <div class="text-center mb-8 md:mb-16">
@@ -169,95 +118,71 @@
                     <p class="text-gray-500 font-medium max-w-2xl mx-auto">Providing advanced electric fencing and complete perimeter security solutions. Book a meeting for consultation.</p>
                 </div>
 
-                <!-- Cards Grid (3 Items) - Updated to Trigger Booking -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 auto-rows-max">
-                    
                     <div onclick="initiateBooking('Agriculture Fencing')" class="card-11d block w-full h-[250px] md:h-[360px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow">
                         <div class="glare rounded-[2.5rem]"></div>
-                        <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=800&auto=format&fit=crop" class="card-11d-image absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform duration-700" alt="Agriculture Fencing">
+                        <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=800&auto=format&fit=crop" class="card-11d-image absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform duration-700" alt="Agriculture">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                         <div class="absolute bottom-4 left-4 right-4 z-20">
                             <h3 class="text-2xl font-black text-white mb-1 tracking-tight drop-shadow-md">Agriculture Fencing</h3>
                             <p class="text-white/80 text-sm font-medium mb-3">Farm & Crop Protection</p>
                             <div class="bg-blue-600/90 backdrop-blur-xl border border-blue-400 rounded-full py-2 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-white group-hover:text-blue-700">
-                                <span class="text-sm font-bold text-white group-hover:text-blue-700 tracking-wide flex items-center gap-2"><i class="fa-solid fa-video"></i> Book Meeting</span>
+                                <span class="text-sm font-bold text-white group-hover:text-blue-700 tracking-wide flex items-center gap-2"><i class="fa-regular fa-calendar-check"></i> Book Meeting</span>
                             </div>
                         </div>
                     </div>
 
                     <div onclick="initiateBooking('Commercial Fencing')" class="card-11d block w-full h-[250px] md:h-[360px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow">
                         <div class="glare rounded-[2.5rem]"></div>
-                        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800&auto=format&fit=crop" class="card-11d-image absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform duration-700" alt="Commercial Security">
+                        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800&auto=format&fit=crop" class="card-11d-image absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform duration-700" alt="Commercial">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                         <div class="absolute bottom-4 left-4 right-4 z-20">
                             <h3 class="text-2xl font-black text-white mb-1 tracking-tight drop-shadow-md">Commercial Fencing</h3>
                             <p class="text-white/80 text-sm font-medium mb-3 leading-snug">Factories, Schools & Offices</p>
                             <div class="bg-blue-600/90 backdrop-blur-xl border border-blue-400 rounded-full py-2 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-white group-hover:text-blue-700">
-                                <span class="text-sm font-bold text-white group-hover:text-blue-700 tracking-wide flex items-center gap-2"><i class="fa-solid fa-video"></i> Book Meeting</span>
+                                <span class="text-sm font-bold text-white group-hover:text-blue-700 tracking-wide flex items-center gap-2"><i class="fa-regular fa-calendar-check"></i> Book Meeting</span>
                             </div>
                         </div>
                     </div>
 
                     <div onclick="initiateBooking('Residential Fencing')" class="card-11d block w-full h-[250px] md:h-[360px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow">
                         <div class="glare rounded-[2.5rem]"></div>
-                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=800&auto=format&fit=crop" class="card-11d-image absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform duration-700" alt="Residential Safety">
+                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=800&auto=format&fit=crop" class="card-11d-image absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform duration-700" alt="Residential">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                         <div class="absolute bottom-4 left-4 right-4 z-20">
                             <h3 class="text-2xl font-black text-white mb-1 tracking-tight drop-shadow-md">Residential Fencing</h3>
                             <p class="text-white/80 text-sm font-medium mb-3">Houses & Private Villas</p>
                             <div class="bg-blue-600/90 backdrop-blur-xl border border-blue-400 rounded-full py-2 px-4 flex items-center justify-center shadow-lg transform transition-all duration-500 group-hover:bg-white group-hover:text-blue-700">
-                                <span class="text-sm font-bold text-white group-hover:text-blue-700 tracking-wide flex items-center gap-2"><i class="fa-solid fa-video"></i> Book Meeting</span>
+                                <span class="text-sm font-bold text-white group-hover:text-blue-700 tracking-wide flex items-center gap-2"><i class="fa-regular fa-calendar-check"></i> Book Meeting</span>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
 
-        <!-- Zhatka Machine Features & Icons -->
+        <!-- Features Section -->
         <section id="products" class="py-24 relative bg-white/50 border-t border-gray-100">
             <div class="max-w-6xl mx-auto px-6">
                 <div class="flex flex-col lg:flex-row gap-16 items-center">
-                    <!-- Left Side -->
                     <div class="lg:w-[50%] w-full">
                         <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-6 leading-tight">Advanced Zhatka <br><span class="text-blue-600">Setup Features</span></h2>
-                        <p class="text-gray-600 text-lg mb-10 leading-relaxed font-medium">
-                            Whether it's securing a large agricultural farm, a high-security corporate factory, or your personal house, our systems deliver unmatched safety.
-                        </p>
-                        <!-- 3 Item List -->
+                        <p class="text-gray-600 text-lg mb-10 leading-relaxed font-medium">Whether it's securing a large agricultural farm, a high-security corporate factory, or your personal house, our systems deliver unmatched safety.</p>
                         <ul class="flex flex-col gap-6">
                             <li class="flex items-start gap-5 bg-white p-6 rounded-3xl border border-gray-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                                <div class="w-14 h-14 rounded-full bg-emerald-50 flex items-center justify-center border border-emerald-100 flex-shrink-0">
-                                    <i class="fa-solid fa-wheat-awn text-2xl text-emerald-600"></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-gray-900 font-bold text-xl mb-1">Agriculture Fencing</h4>
-                                    <p class="text-gray-500 text-base leading-snug">Solar-powered continuous fencing to safeguard farms and crops from wild animals 24/7.</p>
-                                </div>
+                                <div class="w-14 h-14 rounded-full bg-emerald-50 flex items-center justify-center border border-emerald-100 flex-shrink-0"><i class="fa-solid fa-wheat-awn text-2xl text-emerald-600"></i></div>
+                                <div><h4 class="text-gray-900 font-bold text-xl mb-1">Agriculture Fencing</h4><p class="text-gray-500 text-base leading-snug">Solar-powered continuous fencing to safeguard farms and crops from wild animals 24/7.</p></div>
                             </li>
                             <li class="flex items-start gap-5 bg-white p-6 rounded-3xl border border-gray-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                                <div class="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center border border-blue-100 flex-shrink-0">
-                                    <i class="fa-solid fa-industry text-2xl text-blue-600"></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-gray-900 font-bold text-xl mb-1">Commercial Fencing</h4>
-                                    <p class="text-gray-500 text-base leading-snug">High-voltage heavy-duty setups for factories, companies, schools, and corporate offices.</p>
-                                </div>
+                                <div class="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center border border-blue-100 flex-shrink-0"><i class="fa-solid fa-industry text-2xl text-blue-600"></i></div>
+                                <div><h4 class="text-gray-900 font-bold text-xl mb-1">Commercial Fencing</h4><p class="text-gray-500 text-base leading-snug">High-voltage heavy-duty setups for factories, companies, schools, and corporate offices.</p></div>
                             </li>
                             <li class="flex items-start gap-5 bg-white p-6 rounded-3xl border border-gray-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                                <div class="w-14 h-14 rounded-full bg-purple-50 flex items-center justify-center border border-purple-100 flex-shrink-0">
-                                    <i class="fa-solid fa-house-chimney-crack text-2xl text-purple-600"></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-gray-900 font-bold text-xl mb-1">Residential Fencing</h4>
-                                    <p class="text-gray-500 text-base leading-snug">Aesthetically pleasing smart perimeter fencing with instant alarm triggers for houses.</p>
-                                </div>
+                                <div class="w-14 h-14 rounded-full bg-purple-50 flex items-center justify-center border border-purple-100 flex-shrink-0"><i class="fa-solid fa-house-chimney-crack text-2xl text-purple-600"></i></div>
+                                <div><h4 class="text-gray-900 font-bold text-xl mb-1">Residential Fencing</h4><p class="text-gray-500 text-base leading-snug">Aesthetically pleasing smart perimeter fencing with instant alarm triggers for houses.</p></div>
                             </li>
                         </ul>
                     </div>
-
-                    <!-- Right Side: 3-Image Stylish Collage -->
                     <div class="lg:w-[50%] w-full relative">
                         <div class="relative h-[500px] w-full group cursor-pointer">
                             <div class="absolute top-0 right-0 w-[55%] h-[350px] rounded-[2rem] overflow-hidden shadow-2xl border border-gray-200 transform group-hover:translate-x-3 group-hover:-translate-y-3 transition-transform duration-500 z-10">
@@ -288,19 +213,22 @@
                     <div class="md:col-span-2 text-center md:text-left">
                         <div class="flex items-center justify-center md:justify-start gap-4 mb-6">
                             <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center shadow-md overflow-hidden flex-shrink-0">
-                                <img src="shsl.png" class="w-full h-full object-cover" alt="Logo Icon" onerror="this.src='https://via.placeholder.com/40x40?text=S'">
+                                <img src="shsl.png" class="w-full h-full object-cover" alt="Logo Icon">
                             </div>
-                            <img src="shslname.png" class="h-8 md:h-9 object-contain" alt="ElectroTech Logo" onerror="this.style.display='none'">
+                            <img src="shslname.png" class="h-8 md:h-9 object-contain" alt="ElectroTech Logo">
                         </div>
                         <p class="text-gray-600 text-lg leading-relaxed max-w-sm font-medium mb-8 mx-auto md:mx-0">
                             Pioneering electrical safety and automation across India. Delivering premium zhatka machines, AC care, and smart alarms.
                         </p>
+                        <div class="flex gap-4 justify-center md:justify-start">
+                            <a href="#" class="w-10 h-10 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-blue-500 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-facebook-f"></i></a>
+                        </div>
                     </div>
                     <div class="text-center md:text-left">
                         <h4 class="text-gray-900 font-bold text-lg mb-6 uppercase tracking-wider">Quick Links</h4>
                         <ul class="space-y-4">
                             <li><a href="index.html" class="text-gray-500 hover:text-blue-600 transition-colors inline-flex items-center gap-2"><i class="fa-solid fa-chevron-right text-xs"></i> Home</a></li>
-                            <li><a href="#services" class="text-gray-500 hover:text-blue-600 transition-colors inline-flex items-center gap-2"><i class="fa-solid fa-chevron-right text-xs"></i> Zhatka</a></li>
+                            <li><a href="#services" class="text-gray-500 hover:text-blue-600 transition-colors inline-flex items-center gap-2"><i class="fa-solid fa-chevron-right text-xs"></i> Services</a></li>
                         </ul>
                     </div>
                     <div class="text-center md:text-left">
@@ -319,187 +247,159 @@
     </div> 
 
     <!-- Whatsapp Floating Icon -->
-    <div class="fixed bottom-8 right-6 z-[200]">
-        <a href="https://wa.me/919876543210" target="_blank" class="auto-hover-icon w-14 h-14 bg-green-500 text-white rounded-full flex items-center justify-center text-3xl hover:bg-green-600 transition-colors shadow-lg">
+    <div class="fixed bottom-8 right-6 z-[200] flex flex-col gap-5">
+        <a href="https://wa.me/919876543210" target="_blank" class="auto-hover-icon w-14 h-14 bg-green-500 text-white rounded-full flex items-center justify-center text-3xl hover:bg-green-600 transition-colors" style="color: #22c55e;">
             <i class="fa-brands fa-whatsapp text-white"></i>
         </a>
     </div>
 
-    <!-- ========================================== -->
-    <!-- AUTHENTICATION MODAL (LOGIN & SIGNUP)      -->
-    <!-- ========================================== -->
+    <!-- ULTRA PRO MAX AUTH MODAL -->
     <div class="custom-overlay" id="auth-overlay">
         <div class="custom-box">
-            <button onclick="closeModal('auth-overlay')" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 bg-gray-100 hover:bg-red-50 w-8 h-8 rounded-full flex items-center justify-center transition z-50">
+            <button onclick="closeModal('auth-overlay')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 bg-gray-100/50 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center transition-all z-50">
                 <i class="fa-solid fa-xmark"></i>
             </button>
-            <div class="text-center mb-6">
-                <div class="w-12 h-12 mx-auto bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xl mb-2"><i class="fa-solid fa-shield-halved"></i></div>
-                <h3 class="text-2xl font-black text-gray-900" id="auth-title">Welcome Back</h3>
-                <p class="text-gray-500 text-sm mt-1" id="auth-subtitle">Login to book your meeting.</p>
+            <div class="text-center mb-6 mt-2">
+                <div class="w-14 h-14 mx-auto bg-gradient-to-tr from-blue-600 to-blue-400 text-white rounded-[1rem] shadow-lg flex items-center justify-center text-2xl mb-4 transform -rotate-6"><i class="fa-solid fa-shield-halved"></i></div>
+                <h3 class="text-2xl font-black text-gray-900 tracking-tight" id="auth-title">Welcome Back</h3>
+                <p class="text-gray-500 text-sm mt-1" id="auth-subtitle">Login to access premium services.</p>
             </div>
-            <!-- Login -->
             <form id="login-form" class="auth-form active" onsubmit="handleAuth(event, 'login')">
                 <div class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Email</label>
-                        <input type="email" id="login-email" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Password</label>
-                        <input type="password" id="login-password" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500">
-                    </div>
-                    <button type="submit" id="login-btn" class="w-full bg-blue-600 text-white font-bold rounded-xl py-3 shadow-md hover:bg-blue-700 transition">
-                        <span class="btn-text">Login</span><div class="loader-spinner"></div>
+                    <div><input type="email" id="login-email" required class="premium-input" placeholder="Email Address"></div>
+                    <div><input type="password" id="login-password" required class="premium-input" placeholder="Password"></div>
+                    <button type="submit" id="login-btn" class="w-full premium-btn mt-2">
+                        <span class="btn-text">Log In</span><div class="loader-spinner"></div>
                     </button>
-                    <p class="text-center text-sm text-gray-500 mt-4">Don't have an account? <a href="#" onclick="switchAuth('signup')" class="text-blue-600 font-bold hover:underline">Sign up</a></p>
+                    <p class="text-center text-sm text-gray-500 mt-5">Don't have an account? <a href="#" onclick="switchAuth('signup')" class="text-blue-600 font-bold hover:text-blue-700 transition">Create one</a></p>
                 </div>
             </form>
-            <!-- Signup -->
             <form id="signup-form" class="auth-form" onsubmit="handleAuth(event, 'signup')">
                 <div class="space-y-3">
-                    <input type="text" id="signup-name" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm" placeholder="Full Name">
-                    <input type="tel" id="signup-phone" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm" placeholder="Phone Number">
-                    <input type="email" id="signup-email" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm" placeholder="Email Address">
-                    <textarea id="signup-address" required rows="2" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm" placeholder="Complete Address"></textarea>
-                    <input type="password" id="signup-password" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm" placeholder="Create Password">
-                    <button type="submit" id="signup-btn" class="w-full bg-gray-900 text-white font-bold rounded-xl py-3 shadow-md hover:bg-black transition mt-2">
-                        <span class="btn-text">Create Account</span><div class="loader-spinner"></div>
+                    <input type="text" id="signup-name" required class="premium-input" placeholder="Full Name">
+                    <input type="tel" id="signup-phone" required class="premium-input" placeholder="Phone Number">
+                    <input type="email" id="signup-email" required class="premium-input" placeholder="Email Address">
+                    <textarea id="signup-address" required rows="2" class="premium-input" placeholder="Complete Address"></textarea>
+                    <input type="password" id="signup-password" required class="premium-input" placeholder="Create Password">
+                    <button type="submit" id="signup-btn" class="w-full premium-btn mt-2">
+                        <span class="btn-text">Sign Up</span><div class="loader-spinner"></div>
                     </button>
-                    <p class="text-center text-sm text-gray-500 mt-2">Already have an account? <a href="#" onclick="switchAuth('login')" class="text-blue-600 font-bold hover:underline">Login</a></p>
+                    <p class="text-center text-sm text-gray-500 mt-4">Already have an account? <a href="#" onclick="switchAuth('login')" class="text-blue-600 font-bold hover:text-blue-700 transition">Log in</a></p>
                 </div>
             </form>
-            <div id="auth-error" class="hidden text-red-500 text-sm text-center font-bold mt-4 bg-red-50 py-2 rounded-lg"></div>
+            <div id="auth-error" class="hidden text-red-500 text-sm text-center font-bold mt-5 bg-red-50 py-3 rounded-xl border border-red-100"></div>
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- PROFILE & ACTIVITY MODAL                   -->
-    <!-- ========================================== -->
+    <!-- ULTRA PRO MAX PROFILE MODAL (LIVE FETCH) -->
     <div class="custom-overlay" id="profile-overlay">
-        <div class="custom-box !p-0 overflow-hidden">
-            <div class="bg-gradient-to-r from-blue-600 to-cyan-500 p-6 text-white text-center relative">
-                <button onclick="closeModal('profile-overlay')" class="absolute top-4 right-4 text-white hover:text-gray-200 bg-white/20 hover:bg-white/30 w-8 h-8 rounded-full flex items-center justify-center transition">
+        <div class="custom-box !p-0 overflow-hidden !max-w-md">
+            <div class="profile-header">
+                <button onclick="closeModal('profile-overlay')" class="absolute top-4 right-4 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 w-8 h-8 rounded-full flex items-center justify-center transition-all z-10 backdrop-blur-sm">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
-                <div class="w-20 h-20 mx-auto bg-white text-blue-600 rounded-full flex items-center justify-center text-3xl font-black mb-3 shadow-lg" id="profile-avatar">U</div>
-                <h3 class="text-2xl font-black" id="profile-name">User Name</h3>
-                <p class="text-blue-100 text-sm" id="profile-email">user@email.com</p>
+                <div class="w-24 h-24 mx-auto bg-white text-blue-600 rounded-[2rem] flex items-center justify-center text-4xl font-black mb-4 shadow-[0_0_40px_rgba(255,255,255,0.2)] border-4 border-white/20 backdrop-blur-md relative z-10" id="profile-avatar">U</div>
+                <h3 class="text-2xl font-black text-white tracking-tight relative z-10" id="profile-name">User Name</h3>
+                <p class="text-blue-200 text-sm font-medium mt-1 relative z-10" id="profile-email">user@email.com</p>
             </div>
             <div class="p-6">
-                <div class="mb-6">
-                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Contact Details</h4>
-                    <p class="text-gray-800 text-sm mb-1"><i class="fa-solid fa-phone text-blue-500 w-5"></i> <span id="profile-phone"></span></p>
-                    <p class="text-gray-800 text-sm"><i class="fa-solid fa-location-dot text-blue-500 w-5"></i> <span id="profile-address"></span></p>
-                </div>
-                <div>
-                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 border-t pt-4">Recent Activity</h4>
-                    <div class="activity-list max-h-40 overflow-y-auto pr-2 space-y-3" id="profile-activities">
-                        <!-- Activities dynamically populated -->
-                        <p class="text-gray-400 text-sm italic text-center py-2" id="no-activity-msg">No recent activity found.</p>
+                <div class="grid grid-cols-2 gap-3 mb-6">
+                    <div class="bg-gray-50/80 p-4 rounded-2xl border border-gray-100">
+                        <i class="fa-solid fa-phone text-blue-500 mb-2"></i>
+                        <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-0.5">Phone</p>
+                        <p class="text-sm font-semibold text-gray-800 truncate" id="profile-phone">-</p>
+                    </div>
+                    <div class="bg-gray-50/80 p-4 rounded-2xl border border-gray-100">
+                        <i class="fa-solid fa-location-dot text-blue-500 mb-2"></i>
+                        <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-0.5">Location</p>
+                        <p class="text-sm font-semibold text-gray-800 truncate" id="profile-address" title="Address">-</p>
                     </div>
                 </div>
-                <button onclick="logout()" class="w-full mt-6 bg-red-50 text-red-600 font-bold rounded-xl py-2.5 hover:bg-red-100 transition border border-red-100">
-                    <i class="fa-solid fa-right-from-bracket mr-2"></i> Logout
+
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <h4 class="text-sm font-bold text-gray-900">Meeting History & Status</h4>
+                        <span class="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-md">Live</span>
+                    </div>
+                    <div class="activity-list max-h-48 overflow-y-auto pr-1 space-y-3" id="profile-activities">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+                
+                <button onclick="logout()" class="w-full mt-6 bg-red-50 text-red-600 font-bold rounded-xl py-3.5 hover:bg-red-100 transition-colors border border-red-100 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-power-off"></i> Sign Out
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- MEETING BOOKING MODAL (PRE-FILLED)         -->
-    <!-- ========================================== -->
+    <!-- ULTRA PRO MAX BOOKING MODAL -->
     <div class="custom-overlay" id="booking-overlay">
         <div class="custom-box">
-            <button onclick="closeModal('booking-overlay')" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 bg-gray-100 hover:bg-red-50 w-8 h-8 rounded-full flex items-center justify-center transition">
+            <button onclick="closeModal('booking-overlay')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 bg-gray-100/50 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center transition-all z-50">
                 <i class="fa-solid fa-xmark"></i>
             </button>
-            <div class="text-center mb-6">
-                <div class="w-12 h-12 mx-auto bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xl mb-2"><i class="fa-solid fa-video"></i></div>
-                <h3 class="text-2xl font-black text-gray-900">Book Meeting</h3>
-                <p class="text-blue-600 font-bold text-sm mt-1" id="booking-service-name">Service Name</p>
-                <p class="text-gray-500 text-xs mt-1">Review your details and select a time.</p>
+            <div class="text-center mb-6 mt-2">
+                <div class="w-14 h-14 mx-auto bg-gradient-to-tr from-emerald-500 to-emerald-400 text-white rounded-[1rem] shadow-lg flex items-center justify-center text-2xl mb-4 transform -rotate-6"><i class="fa-regular fa-calendar-check"></i></div>
+                <h3 class="text-2xl font-black text-gray-900 tracking-tight">Book Meeting</h3>
+                <p class="text-blue-600 font-bold text-sm mt-1 bg-blue-50 inline-block px-3 py-1 rounded-lg" id="booking-service-name">Service Name</p>
             </div>
             
             <form id="booking-form" onsubmit="submitBooking(event)">
-                <div class="space-y-3">
+                <div class="space-y-4">
                     <input type="hidden" id="book-service-hidden">
-                    
-                    <!-- Pre-filled & Editable Details -->
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Your Name</label>
-                        <input type="text" id="book-name" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 font-medium">
-                    </div>
+                    <div><input type="text" id="book-name" required class="premium-input" placeholder="Your Name"></div>
                     <div class="grid grid-cols-2 gap-3">
+                        <input type="tel" id="book-phone" required class="premium-input" placeholder="Phone Number">
+                        <input type="email" id="book-email" required class="premium-input" placeholder="Email Address">
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 pt-4 border-t border-gray-100">
                         <div>
-                            <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Phone Number</label>
-                            <input type="tel" id="book-phone" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 font-medium">
+                            <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1.5 ml-1">Meeting Date</label>
+                            <input type="date" id="book-date" required class="premium-input !bg-blue-50/50 focus:!bg-white">
                         </div>
                         <div>
-                            <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Email</label>
-                            <input type="email" id="book-email" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 font-medium">
+                            <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1.5 ml-1">Preferred Time</label>
+                            <input type="time" id="book-time" required class="premium-input !bg-blue-50/50 focus:!bg-white">
                         </div>
                     </div>
-                    
-                    <!-- Meeting Date & Time -->
-                    <div class="grid grid-cols-2 gap-3 pt-2 border-t border-gray-100 mt-3">
-                        <div>
-                            <label class="block text-[10px] font-bold text-blue-600 uppercase mb-1">Meeting Date</label>
-                            <input type="date" id="book-date" required class="w-full bg-blue-50 border border-blue-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 text-blue-900 font-bold">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-bold text-blue-600 uppercase mb-1">Preferred Time</label>
-                            <input type="time" id="book-time" required class="w-full bg-blue-50 border border-blue-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 text-blue-900 font-bold">
-                        </div>
-                    </div>
-
-                    <button type="submit" id="booking-submit-btn" class="w-full bg-green-500 text-white font-bold rounded-xl py-3.5 shadow-md hover:bg-green-600 transition mt-4">
-                        <span class="btn-text">Confirm Booking</span><div class="loader-spinner"></div>
+                    <button type="submit" id="booking-submit-btn" class="w-full premium-btn !bg-gradient-to-r !from-emerald-500 !to-teal-400 !shadow-[0_10px_25px_-5px_rgba(16,185,129,0.5)] mt-4">
+                        <span class="btn-text flex items-center justify-center gap-2"><i class="fa-regular fa-calendar-check"></i> Confirm Booking</span>
+                        <div class="loader-spinner"></div>
                     </button>
                 </div>
             </form>
-            <div id="booking-error" class="hidden text-red-500 text-sm text-center font-bold mt-4 bg-red-50 py-2 rounded-lg"></div>
+            <div id="booking-error" class="hidden text-red-500 text-sm text-center font-bold mt-5 bg-red-50 py-3 rounded-xl border border-red-100"></div>
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- SUCCESS POPUP MODAL                        -->
-    <!-- ========================================== -->
+    <!-- SUCCESS MODAL -->
     <div class="custom-overlay" id="success-overlay">
-        <div class="custom-box text-center py-10">
-            <div class="w-20 h-20 mx-auto bg-green-100 text-green-500 rounded-full flex items-center justify-center text-4xl mb-4 shadow-inner">
+        <div class="custom-box text-center py-8">
+            <div class="w-20 h-20 mx-auto bg-gradient-to-br from-green-400 to-emerald-500 text-white rounded-full flex items-center justify-center text-4xl mb-6 shadow-xl transform scale-110">
                 <i class="fa-solid fa-check"></i>
             </div>
-            <h3 class="text-3xl font-black text-gray-900 mb-2" id="success-title">Success!</h3>
-            <p class="text-gray-500 text-base mb-8 font-medium" id="success-msg">Welcome to Shauryahomeshield.</p>
-            <button onclick="closeModal('success-overlay')" class="w-full bg-green-500 text-white font-bold rounded-xl py-3.5 hover:bg-green-600 transition shadow-md">
-                Great, thanks!
+            <h3 class="text-3xl font-black text-gray-900 mb-2 tracking-tight" id="success-title">Success!</h3>
+            <p class="text-gray-500 text-sm mb-8 font-medium leading-relaxed px-4" id="success-msg">Welcome to Shauryahomeshield.</p>
+            <button onclick="closeModal('success-overlay')" class="w-full premium-btn !bg-gradient-to-r !from-gray-800 !to-gray-900 !shadow-none hover:!shadow-xl">
+                Awesome, thanks!
             </button>
         </div>
     </div>
 
     <script>
-        // ========================================================
-        // LIVE GOOGLE SCRIPT WEB APP URL (Updated)
-        // ========================================================
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyNgDZlEYE_poLgN3Hfd8rEMNx0XO0kzaAOJd2iNXVw9QwQw5x3TlV7KWKCHk9-dd-0/exec"; 
-        
-        let pendingServiceBooking = null;
 
         document.addEventListener('DOMContentLoaded', () => {
             updateHeaderUI();
-            
-            // Limit Date Picker to future dates
             const dateInput = document.getElementById('book-date');
-            if(dateInput) {
-                const today = new Date().toISOString().split('T')[0];
-                dateInput.setAttribute('min', today);
-            }
+            if(dateInput) { const today = new Date().toISOString().split('T')[0]; dateInput.setAttribute('min', today); }
         });
 
-        // 3D Card Effects & Slider
+        // 3D Effects
         if (window.matchMedia("(hover: hover)").matches) {
-            document.querySelectorAll('.card-11d').forEach(card => {
+            const cards = document.querySelectorAll('.card-11d');
+            cards.forEach(card => {
                 card.addEventListener('mousemove', e => {
                     const rect = card.getBoundingClientRect();
                     const rotateX = (((e.clientY - rect.top) - rect.height/2) / (rect.height/2)) * -12; 
@@ -510,7 +410,7 @@
                     card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
                     card.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
                 });
-                card.addEventListener('mouseenter', () => card.style.transition = 'none' );
+                card.addEventListener('mouseenter', () => card.style.transition = 'none');
             });
         }
 
@@ -524,29 +424,6 @@
             }, 5000); 
         }
 
-        // ================= MODAL CONTROLLERS =================
-
-        function openModal(id) {
-            document.getElementById(id).classList.add('active');
-            document.body.classList.add('modal-open');
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('active');
-            document.body.classList.remove('modal-open');
-            if(id === 'auth-overlay' && !localStorage.getItem('sh_user')) {
-                pendingServiceBooking = null; // Clear pending if user cancelled auth
-            }
-        }
-
-        function showSuccessModal(title, message) {
-            document.getElementById('success-title').innerText = title;
-            document.getElementById('success-msg').innerText = message;
-            openModal('success-overlay');
-        }
-
-        // ================= AUTHENTICATION LOGIC =================
-
         function updateHeaderUI() {
             const userStr = localStorage.getItem('sh_user');
             const loginBtn = document.getElementById('login-btn-header');
@@ -556,13 +433,16 @@
                 const user = JSON.parse(userStr);
                 loginBtn.classList.add('hidden');
                 profileSec.classList.remove('hidden');
-                document.getElementById('header-user-name').innerText = user.name.split(' ')[0]; // First name only
+                document.getElementById('header-user-name').innerText = user.name.split(' ')[0];
                 document.getElementById('header-user-initial').innerText = user.name.charAt(0).toUpperCase();
             } else {
                 loginBtn.classList.remove('hidden');
                 profileSec.classList.add('hidden');
             }
         }
+
+        function openModal(id) { document.getElementById(id).classList.add('active'); document.body.classList.add('modal-open'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.classList.remove('modal-open'); }
 
         function openAuthModal() {
             document.getElementById('auth-error').classList.add('hidden');
@@ -578,14 +458,18 @@
             if (type === 'signup') {
                 document.getElementById('login-form').classList.remove('active');
                 document.getElementById('signup-form').classList.add('active');
-                title.innerText = "Create Account";
-                subtitle.innerText = "Setup your secure profile in seconds.";
+                title.innerText = "Create Account"; subtitle.innerText = "Setup your secure profile in seconds.";
             } else {
                 document.getElementById('signup-form').classList.remove('active');
                 document.getElementById('login-form').classList.add('active');
-                title.innerText = "Welcome Back";
-                subtitle.innerText = "Login to book your meeting.";
+                title.innerText = "Welcome Back"; subtitle.innerText = "Login to access premium services.";
             }
+        }
+
+        function showSuccessModal(title, message) {
+            document.getElementById('success-title').innerText = title;
+            document.getElementById('success-msg').innerText = message;
+            openModal('success-overlay');
         }
 
         function toggleLoading(formId, isLoading) {
@@ -596,9 +480,10 @@
             else { txt.style.display = 'block'; spinner.style.display = 'none'; btn.disabled = false; }
         }
 
+        let pendingServiceBooking = null;
+
         async function handleAuth(e, action) {
             e.preventDefault();
-
             const formId = action === 'login' ? 'login-form' : 'signup-form';
             toggleLoading(formId, true);
             const errDiv = document.getElementById('auth-error');
@@ -610,18 +495,14 @@
                 payload.phone = document.getElementById('signup-phone').value;
                 payload.email = document.getElementById('signup-email').value;
                 payload.address = document.getElementById('signup-address').value;
-                payload.password = document.getElementById('signup-password').value; // Plain text password
+                payload.password = document.getElementById('signup-password').value;
             } else {
                 payload.email = document.getElementById('login-email').value;
-                payload.password = document.getElementById('login-password').value; // Plain text password
+                payload.password = document.getElementById('login-password').value;
             }
 
             try {
-                // Fetch call explicitly using stringified body
-                const response = await fetch(SCRIPT_URL, { 
-                    method: 'POST', 
-                    body: JSON.stringify(payload) 
-                });
+                const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
                 const result = await response.json();
                 
                 if (result.status === 'success') {
@@ -636,26 +517,19 @@
                         showSuccessModal(action === 'signup' ? "Account Created!" : "Welcome Back!", `Hello, ${result.user.name}. Aapka swagat hai.`);
                     }
                 } else {
-                    errDiv.innerText = result.message; 
-                    errDiv.classList.remove('hidden');
+                    errDiv.innerText = result.message; errDiv.classList.remove('hidden');
                 }
             } catch (error) {
-                console.error("Fetch Error:", error);
-                errDiv.innerText = "Network error. Kripya thodi der me try karein."; 
-                errDiv.classList.remove('hidden');
+                errDiv.innerText = "Network error. Kripya thodi der me try karein."; errDiv.classList.remove('hidden');
             } finally { toggleLoading(formId, false); }
         }
 
         function logout() {
             localStorage.removeItem('sh_user');
-            localStorage.removeItem('sh_activities');
             updateHeaderUI();
             closeModal('profile-overlay');
-            alert("Aap safely log out ho gaye hain.");
         }
 
-        // ================= PROFILE & ACTIVITY LOGIC =================
-        
         function openProfileModal() {
             const userStr = localStorage.getItem('sh_user');
             if(!userStr) return;
@@ -667,53 +541,62 @@
             document.getElementById('profile-phone').innerText = user.phone;
             document.getElementById('profile-address').innerText = user.address || 'Address not provided';
             
-            renderActivities();
             openModal('profile-overlay');
+            fetchActivities(user.email);
         }
 
-        function addActivity(type, title, dateStr) {
-            let acts = JSON.parse(localStorage.getItem('sh_activities') || '[]');
-            acts.unshift({ type, title, date: dateStr }); 
-            if(acts.length > 10) acts.pop(); 
-            localStorage.setItem('sh_activities', JSON.stringify(acts));
-        }
-
-        function renderActivities() {
+        async function fetchActivities(email) {
             const actContainer = document.getElementById('profile-activities');
-            const noActMsg = document.getElementById('no-activity-msg');
-            const acts = JSON.parse(localStorage.getItem('sh_activities') || '[]');
-            
-            Array.from(actContainer.children).forEach(c => {
-                if(c.id !== 'no-activity-msg') c.remove();
-            });
+            actContainer.innerHTML = '<div class="text-center py-6"><div class="fetch-loader"></div><p class="text-xs text-gray-500 mt-2 font-medium">Syncing with server...</p></div>';
 
-            if(acts.length === 0) {
-                noActMsg.style.display = 'block';
-            } else {
-                noActMsg.style.display = 'none';
-                acts.forEach(act => {
-                    const div = document.createElement('div');
-                    div.className = 'bg-gray-50 border border-gray-100 p-3 rounded-xl flex items-center gap-3';
-                    
-                    let icon = 'fa-video text-green-500'; 
-                    if(act.type === 'Purchase') icon = 'fa-bag-shopping text-blue-500';
-                    
-                    div.innerHTML = `
-                        <div class="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center flex-shrink-0">
-                            <i class="fa-solid ${icon} text-sm"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs font-bold text-gray-800">${act.type}: ${act.title}</p>
-                            <p class="text-[10px] text-gray-500">${act.date}</p>
-                        </div>
-                    `;
-                    actContainer.appendChild(div);
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'get_activities', email: email })
                 });
+                const result = await response.json();
+                
+                actContainer.innerHTML = '';
+
+                if (result.status === 'success' && result.activities.length > 0) {
+                    result.activities.forEach(act => {
+                        const div = document.createElement('div');
+                        div.className = 'bg-white border border-gray-100 p-4 rounded-2xl shadow-sm mb-3 relative overflow-hidden';
+                        
+                        let statusColor = 'text-amber-600 bg-amber-50 border-amber-200';
+                        let statusIcon = 'fa-clock';
+                        let st = (act.status || '').toLowerCase();
+                        
+                        if(st.includes('confirm') || st.includes('done')) { statusColor = 'text-emerald-600 bg-emerald-50 border-emerald-200'; statusIcon = 'fa-check-double'; }
+                        if(st.includes('cancel')) { statusColor = 'text-red-600 bg-red-50 border-red-200'; statusIcon = 'fa-ban'; }
+
+                        div.innerHTML = `
+                            <div class="flex items-start gap-3 mb-3">
+                                <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i class="fa-solid fa-calendar-check text-blue-500"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-bold text-gray-800 truncate">${act.serviceName}</p>
+                                    <p class="text-[11px] font-bold text-gray-400 mt-0.5"><i class="fa-regular fa-calendar mr-1"></i> Date: ${act.meetingDate}</p>
+                                    <p class="text-[11px] font-bold text-gray-400"><i class="fa-regular fa-clock mr-1"></i> Time: ${act.meetingTime}</p>
+                                </div>
+                            </div>
+                            <div class="p-3 rounded-xl border ${statusColor} text-[11px] font-semibold whitespace-normal break-words leading-relaxed relative">
+                                <span class="font-black uppercase tracking-wider text-[9px] opacity-70 block mb-1"><i class="fa-solid ${statusIcon} mr-1"></i> Update from Admin</span>
+                                ${act.status || 'Pending Review'}
+                            </div>
+                        `;
+                        actContainer.appendChild(div);
+                    });
+                } else {
+                    actContainer.innerHTML = '<div class="bg-gray-50/80 border border-gray-100 p-5 rounded-2xl flex flex-col items-center justify-center text-center"><div class="w-12 h-12 bg-gray-100 text-gray-400 rounded-full flex items-center justify-center mb-2"><i class="fa-solid fa-folder-open"></i></div><p class="text-gray-500 text-sm font-bold">No History Found</p><p class="text-xs text-gray-400 mt-1">Your bookings will appear here.</p></div>';
+                }
+            } catch(e) {
+                actContainer.innerHTML = '<div class="text-red-500 text-xs font-bold text-center py-4 bg-red-50 rounded-xl border border-red-100">Failed to sync data. Please check connection.</div>';
             }
         }
 
         // ================= BOOKING LOGIC =================
-        
         function initiateBooking(serviceName) {
             const userStr = localStorage.getItem('sh_user');
             if(!userStr) {
@@ -759,26 +642,17 @@
             };
 
             try {
-                const response = await fetch(SCRIPT_URL, { 
-                    method: 'POST', 
-                    body: JSON.stringify(payload) 
-                });
+                const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
                 const result = await response.json();
                 
                 if (result.status === 'success') {
-                    const dateStr = `${payload.meetingDate} at ${payload.meetingTime}`;
-                    addActivity('Meeting Booked', payload.serviceName, dateStr);
-                    
                     closeModal('booking-overlay');
                     showSuccessModal("Meeting Confirmed!", `We have received your request for ${payload.serviceName} on ${payload.meetingDate}. We will connect with you soon.`);
                 } else {
-                    errorDiv.innerText = result.message; 
-                    errorDiv.classList.remove('hidden');
+                    errorDiv.innerText = result.message; errorDiv.classList.remove('hidden');
                 }
             } catch (error) {
-                console.error("Fetch Error:", error);
-                errorDiv.innerText = "Network error. Please try again."; 
-                errorDiv.classList.remove('hidden');
+                errorDiv.innerText = "Network error. Please try again."; errorDiv.classList.remove('hidden');
             } finally {
                 toggleLoading('booking-form', false);
             }
