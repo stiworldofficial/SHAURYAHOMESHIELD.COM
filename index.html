@@ -204,7 +204,8 @@
     <!-- ========================================== -->
     <div class="custom-overlay" id="profile-overlay">
         <div class="custom-box !p-0 overflow-hidden !max-w-md flex flex-col" style="max-height: 85vh;">
-            <div class="profile-header flex justify-between items-start pb-4 border-b border-white/10">
+            <!-- FIXED: Added flex-shrink-0 to prevent profile header from shrinking -->
+            <div class="profile-header flex justify-between items-start pb-4 border-b border-white/10 flex-shrink-0">
                 <div class="text-left w-full text-white">
                     <h3 class="text-xl font-black tracking-tight mb-3" id="profile-name">User Name</h3>
                     <div class="space-y-1.5 opacity-90 text-sm font-medium">
@@ -219,7 +220,7 @@
             </div>
             
             <div class="p-6 flex-1 flex flex-col overflow-hidden bg-gray-50/50">
-                <div class="flex justify-between items-center mb-4">
+                <div class="flex justify-between items-center mb-4 flex-shrink-0">
                     <h4 class="text-sm font-bold text-gray-900">Recent History & Status</h4>
                     <span class="text-[10px] font-bold text-blue-600 bg-blue-100 px-2 py-1 rounded-md animate-pulse">Live</span>
                 </div>
@@ -227,7 +228,7 @@
                 <div class="activity-list flex-1 overflow-y-auto pr-1 space-y-3" id="profile-activities">
                 </div>
                 
-                <button onclick="logout()" class="w-full mt-5 bg-white text-red-600 font-bold rounded-xl py-3.5 hover:bg-red-50 transition-colors border border-gray-200 shadow-sm flex items-center justify-center gap-2">
+                <button onclick="logout()" class="w-full mt-5 bg-white text-red-600 font-bold rounded-xl py-3.5 hover:bg-red-50 transition-colors border border-gray-200 shadow-sm flex items-center justify-center gap-2 flex-shrink-0">
                     <i class="fa-solid fa-power-off"></i> Sign Out
                 </button>
             </div>
@@ -455,7 +456,7 @@
                         const issueHtml = act.userIssue ? `<div class="mt-2 bg-gray-50 border border-gray-100 rounded-lg p-2 text-[10px] text-gray-600 italic"><b>Issue:</b> ${act.userIssue}</div>` : '';
 
                         const cancelBtnHtml = isPending ? `
-                            <button onclick="cancelBooking('${act.tabName}', '${act.rowId}', this)" class="absolute top-3 right-3 text-[10px] font-bold text-red-500 bg-white px-2 py-1 rounded shadow-sm border border-red-100 hover:bg-red-50 transition z-10">
+                            <button onclick="cancelBooking('${act.tabName}', '${act.rowId}', this)" class="absolute top-3 right-3 flex items-center justify-center text-[10px] font-bold text-red-500 bg-white px-2 py-1 rounded shadow-sm border border-red-100 hover:bg-red-50 transition z-10">
                                 Cancel
                             </button>
                         ` : '';
@@ -492,11 +493,13 @@
             }
         }
 
+        // --- NEW CANCEL BOOKING LOGIC ---
         async function cancelBooking(tabName, rowId, btnElement) {
-            if(!confirm("Are you sure you want to cancel this booking?")) return;
-
+            // Replaced alert/confirm with direct spinner implementation
             const user = JSON.parse(localStorage.getItem('sh_user'));
-            btnElement.innerText = "Canceling...";
+            
+            // Add custom spinner straight into the button
+            btnElement.innerHTML = `<div class="fetch-loader !w-3 !h-3 !border-red-200 !border-t-red-600 mr-1 inline-block"></div> Canceling...`;
             btnElement.disabled = true;
 
             try {
@@ -507,20 +510,24 @@
                 const result = await response.json();
 
                 if(result.status === 'success') {
+                    // Update UI Locally instantly
                     const parentDiv = btnElement.closest('.bg-white');
                     const statusBox = parentDiv.querySelector('.rounded-xl.border');
                     const statusText = statusBox.querySelector('.status-text');
                     
                     statusBox.className = 'p-3 rounded-xl border text-red-600 bg-red-50 border-red-200 text-xs font-semibold whitespace-normal break-words leading-relaxed relative';
                     statusText.innerText = "Canceled by you";
-                    btnElement.remove(); 
+                    btnElement.remove(); // Hide button forever
+
+                    // Show success modal centralizing the notification
+                    showSuccessModal("Canceled", `<p class="text-gray-500 text-sm font-medium px-4">Successfully canceled</p>`);
                 } else {
-                    alert(result.message);
+                    showSuccessModal("Error", `<p class="text-red-500 text-sm font-medium px-4">${result.message}</p>`);
                     btnElement.innerText = "Cancel";
                     btnElement.disabled = false;
                 }
             } catch(e) {
-                alert("Network error.");
+                showSuccessModal("Error", `<p class="text-red-500 text-sm font-medium px-4">Network error.</p>`);
                 btnElement.innerText = "Cancel";
                 btnElement.disabled = false;
             }
