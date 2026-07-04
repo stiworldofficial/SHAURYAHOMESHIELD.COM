@@ -8,12 +8,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    fontFamily: { sans: ['Inter', 'sans-serif'], outfit: ['Outfit', 'sans-serif'] },
                     colors: {
                         'whitesmoke': '#f5f5f5',
                         'apple-accent': '#0A84FF',
@@ -51,7 +52,6 @@
         .loader-spinner { border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid white; border-radius: 50%; width: 22px; height: 22px; animation: spin 1s linear infinite; display: none; margin: 0 auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* FIXED PROFILE HEADER */
         .profile-header { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); margin: 0; padding: 2rem; border-radius: 2rem 2rem 1.5rem 1.5rem; position: relative; overflow: hidden; }
 
         @keyframes auto-pulse-float { 0% { transform: translateY(0) scale(1); box-shadow: 0 5px 15px rgba(0,0,0,0.2), 0 0 20px currentColor; } 50% { transform: translateY(-12px) scale(1.1); box-shadow: 0 15px 25px rgba(0,0,0,0.2), 0 0 35px currentColor; } 100% { transform: translateY(0) scale(1); box-shadow: 0 5px 15px rgba(0,0,0,0.2), 0 0 20px currentColor; } }
@@ -64,42 +64,101 @@
         .hero-slide.active { opacity: 1; z-index: 2; }
         
         .fetch-loader { border: 3px solid #e5e7eb; border-top: 3px solid #3b82f6; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; display: inline-block; }
+
+        /* --- STREAMING_CHUNK:Styling the new below-slider action buttons --- */
+        .action-btns-container {
+            display: flex; gap: 12px; justify-content: center; 
+            width: 92%; max-width: 600px; margin: 20px auto 0; z-index: 40; position: relative;
+        }
+        .action-btn-home {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px);
+            height: 46px; border-radius: 14px; padding: 0 10px;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            font-size: 0.85rem; font-weight: 800; font-family: 'Outfit', sans-serif;
+            cursor: pointer; transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #3b82f6; color: #1d4ed8; text-decoration: none;
+        }
+        .action-btn-home:hover { background: #3b82f6; color: #fff; box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
+        
+        .action-btn-half {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px);
+            height: 46px; border-radius: 14px; padding: 0 10px;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            font-size: 0.85rem; font-weight: 800; font-family: 'Outfit', sans-serif;
+            cursor: pointer; transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #FFD700; color: #B8860B;
+        }
+        .action-btn-half:hover { background: #FFD700; color: #000; box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+
+        /* --- STREAMING_CHUNK:Styling review system components --- */
+        .review-filters-wrapper { margin-bottom: 15px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 10px; }
+        .review-filters { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; -ms-overflow-style: none; scrollbar-width: none; }
+        .review-filters::-webkit-scrollbar { display: none; }
+        .filter-chip {
+            background: #f3f4f6; border: 1px solid #e5e7eb; padding: 6px 14px; 
+            border-radius: 20px; font-size: 0.8rem; font-weight: 600; color: #4b5563; cursor: pointer; white-space: nowrap; transition: 0.2s;
+        }
+        .filter-chip.active { background: #3b82f6; color: #fff; border-color: #3b82f6; font-weight: 800; box-shadow: 0 0 10px rgba(59, 130, 246, 0.3); }
+
+        .review-card {
+            background: #fff; border: 1px solid #f3f4f6;
+            border-radius: 16px; padding: 15px; margin-bottom: 12px; position: relative;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        .review-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+        .reviewer-profile { display: flex; gap: 10px; align-items: center; }
+        .reviewer-avatar { width: 35px; height: 35px; background: linear-gradient(135deg, #2563eb, #3b82f6); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; flex-shrink: 0;}
+        .review-name { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 0.95rem; color: #111827; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;}
+        .reviewer-phone-mask { font-size: 0.75rem; color: #9ca3af; font-weight: normal; }
+        .review-meta { font-size: 0.75rem; color: #6b7280; margin-top: 2px;}
+        .review-date-time { font-size: 0.75rem; color: #9ca3af; text-align: right; min-width: 65px; display: flex; flex-direction: column; align-items: flex-end; gap: 4px;}
+        .live-badge { background: #d1fae5; color: #059669; font-size: 0.6rem; padding: 2px 6px; border-radius: 10px; font-weight: bold; border: 1px solid #10b981;}
+        .review-text { font-size: 0.85rem; color: #4b5563; line-height: 1.5; font-style: italic; }
+        .review-stars { color: #f59e0b; font-size: 0.8rem; margin-bottom: 8px; }
+        
+        #reviews-list-container { flex-grow: 1; overflow-y: auto; padding-right: 5px; margin-bottom: 15px; -webkit-overflow-scrolling: touch; max-height: 400px; }
+        #reviews-list-container::-webkit-scrollbar { width: 4px; }
+        #reviews-list-container::-webkit-scrollbar-thumb { background: #f59e0b; border-radius: 10px; }
+
+        .star-rating-input { display: flex; gap: 10px; font-size: 2rem; color: #e5e7eb; cursor: pointer; justify-content: center; margin: 5px 0 15px; -webkit-tap-highlight-color: transparent; }
+        .star-rating-input i { transition: color 0.2s; padding: 5px; }
+        .star-rating-input i.active { color: #f59e0b; }
+        .star-rating-input i:active { transform: scale(0.85); }
     </style>
 </head>
-<body class="font-sans pt-24"> 
-
+<body class="font-sans pt-[82px]"> 
     <div id="main-wrapper">
         <div class="fixed top-4 w-full z-50 flex justify-center px-4" id="navbar-wrapper">
-            <!-- Added relative class here for absolute centering of the child -->
             <nav class="dynamic-island w-full max-w-6xl rounded-[2.5rem] px-4 py-3 flex justify-between items-center shadow-lg shadow-gray-200/50 relative">
-                
                 <!-- Left: Logo -->
-                <div class="flex items-center cursor-pointer group relative z-10" onclick="window.location.href='index.html'">
+                <div class="flex items-center cursor-pointer group z-10" onclick="window.location.href='index.html'">
                     <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform overflow-hidden flex-shrink-0">
                         <img src="shsl.png" class="w-full h-full object-cover" alt="Logo Icon" onerror="this.src='https://via.placeholder.com/40x40?text=S'">
                     </div>
                     <img src="shslname.png" class="h-5 sm:h-6 md:h-7 object-contain ml-3 hidden sm:block" alt="ElectroTech Logo" onerror="this.style.display='none'">
                 </div>
-
-                <!-- Center: Navigation Links + Phone Number -->
-                <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-4 lg:gap-8 whitespace-nowrap">
-                    <div class="hidden md:flex items-center space-x-6 lg:space-x-10">
-                        <a href="index.html" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition-all">Home</a>
-                        <a href="#services" class="text-sm font-bold text-blue-600 transition-all">Tank Alarms</a>
-                        <a href="#products" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition-all">Features</a>
-                    </div>
-                    <!-- Number Centered Here -->
-                    <a href="tel:+919996966710" class="flex items-center px-3 py-1.5 rounded-full text-blue-900 font-black text-sm md:text-base hover:text-blue-700 transition-colors tracking-tight">
-                        <span>9996966710</span>
+                
+                <!-- Center: Horizontally Centered Phone & Links -->
+                <div class="absolute left-1/2 transform -translate-x-1/2 flex flex-col items-center justify-center w-max z-0">
+                    <a href="tel:+919996966710" class="text-blue-900 font-black text-[15px] sm:text-base hover:text-blue-600 transition-all tracking-wide">
+                        +91 9996966710
                     </a>
+                    <div class="hidden md:flex items-center space-x-6 mt-0.5">
+                        <a href="index.html" class="text-[11px] font-bold text-gray-500 hover:text-blue-600 transition-all uppercase tracking-wider">Home</a>
+                        <a href="#services" class="text-[11px] font-bold text-blue-600 transition-all uppercase tracking-wider">Tank Alarms</a>
+                        <a href="#products" class="text-[11px] font-bold text-gray-500 hover:text-blue-600 transition-all uppercase tracking-wider">Features</a>
+                    </div>
                 </div>
 
-                <!-- Right: Buttons -->
-                <div class="flex items-center gap-3 sm:gap-4 relative z-10">
+                <!-- Right: Login/Profile -->
+                <div class="flex items-center gap-3 sm:gap-4 z-10">
                     <button onclick="openAuthModal()" id="login-btn-header" class="bg-gray-900 text-white px-5 py-2.5 rounded-full text-sm font-bold hover:bg-blue-600 transition-all flex items-center gap-2 shadow-md">
                         <i class="fa-regular fa-user"></i> <span class="hidden sm:inline">Login / Signup</span>
                     </button>
-                    
                     <div id="profile-section-header" class="hidden flex items-center gap-2 bg-blue-50/80 backdrop-blur-md px-2 py-1.5 rounded-full border border-blue-100 cursor-pointer hover:bg-blue-100 transition shadow-sm group" onclick="openProfileModal()">
                         <div class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-600 to-blue-400 text-white flex items-center justify-center font-bold text-sm shadow-md group-hover:scale-105 transition-transform" id="header-user-initial">A</div>
                         <span class="text-sm font-bold text-blue-900 hidden sm:block pr-3" id="header-user-name">User</span>
@@ -111,6 +170,16 @@
         <section id="home" class="relative w-full aspect-video max-w-[1920px] mx-auto bg-black overflow-hidden shadow-xl z-10">
             <img src="https://images.unsplash.com/photo-1548839140-29a749e1bc4e?q=80&w=1920&auto=format&fit=crop" alt="Save Water Concept" class="hero-slide active absolute inset-0 w-full h-full object-cover">
         </section>
+
+        <!-- New Action Buttons Container (Home & Reviews) placed strictly below the slider -->
+        <div class="action-btns-container">
+            <a href="index.html" class="action-btn-home">
+                <i class="fas fa-home"></i> <span>Home Page</span>
+            </a>
+            <div class="action-btn-half" onclick="openReviewsModal()">
+                <i class="fas fa-star text-yellow-500"></i> <span>See & Write Review</span>
+            </div>
+        </div>
 
         <section id="services" class="py-10 md:py-24 relative px-4 sm:px-6">
             <div class="max-w-6xl mx-auto">
@@ -159,11 +228,9 @@
             </div>
         </section>
 
-        <!-- NEW ULTRA PROMAX FOOTER (From Index) -->
+        <!-- PROMAX FOOTER -->
         <footer class="relative mt-20 bg-gradient-to-b from-gray-900 to-black text-white pt-16 pb-8 border-t border-gray-800">
             <div class="max-w-5xl mx-auto px-6 flex flex-col items-center text-center">
-                
-                <!-- Logo & Brand Name Centered -->
                 <div class="mb-6 flex flex-col items-center group cursor-pointer" onclick="window.scrollTo(0,0)">
                     <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-400 p-[2px] shadow-[0_0_20px_rgba(59,130,246,0.3)] group-hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] transition-all duration-500 mb-4 transform group-hover:scale-105">
                         <div class="w-full h-full bg-black rounded-full overflow-hidden flex items-center justify-center">
@@ -173,28 +240,20 @@
                     <img src="shslname.png" class="h-8 md:h-10 object-contain transform group-hover:scale-105 transition-all duration-500" alt="Shauryahomeshield" onerror="this.style.display='none'">
                 </div>
 
-                <!-- Professional Description -->
                 <p class="text-gray-400 max-w-2xl text-sm md:text-base leading-relaxed mb-10 font-medium px-4">
                     Hum aapke ghar aur business ke liye top-notch AC services, advanced electric fencing aur smart water tank control systems provide karte hain. Trust, Safety, aur Quality humari pehli priority hai.
                 </p>
 
-                <!-- Contact Info Horizontal Layout -->
                 <div class="flex flex-col md:flex-row gap-8 md:gap-14 text-sm text-gray-300 mb-12 w-full justify-center">
-                    <!-- Address -->
                     <div class="flex items-center md:items-start gap-4 flex-col md:flex-row group w-full md:w-auto">
                         <div class="w-12 h-12 rounded-full bg-gray-800/80 border border-gray-700 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 transition-all duration-300 shadow-lg flex-shrink-0">
                             <i class="fa-solid fa-location-dot text-lg"></i>
                         </div>
                         <div class="text-center md:text-left">
                             <p class="font-bold text-white text-base mb-1 tracking-wide">Office Address</p>
-                            <p class="text-gray-400 text-xs leading-relaxed">
-                                Kami Road, Near Sabzi Mandi,<br>
-                                Baba Dham Ke Samne,<br>
-                                Sonipat - 131001, Haryana, India
-                            </p>
+                            <p class="text-gray-400 text-xs leading-relaxed">Kami Road, Near Sabzi Mandi,<br>Baba Dham Ke Samne,<br>Sonipat - 131001, Haryana, India</p>
                         </div>
                     </div>
-                    <!-- Phone -->
                     <div class="flex items-center md:items-start gap-4 flex-col md:flex-row group w-full md:w-auto">
                         <div class="w-12 h-12 rounded-full bg-gray-800/80 border border-gray-700 flex items-center justify-center text-green-400 group-hover:bg-green-500 group-hover:text-white group-hover:border-green-400 transition-all duration-300 shadow-lg flex-shrink-0">
                             <i class="fa-solid fa-phone text-lg"></i>
@@ -204,7 +263,6 @@
                             <a href="tel:+919996966710" class="text-gray-400 text-sm hover:text-white transition-colors duration-300">+91 9996966710</a>
                         </div>
                     </div>
-                    <!-- Email -->
                     <div class="flex items-center md:items-start gap-4 flex-col md:flex-row group w-full md:w-auto">
                         <div class="w-12 h-12 rounded-full bg-gray-800/80 border border-gray-700 flex items-center justify-center text-red-400 group-hover:bg-red-500 group-hover:text-white group-hover:border-red-400 transition-all duration-300 shadow-lg flex-shrink-0">
                             <i class="fa-solid fa-envelope text-lg"></i>
@@ -216,7 +274,6 @@
                     </div>
                 </div>
 
-                <!-- Social Links -->
                 <div class="flex gap-5 mb-10">
                     <a href="https://www.facebook.com/share/14mrNGTYAtQ/" target="_blank" class="w-12 h-12 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-xl text-gray-400 hover:bg-[#1877F2] hover:border-[#1877F2] hover:text-white transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(24,119,242,0.3)]">
                         <i class="fa-brands fa-facebook-f"></i>
@@ -229,7 +286,6 @@
                     </a>
                 </div>
 
-                <!-- Copyright -->
                 <div class="w-full border-t border-gray-800/80 pt-8 mt-2 flex flex-col md:flex-row justify-center items-center">
                     <p class="text-gray-500 text-xs font-semibold tracking-widest uppercase">© 2026 Shauryahomeshield. All rights reserved.</p>
                 </div>
@@ -237,13 +293,14 @@
         </footer>
     </div> 
 
-    <!-- Updated WhatsApp Number based on index -->
+    <!-- WHATSAPP WIDGET -->
     <div class="fixed bottom-8 right-6 z-[200]">
         <a href="https://wa.me/919996966710" target="_blank" class="auto-hover-icon w-14 h-14 bg-green-500 text-white rounded-full flex items-center justify-center text-3xl hover:bg-green-600 transition-colors shadow-lg">
             <i class="fa-brands fa-whatsapp text-white"></i>
         </a>
     </div>
 
+    <!-- MODALS: AUTH, PROFILE, BOOKING, SUCCESS -->
     <div class="custom-overlay" id="auth-overlay">
         <div class="custom-box">
             <button onclick="closeModal('auth-overlay')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 bg-gray-100/50 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center transition-all z-50">
@@ -379,15 +436,81 @@
             </div>
             
             <h3 class="text-3xl font-black text-gray-900 mb-2 tracking-tight" id="success-title">Success!</h3>
-            
             <div id="success-msg-container" class="mb-6 w-full text-center"></div>
-
             <button onclick="closeModal('success-overlay')" class="w-full premium-btn !bg-gradient-to-r !from-gray-800 !to-gray-900 !shadow-none hover:!shadow-xl">
                 Awesome, thanks!
             </button>
         </div>
     </div>
 
+    <!-- NEW MODALS: REVIEWS SYSTEM (LIST & WRITE) -->
+    <div class="custom-overlay" id="modal-reviews">
+        <div class="custom-box !p-5 !max-w-md w-full !max-h-[85vh] flex flex-col">
+            <button class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 bg-gray-100 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center transition-all z-10" onclick="closeReviewsModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 class="font-outfit font-black text-xl text-gray-900 mb-3 border-b border-gray-100 pb-3">
+                <i class="fas fa-star text-yellow-400 mr-1"></i> User Reviews
+            </h3>
+            
+            <div class="review-filters-wrapper">
+                <div class="review-filters">
+                    <button type="button" class="filter-chip active" data-val="all" onclick="filterReviews('all')">All Reviews</button>
+                    <button type="button" class="filter-chip" data-val="5" onclick="filterReviews(5)">5 <i class="fas fa-star text-[0.7rem] text-yellow-500"></i></button>
+                    <button type="button" class="filter-chip" data-val="4" onclick="filterReviews(4)">4 <i class="fas fa-star text-[0.7rem] text-yellow-500"></i></button>
+                    <button type="button" class="filter-chip" data-val="3" onclick="filterReviews(3)">3 <i class="fas fa-star text-[0.7rem] text-yellow-500"></i></button>
+                    <button type="button" class="filter-chip" data-val="2" onclick="filterReviews(2)">2 <i class="fas fa-star text-[0.7rem] text-yellow-500"></i></button>
+                    <button type="button" class="filter-chip" data-val="1" onclick="filterReviews(1)">1 <i class="fas fa-star text-[0.7rem] text-yellow-500"></i></button>
+                </div>
+            </div>
+
+            <div id="reviews-list-container">
+                <div class="loader-spinner" id="review-loader"></div>
+            </div>
+            
+            <div class="mt-auto pt-3 border-t border-gray-100 text-center">
+                <button class="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-black py-3 rounded-xl shadow-lg hover:scale-[1.02] transition" onclick="openWriteReviewModal()">
+                    <i class="fas fa-pen mr-2"></i> Write Your Review
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- WRITE REVIEW FORM MODAL -->
+    <div class="custom-overlay" id="modal-write-review" style="z-index: 10000;">
+        <div class="custom-box !p-5 !max-w-md w-full !max-h-[90vh] overflow-y-auto">
+            <button class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 bg-gray-100 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center transition-all z-10" onclick="closeWriteReviewModal()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h3 class="font-outfit font-black text-xl text-yellow-600 mb-4 border-b border-yellow-100 pb-3">Write a Review</h3>
+            
+            <form id="addReviewForm" onsubmit="submitNewReview(event)">
+                <div class="form-group text-center mb-4">
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide">Your Experience (Tap stars)</label>
+                    <div class="star-rating-input" id="starRatingInput">
+                        <i class="fas fa-star active" data-val="1"></i>
+                        <i class="fas fa-star active" data-val="2"></i>
+                        <i class="fas fa-star active" data-val="3"></i>
+                        <i class="fas fa-star active" data-val="4"></i>
+                        <i class="fas fa-star active" data-val="5"></i>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <div><input type="text" id="revName" required class="premium-input !bg-gray-50" placeholder="Your Name"></div>
+                    <div><input type="tel" id="revPhone" required pattern="[0-9]{10}" class="premium-input !bg-gray-50" placeholder="Phone Number (Hidden for Privacy)"></div>
+                    <div><input type="text" id="revLocation" required class="premium-input !bg-gray-50" placeholder="City / Location"></div>
+                    <div><textarea id="revText" required class="premium-input !bg-gray-50" placeholder="Share your experience..." rows="3"></textarea></div>
+                </div>
+                
+                <button type="submit" id="submitReviewBtn" class="w-full bg-gradient-to-r from-green-400 to-green-500 text-black font-black py-3 rounded-xl shadow-lg hover:scale-[1.02] transition mt-5">
+                    <span id="submitReviewText">Post Review</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCRIPT SECTION -->
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyNgDZlEYE_poLgN3Hfd8rEMNx0XO0kzaAOJd2iNXVw9QwQw5x3TlV7KWKCHk9-dd-0/exec"; 
 
@@ -395,60 +518,46 @@
             updateHeaderUI();
             const dateInput = document.getElementById('book-date');
             if(dateInput) { const today = new Date().toISOString().split('T')[0]; dateInput.setAttribute('min', today); }
+            fetchLiveReviews();
         });
 
+        // ---------------- AUTH LOGIC ----------------
         function updateHeaderUI() {
             const userStr = localStorage.getItem('sh_user');
             const loginBtn = document.getElementById('login-btn-header');
             const profileSec = document.getElementById('profile-section-header');
-            
             if (userStr) {
                 const user = JSON.parse(userStr);
-                loginBtn.classList.add('hidden');
-                profileSec.classList.remove('hidden');
+                loginBtn.classList.add('hidden'); profileSec.classList.remove('hidden');
                 document.getElementById('header-user-name').innerText = user.name.split(' ')[0];
                 document.getElementById('header-user-initial').innerText = user.name.charAt(0).toUpperCase();
-            } else {
-                loginBtn.classList.remove('hidden');
-                profileSec.classList.add('hidden');
-            }
+            } else { loginBtn.classList.remove('hidden'); profileSec.classList.add('hidden'); }
         }
 
         function openModal(id) { document.getElementById(id).classList.add('active'); document.body.classList.add('modal-open'); }
         function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.classList.remove('modal-open'); }
 
-        function openAuthModal() {
-            document.getElementById('auth-error').classList.add('hidden');
-            switchAuth('login');
-            openModal('auth-overlay');
-        }
-
+        function openAuthModal() { document.getElementById('auth-error').classList.add('hidden'); switchAuth('login'); openModal('auth-overlay'); }
         function switchAuth(type) {
-            const title = document.getElementById('auth-title');
-            const subtitle = document.getElementById('auth-subtitle');
+            const title = document.getElementById('auth-title'); const subtitle = document.getElementById('auth-subtitle');
             document.getElementById('auth-error').classList.add('hidden');
-
             if (type === 'signup') {
-                document.getElementById('login-form').classList.remove('active');
-                document.getElementById('signup-form').classList.add('active');
+                document.getElementById('login-form').classList.remove('active'); document.getElementById('signup-form').classList.add('active');
                 title.innerText = "Create Account"; subtitle.innerText = "Setup your secure profile in seconds.";
             } else {
-                document.getElementById('signup-form').classList.remove('active');
-                document.getElementById('login-form').classList.add('active');
+                document.getElementById('signup-form').classList.remove('active'); document.getElementById('login-form').classList.add('active');
                 title.innerText = "Welcome Back"; subtitle.innerText = "Login to access premium services.";
             }
         }
 
         function showSuccessModal(title, msgHtml) {
-            document.getElementById('success-title').innerText = title;
-            document.getElementById('success-msg-container').innerHTML = msgHtml;
+            document.getElementById('success-title').innerText = title; document.getElementById('success-msg-container').innerHTML = msgHtml;
             openModal('success-overlay');
         }
 
         function toggleLoading(formId, isLoading) {
             const btn = document.querySelector(`#${formId} button[type="submit"]`);
-            const txt = btn.querySelector('.btn-text');
-            const spinner = btn.querySelector('.loader-spinner');
+            const txt = btn.querySelector('.btn-text'); const spinner = btn.querySelector('.loader-spinner');
             if (isLoading) { txt.style.display = 'none'; spinner.style.display = 'block'; btn.disabled = true; } 
             else { txt.style.display = 'block'; spinner.style.display = 'none'; btn.disabled = false; }
         }
@@ -459,281 +568,281 @@
             e.preventDefault();
             const formId = action === 'login' ? 'login-form' : 'signup-form';
             toggleLoading(formId, true);
-            const errDiv = document.getElementById('auth-error');
-            errDiv.classList.add('hidden');
-
+            const errDiv = document.getElementById('auth-error'); errDiv.classList.add('hidden');
             let payload = { action: action };
             if (action === 'signup') {
-                payload.name = document.getElementById('signup-name').value;
-                payload.phone = document.getElementById('signup-phone').value;
-                payload.email = document.getElementById('signup-email').value;
-                payload.address = document.getElementById('signup-address').value;
+                payload.name = document.getElementById('signup-name').value; payload.phone = document.getElementById('signup-phone').value;
+                payload.email = document.getElementById('signup-email').value; payload.address = document.getElementById('signup-address').value;
                 payload.password = document.getElementById('signup-password').value;
-            } else {
-                payload.email = document.getElementById('login-email').value;
-                payload.password = document.getElementById('login-password').value;
-            }
+            } else { payload.email = document.getElementById('login-email').value; payload.password = document.getElementById('login-password').value; }
 
             try {
                 const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
                 const result = await response.json();
-                
                 if (result.status === 'success') {
-                    localStorage.setItem('sh_user', JSON.stringify(result.user));
-                    closeModal('auth-overlay');
-                    updateHeaderUI();
-                    
-                    if(pendingServiceBooking) {
-                        openBookingModal(pendingServiceBooking);
-                        pendingServiceBooking = null;
-                    } else {
+                    localStorage.setItem('sh_user', JSON.stringify(result.user)); closeModal('auth-overlay'); updateHeaderUI();
+                    if(pendingServiceBooking) { openBookingModal(pendingServiceBooking); pendingServiceBooking = null; } 
+                    else {
                         if(action === 'signup') {
-                            const infoHtml = `
-                                <div class="bg-gray-50 rounded-xl p-4 inline-block text-left border border-gray-100 w-full mb-4">
-                                    <p class="text-xs text-gray-500 mb-2 uppercase font-bold tracking-wider">Your Login Details:</p>
-                                    <p class="text-sm font-bold text-gray-800"><i class="fa-solid fa-envelope text-blue-500 w-5"></i> ${payload.email}</p>
-                                    <p class="text-sm font-bold text-gray-800 mt-2"><i class="fa-solid fa-key text-blue-500 w-5"></i> ${payload.password}</p>
-                                </div>
-                                <div class="bg-blue-50 border border-blue-100 rounded-xl p-4">
-                                    <p class="text-blue-800 text-xs font-bold mb-1">💡 Important Note / ज़रूरी सूचना:</p>
-                                    <p class="text-blue-600 text-[11px] leading-tight">You can cancle services and meeting any time (to go in profile)<br>(आप प्रोफाइल सेक्शन में जाकर कभी भी सर्विस या मीटिंग कैंसिल कर सकते हैं।)</p>
-                                </div>
-                            `;
+                            const infoHtml = `<div class="bg-gray-50 rounded-xl p-4 inline-block text-left border border-gray-100 w-full mb-4"><p class="text-xs text-gray-500 mb-2 uppercase font-bold tracking-wider">Your Login Details:</p><p class="text-sm font-bold text-gray-800"><i class="fa-solid fa-envelope text-blue-500 w-5"></i> ${payload.email}</p><p class="text-sm font-bold text-gray-800 mt-2"><i class="fa-solid fa-key text-blue-500 w-5"></i> ${payload.password}</p></div><div class="bg-blue-50 border border-blue-100 rounded-xl p-4"><p class="text-blue-800 text-xs font-bold mb-1">💡 Important Note / ज़रूरी सूचना:</p><p class="text-blue-600 text-[11px] leading-tight">You can cancle services and meeting any time (to go in profile)<br>(आप प्रोफाइल सेक्शन में जाकर कभी भी सर्विस या मीटिंग कैंसिल कर सकते हैं।)</p></div>`;
                             showSuccessModal("Account Created!", infoHtml);
-                        } else {
-                            showSuccessModal("Welcome Back!", `<p class="text-gray-500 text-sm font-medium px-4">Hello ${result.user.name}, Aapka swagat hai.</p>`);
-                        }
+                        } else { showSuccessModal("Welcome Back!", `<p class="text-gray-500 text-sm font-medium px-4">Hello ${result.user.name}, Aapka swagat hai.</p>`); }
                     }
-                } else {
-                    errDiv.innerText = result.message; errDiv.classList.remove('hidden');
-                }
-            } catch (error) {
-                errDiv.innerText = "Network error. Kripya thodi der me try karein."; errDiv.classList.remove('hidden');
-            } finally { toggleLoading(formId, false); }
+                } else { errDiv.innerText = result.message; errDiv.classList.remove('hidden'); }
+            } catch (error) { errDiv.innerText = "Network error. Kripya thodi der me try karein."; errDiv.classList.remove('hidden'); } finally { toggleLoading(formId, false); }
         }
 
-        function logout() {
-            localStorage.removeItem('sh_user');
-            updateHeaderUI();
-            closeModal('profile-overlay');
-        }
+        function logout() { localStorage.removeItem('sh_user'); updateHeaderUI(); closeModal('profile-overlay'); }
 
         function openProfileModal() {
-            const userStr = localStorage.getItem('sh_user');
-            if(!userStr) return;
+            const userStr = localStorage.getItem('sh_user'); if(!userStr) return;
             const user = JSON.parse(userStr);
-            
-            document.getElementById('profile-name').innerText = user.name;
-            document.getElementById('profile-email').innerText = user.email;
-            document.getElementById('profile-phone').innerText = user.phone;
-            document.getElementById('profile-address').innerText = user.address || 'Address not provided';
-            
-            openModal('profile-overlay');
-            fetchActivities(user.email);
+            document.getElementById('profile-name').innerText = user.name; document.getElementById('profile-email').innerText = user.email;
+            document.getElementById('profile-phone').innerText = user.phone; document.getElementById('profile-address').innerText = user.address || 'Address not provided';
+            openModal('profile-overlay'); fetchActivities(user.email);
         }
 
         function formatReadableDate(dateStr, timeStr) {
             if(!dateStr || !timeStr) return "N/A";
             try {
-                const parts = dateStr.split('-');
-                let d;
-                if(parts.length === 3 && parts[0].length === 4) {
-                    d = new Date(dateStr + "T" + timeStr); 
-                } else {
-                    d = new Date(`${dateStr} ${timeStr}`);
-                }
-                
+                const parts = dateStr.split('-'); let d;
+                if(parts.length === 3 && parts[0].length === 4) { d = new Date(dateStr + "T" + timeStr); } else { d = new Date(`${dateStr} ${timeStr}`); }
                 if(isNaN(d)) return `${dateStr} at ${timeStr}`;
-                
-                const day = d.getDate().toString().padStart(2, '0');
-                const month = d.toLocaleString('en-GB', { month: 'short' });
-                const year = d.getFullYear();
-                
-                let hours = d.getHours();
-                const minutes = d.getMinutes().toString().padStart(2, '0');
-                const ampm = hours >= 12 ? 'PM' : 'AM';
-                hours = hours % 12;
-                hours = hours ? hours : 12; 
-                const hrStr = hours.toString().padStart(2, '0');
-
+                const day = d.getDate().toString().padStart(2, '0'); const month = d.toLocaleString('en-GB', { month: 'short' }); const year = d.getFullYear();
+                let hours = d.getHours(); const minutes = d.getMinutes().toString().padStart(2, '0'); const ampm = hours >= 12 ? 'PM' : 'AM';
+                hours = hours % 12; hours = hours ? hours : 12; const hrStr = hours.toString().padStart(2, '0');
                 return `${day}-${month}-${year} at ${hrStr}:${minutes} ${ampm}`;
-            } catch(e) {
-                return `${dateStr} at ${timeStr}`;
-            }
+            } catch(e) { return `${dateStr} at ${timeStr}`; }
         }
 
         async function fetchActivities(email) {
             const actContainer = document.getElementById('profile-activities');
             actContainer.innerHTML = '<div class="text-center py-6"><div class="fetch-loader"></div><p class="text-xs text-gray-500 mt-2 font-medium">Syncing with server...</p></div>';
-
             try {
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({ action: 'get_activities', email: email })
-                });
+                const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'get_activities', email: email }) });
                 const result = await response.json();
-                
                 actContainer.innerHTML = '';
-
                 if (result.status === 'success' && result.activities.length > 0) {
-                    
                     result.activities.sort((a, b) => new Date(b.dateSubmitted) - new Date(a.dateSubmitted));
-
                     result.activities.forEach(act => {
                         const div = document.createElement('div');
                         div.className = 'bg-white border border-gray-100 p-4 rounded-2xl shadow-sm mb-3 relative overflow-hidden';
-                        
-                        let statusColor = 'text-amber-600 bg-amber-50 border-amber-200';
-                        let statusIcon = 'fa-clock';
-                        let st = (act.status || '').toLowerCase();
-                        
+                        let statusColor = 'text-amber-600 bg-amber-50 border-amber-200'; let statusIcon = 'fa-clock'; let st = (act.status || '').toLowerCase();
                         if(st.includes('confirm') || st.includes('done')) { statusColor = 'text-emerald-600 bg-emerald-50 border-emerald-200'; statusIcon = 'fa-check-double'; }
                         if(st.includes('cancel')) { statusColor = 'text-red-600 bg-red-50 border-red-200'; statusIcon = 'fa-ban'; }
-
                         const bookedForFormatted = formatReadableDate(act.meetingDate, act.meetingTime);
                         const isPending = st.includes('pending');
-
                         const issueHtml = act.userIssue ? `<div class="mt-2 bg-gray-50 border border-gray-100 rounded-lg p-2 text-[10px] text-gray-600 italic"><b>Issue:</b> ${act.userIssue}</div>` : '';
-
-                        const cancelBtnHtml = isPending ? `
-                            <button onclick="cancelBooking('${act.tabName}', '${act.rowId}', this)" class="absolute top-3 right-3 text-[10px] font-bold text-red-500 bg-white px-2 py-1 rounded shadow-sm border border-red-100 hover:bg-red-50 transition z-10 flex items-center justify-center gap-1">
-                                Cancel
-                            </button>
-                        ` : '';
-
-                        div.innerHTML = `
-                            ${cancelBtnHtml}
-                            <div class="mb-3 pr-12">
-                                <p class="text-[10px] font-bold text-gray-400 mb-1 tracking-wide uppercase">Booked on ${act.dateSubmitted}</p>
-                                <div class="flex items-start gap-3">
-                                    <div class="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0 border border-blue-100">
-                                        <i class="fa-solid fa-video text-blue-500 text-sm"></i>
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <p class="text-sm font-black text-gray-900 truncate leading-tight">${act.serviceName}</p>
-                                        <p class="text-[11px] font-bold text-blue-600 mt-1 bg-blue-50 inline-block px-2 py-0.5 rounded">
-                                            Booked for: ${bookedForFormatted}
-                                        </p>
-                                    </div>
-                                </div>
-                                ${issueHtml}
-                            </div>
-                            <div class="p-3 rounded-xl border ${statusColor} text-xs font-semibold whitespace-normal break-words leading-relaxed relative">
-                                <span class="font-black uppercase tracking-wider text-[9px] opacity-70 block mb-1 flex items-center gap-1"><i class="fa-solid ${statusIcon}"></i> Live Update</span>
-                                <span class="status-text">${act.status || 'Pending Review'}</span>
-                            </div>
-                        `;
+                        const cancelBtnHtml = isPending ? `<button onclick="cancelBooking('${act.tabName}', '${act.rowId}', this)" class="absolute top-3 right-3 text-[10px] font-bold text-red-500 bg-white px-2 py-1 rounded shadow-sm border border-red-100 hover:bg-red-50 transition z-10 flex items-center justify-center gap-1">Cancel</button>` : '';
+                        div.innerHTML = `${cancelBtnHtml}<div class="mb-3 pr-12"><p class="text-[10px] font-bold text-gray-400 mb-1 tracking-wide uppercase">Booked on ${act.dateSubmitted}</p><div class="flex items-start gap-3"><div class="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0 border border-blue-100"><i class="fa-solid fa-video text-blue-500 text-sm"></i></div><div class="flex-1 min-w-0"><p class="text-sm font-black text-gray-900 truncate leading-tight">${act.serviceName}</p><p class="text-[11px] font-bold text-blue-600 mt-1 bg-blue-50 inline-block px-2 py-0.5 rounded">Booked for: ${bookedForFormatted}</p></div></div>${issueHtml}</div><div class="p-3 rounded-xl border ${statusColor} text-xs font-semibold whitespace-normal break-words leading-relaxed relative"><span class="font-black uppercase tracking-wider text-[9px] opacity-70 block mb-1 flex items-center gap-1"><i class="fa-solid ${statusIcon}"></i> Live Update</span><span class="status-text">${act.status || 'Pending Review'}</span></div>`;
                         actContainer.appendChild(div);
                     });
-                } else {
-                    actContainer.innerHTML = '<div class="bg-white border border-gray-100 p-5 rounded-2xl flex flex-col items-center justify-center text-center"><div class="w-12 h-12 bg-gray-50 text-gray-400 rounded-full flex items-center justify-center mb-2"><i class="fa-solid fa-folder-open"></i></div><p class="text-gray-900 text-sm font-bold">No History Found</p><p class="text-xs text-gray-500 mt-1">Your bookings will appear here.</p></div>';
-                }
-            } catch(e) {
-                actContainer.innerHTML = '<div class="text-red-500 text-xs font-bold text-center py-4 bg-red-50 rounded-xl border border-red-100">Failed to sync data. Please check connection.</div>';
-            }
+                } else { actContainer.innerHTML = '<div class="bg-white border border-gray-100 p-5 rounded-2xl flex flex-col items-center justify-center text-center"><div class="w-12 h-12 bg-gray-50 text-gray-400 rounded-full flex items-center justify-center mb-2"><i class="fa-solid fa-folder-open"></i></div><p class="text-gray-900 text-sm font-bold">No History Found</p><p class="text-xs text-gray-500 mt-1">Your bookings will appear here.</p></div>'; }
+            } catch(e) { actContainer.innerHTML = '<div class="text-red-500 text-xs font-bold text-center py-4 bg-red-50 rounded-xl border border-red-100">Failed to sync data. Please check connection.</div>'; }
         }
 
         async function cancelBooking(tabName, rowId, btnElement) {
             if(!confirm("Are you sure you want to cancel this booking?")) return;
-
             const user = JSON.parse(localStorage.getItem('sh_user'));
-            
-            // Show spinning circle inside the button
-            btnElement.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Canceling...';
-            btnElement.disabled = true;
-
+            btnElement.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Canceling...'; btnElement.disabled = true;
             try {
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({ action: 'cancel_booking', tabName: tabName, rowId: rowId, email: user.email })
-                });
+                const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'cancel_booking', tabName: tabName, rowId: rowId, email: user.email }) });
                 const result = await response.json();
-
                 if(result.status === 'success') {
-                    const parentDiv = btnElement.closest('.bg-white');
-                    const statusBox = parentDiv.querySelector('.rounded-xl.border');
-                    const statusText = statusBox.querySelector('.status-text');
-                    
+                    const parentDiv = btnElement.closest('.bg-white'); const statusBox = parentDiv.querySelector('.rounded-xl.border'); const statusText = statusBox.querySelector('.status-text');
                     statusBox.className = 'p-3 rounded-xl border text-red-600 bg-red-50 border-red-200 text-xs font-semibold whitespace-normal break-words leading-relaxed relative';
-                    statusText.innerText = "Canceled by you";
-                    btnElement.remove(); 
-                    
-                    // Close profile overlay & show centralized success modal
-                    closeModal('profile-overlay');
+                    statusText.innerText = "Canceled by you"; btnElement.remove(); closeModal('profile-overlay');
                     showSuccessModal("Canceled Successfully", `<p class="text-gray-500 text-sm font-medium px-4">Your meeting has been successfully canceled.</p>`);
-                } else {
-                    alert(result.message);
-                    btnElement.innerText = "Cancel";
-                    btnElement.disabled = false;
-                }
-            } catch(e) {
-                alert("Network error.");
-                btnElement.innerText = "Cancel";
-                btnElement.disabled = false;
-            }
+                } else { alert(result.message); btnElement.innerText = "Cancel"; btnElement.disabled = false; }
+            } catch(e) { alert("Network error."); btnElement.innerText = "Cancel"; btnElement.disabled = false; }
         }
 
         function initiateBooking(serviceName) {
             const userStr = localStorage.getItem('sh_user');
-            if(!userStr) {
-                pendingServiceBooking = serviceName;
-                openAuthModal();
-            } else {
-                openBookingModal(serviceName);
-            }
+            if(!userStr) { pendingServiceBooking = serviceName; openAuthModal(); } 
+            else { openBookingModal(serviceName); }
         }
 
         function openBookingModal(serviceName) {
             const user = JSON.parse(localStorage.getItem('sh_user'));
-            
-            document.getElementById('booking-service-name').innerText = serviceName;
-            document.getElementById('book-service-hidden').value = serviceName;
-            
-            document.getElementById('book-name').value = user.name;
-            document.getElementById('book-phone').value = user.phone;
-            document.getElementById('book-email').value = user.email;
-            
-            document.getElementById('book-date').value = '';
-            document.getElementById('book-time').value = '';
-            document.getElementById('book-issue').value = '';
-            
-            document.getElementById('booking-error').classList.add('hidden');
-            openModal('booking-overlay');
+            document.getElementById('booking-service-name').innerText = serviceName; document.getElementById('book-service-hidden').value = serviceName;
+            document.getElementById('book-name').value = user.name; document.getElementById('book-phone').value = user.phone; document.getElementById('book-email').value = user.email;
+            document.getElementById('book-date').value = ''; document.getElementById('book-time').value = ''; document.getElementById('book-issue').value = '';
+            document.getElementById('booking-error').classList.add('hidden'); openModal('booking-overlay');
         }
 
         async function submitBooking(e) {
-            e.preventDefault();
-            toggleLoading('booking-form', true);
-            const errorDiv = document.getElementById('booking-error');
-            errorDiv.classList.add('hidden');
-
+            e.preventDefault(); toggleLoading('booking-form', true);
+            const errorDiv = document.getElementById('booking-error'); errorDiv.classList.add('hidden');
             const payload = {
-                action: 'tank_booking', 
-                serviceName: document.getElementById('book-service-hidden').value,
-                userName: document.getElementById('book-name').value,
-                userPhone: document.getElementById('book-phone').value,
-                userEmail: document.getElementById('book-email').value,
-                meetingDate: document.getElementById('book-date').value,
-                meetingTime: document.getElementById('book-time').value,
-                userIssue: document.getElementById('book-issue').value
+                action: 'tank_booking', serviceName: document.getElementById('book-service-hidden').value,
+                userName: document.getElementById('book-name').value, userPhone: document.getElementById('book-phone').value,
+                userEmail: document.getElementById('book-email').value, meetingDate: document.getElementById('book-date').value,
+                meetingTime: document.getElementById('book-time').value, userIssue: document.getElementById('book-issue').value
             };
-
             try {
                 const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
                 const result = await response.json();
-                
                 if (result.status === 'success') {
-                    closeModal('booking-overlay');
-                    showSuccessModal("Meeting Confirmed!", `<p class="text-gray-500 text-sm font-medium px-4">We have received your request for ${payload.serviceName}. We will connect with you soon.</p>`);
-                } else {
-                    errorDiv.innerText = result.message; errorDiv.classList.remove('hidden');
-                }
-            } catch (error) {
-                errorDiv.innerText = "Network error. Please try again."; errorDiv.classList.remove('hidden');
-            } finally {
-                toggleLoading('booking-form', false);
-            }
+                    closeModal('booking-overlay'); showSuccessModal("Meeting Confirmed!", `<p class="text-gray-500 text-sm font-medium px-4">We have received your request for ${payload.serviceName}. We will connect with you soon.</p>`);
+                } else { errorDiv.innerText = result.message; errorDiv.classList.remove('hidden'); }
+            } catch (error) { errorDiv.innerText = "Network error. Please try again."; errorDiv.classList.remove('hidden'); } 
+            finally { toggleLoading('booking-form', false); }
         }
+
+        // ---------------- REVIEWS LOGIC ----------------
+        let reviewsData = []; 
+        let currentReviewFilter = 'all'; 
+
+        async function fetchLiveReviews() {
+            try {
+                const response = await fetch(SCRIPT_URL + "?action=getReviews", { method: "GET" });
+                const text = await response.text(); 
+                try {
+                    const data = JSON.parse(text);
+                    if(data && Array.isArray(data)) {
+                        reviewsData = data.map(r => ({
+                            name: r.name, location: r.location, phoneLast4: r.phone ? String(r.phone).slice(-4) : "XXXX",
+                            rating: parseFloat(r.rating) || 5, date: new Date(r.date).getTime() || Date.now(), text: r.text, isLive: true
+                        })).reverse();
+                    }
+                } catch(parseErr) {}
+            } catch(e) {}
+        }
+        
+        function openReviewsModal() { renderReviews(); openModal('modal-reviews'); }
+        function closeReviewsModal() { closeModal('modal-reviews'); }
+        
+        function openWriteReviewModal() { openModal('modal-write-review'); }
+        function closeWriteReviewModal() { closeModal('modal-write-review'); }
+
+        window.filterReviews = function(ratingFilter) {
+            currentReviewFilter = ratingFilter;
+            document.querySelectorAll('.filter-chip').forEach(chip => { 
+                chip.classList.remove('active'); 
+                if(chip.getAttribute('data-val') == ratingFilter) chip.classList.add('active'); 
+            });
+            renderReviews();
+        }
+
+        function formatReviewDate(timestamp) { 
+            const dt = new Date(timestamp);
+            const dateStr = dt.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }); 
+            const timeStr = dt.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
+            return `<span style="color: #6b7280;">${dateStr}</span><span style="font-size: 0.65rem; color: #9ca3af;">${timeStr}</span>`; 
+        }
+
+        function renderReviews() {
+            const container = document.getElementById('reviews-list-container'); 
+            if(!container) return; container.innerHTML = '';
+            
+            let filteredList = reviewsData; 
+            if(currentReviewFilter !== 'all') {
+                let fVal = parseInt(currentReviewFilter);
+                filteredList = reviewsData.filter(r => Math.floor(r.rating) === fVal);
+            }
+
+            if(filteredList.length === 0) { 
+                container.innerHTML = '<div style="text-align:center; padding: 40px 10px; color: #888; font-family: Outfit;"><i class="fas fa-folder-open text-3xl mb-3 text-yellow-500 opacity-50 block"></i><p>No reviews yet. Be the first to review!</p></div>'; 
+                return; 
+            }
+
+            filteredList.forEach(review => {
+                let starsHtml = ''; 
+                for(let i=1; i<=5; i++) { 
+                    if(review.rating >= i) starsHtml += '<i class="fas fa-star"></i>'; 
+                    else if(review.rating >= i - 0.5) starsHtml += '<i class="fas fa-star-half-alt"></i>';
+                    else starsHtml += '<i class="far fa-star" style="color: #e5e7eb;"></i>'; 
+                }
+                const initial = review.name.charAt(0).toUpperCase(); 
+                const displayPhone = review.phoneLast4 || "XXXX";
+                const liveBadge = review.isLive ? '<span class="live-badge"><i class="fas fa-check"></i> Verified</span>' : '';
+
+                const html = `
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-profile">
+                                <div class="reviewer-avatar">${initial}</div>
+                                <div>
+                                    <h4 class="review-name">${review.name} <span class="reviewer-phone-mask">(+91 xxxxxx${displayPhone})</span></h4>
+                                    <p class="review-meta"><i class="fas fa-map-marker-alt text-green-500"></i> ${review.location}</p>
+                                </div>
+                            </div>
+                            <div class="review-date-time">${liveBadge}${formatReviewDate(review.date)}</div>
+                        </div>
+                        <div class="review-stars">${starsHtml}</div>
+                        <p class="review-text">"${review.text}"</p>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+            });
+        }
+
+        let selectedStarRating = 5.0;
+        const starContainer = document.getElementById('starRatingInput');
+        if (starContainer) {
+            starContainer.addEventListener('click', function(e) {
+                if (e.target.tagName === 'I') {
+                    const rect = e.target.getBoundingClientRect();
+                    const x = e.clientX - rect.left; 
+                    const isHalf = x < (rect.width / 2); 
+                    const index = parseInt(e.target.getAttribute('data-val'));
+                    selectedStarRating = isHalf ? index - 0.5 : index;
+                    const stars = starContainer.querySelectorAll('i');
+                    stars.forEach((star, idx) => {
+                        const starVal = idx + 1;
+                        star.className = ''; 
+                        if (selectedStarRating >= starVal) { star.className = 'fas fa-star active'; } 
+                        else if (selectedStarRating >= starVal - 0.5) { star.className = 'fas fa-star-half-alt active'; } 
+                        else { star.className = 'far fa-star'; }
+                    });
+                }
+            });
+        }
+
+        window.submitNewReview = function(e) {
+            e.preventDefault();
+            const name = document.getElementById('revName').value.trim(); 
+            const phoneStr = document.getElementById('revPhone').value.trim(); 
+            const location = document.getElementById('revLocation').value.trim(); 
+            const text = document.getElementById('revText').value.trim();
+            const btnText = document.getElementById('submitReviewText');
+
+            if(!name || !phoneStr || !location || !text) { alert("Please fill all review fields."); return; }
+            
+            const originalBtnText = btnText.innerText;
+            btnText.innerText = "Posting...";
+            const phoneLast4 = phoneStr.length >= 4 ? phoneStr.slice(-4) : "XXXX";
+
+            reviewsData.unshift({ 
+                name: name, location: location, phoneLast4: phoneLast4, 
+                rating: selectedStarRating, date: Date.now(), text: text, isLive: true 
+            });
+            
+            filterReviews('all');
+            const reviewsContainer = document.getElementById('reviews-list-container'); 
+            if(reviewsContainer) reviewsContainer.scrollTop = 0;
+
+            document.getElementById('addReviewForm').reset(); selectedStarRating = 5.0;
+            const stars = starContainer.querySelectorAll('i');
+            stars.forEach(s => { s.classList.add('active', 'fas'); s.classList.remove('far', 'fa-star-half-alt'); });
+            
+            setTimeout(() => {
+                btnText.innerText = originalBtnText;
+                closeWriteReviewModal(); 
+                showSuccessModal("Review Posted!", "<p class='text-sm text-gray-500'>Thank you for sharing your experience with us.</p>");
+            }, 500);
+
+            const reviewSheetData = { 
+                action: 'submitReview', name: name, phone: phoneStr, location: location, 
+                rating: selectedStarRating, text: text, date: new Date().toISOString() 
+            };
+            
+            fetch(SCRIPT_URL, { 
+                method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, 
+                body: JSON.stringify(reviewSheetData) 
+            }).catch(err => console.log("Review sync error:", err));
+        };
     </script>
 </body>
 </html>
