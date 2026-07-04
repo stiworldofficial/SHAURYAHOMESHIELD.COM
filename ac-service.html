@@ -864,7 +864,7 @@
             }
         }
 
-        // ---------------- FIXED Cancel Logic - Optimistic UI + No-CORS Mode ----------------
+        // ---------------- FIXED 100% WORKING Cancel Logic ----------------
         async function cancelBooking(tabName, rowId, serviceName, btnElement) {
             if (!btnElement.dataset.confirmed) {
                 btnElement.dataset.confirmed = "true";
@@ -873,7 +873,8 @@
                 btnElement.classList.replace('text-red-500', 'text-white');
                 btnElement.classList.replace('bg-white', 'bg-red-500');
                 
-                setTimeout(() => {
+                // Save the timer ID so we can stop it if the user clicks "Confirm"
+                btnElement.dataset.timeoutId = setTimeout(() => {
                     if(btnElement && btnElement.parentNode) {
                         delete btnElement.dataset.confirmed;
                         btnElement.innerHTML = originalText;
@@ -884,63 +885,83 @@
                 return;
             }
 
+            // --- USER CLICKED CONFIRM ---
+            // Stop the 3-second reset timer immediately
+            if (btnElement.dataset.timeoutId) {
+                clearTimeout(parseInt(btnElement.dataset.timeoutId));
+            }
+
             const user = JSON.parse(localStorage.getItem('sh_user'));
             
             btnElement.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Canceling...';
             btnElement.disabled = true;
 
-            // Background Request: `no-cors` ensures ZERO network errors block the code execution 
-            // The browser just fires the request silently and continues. (Fire & Forget)
             try {
-                fetch(SCRIPT_URL, {
+                // Removed 'mode: no-cors' completely. 
+                // Default fetch will work fine and return JSON correctly from Google Sheet.
+                const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'text/plain' },
                     body: JSON.stringify({ action: 'cancel_booking', tabName: tabName, rowId: rowId, email: user.email })
                 });
-            } catch(e) {
-                console.log("Background cancel request sent");
-            }
+                
+                const result = await response.json();
 
-            // Immediately Update UI (Optimistic Update) with a tiny 600ms delay for smoothness
-            setTimeout(() => {
-                const cacheKey = 'sh_activities_' + user.email;
-                let cachedDataStr = localStorage.getItem(cacheKey);
-                if (cachedDataStr) {
-                    let acts = JSON.parse(cachedDataStr);
-                    let actToUpdate = acts.find(a => a.rowId === rowId);
-                    if (actToUpdate) actToUpdate.status = "Canceled by user";
-                    localStorage.setItem(cacheKey, JSON.stringify(acts));
-                }
-
-                const parentDiv = btnElement.closest('.bg-white');
-                if (parentDiv) {
-                    const statusBox = parentDiv.querySelector('.rounded-xl.border');
-                    const statusText = statusBox.querySelector('.status-text');
-                    if(statusBox && statusText) {
-                        statusBox.className = 'p-3 rounded-xl border text-red-600 bg-red-50 border-red-200 text-xs font-semibold whitespace-normal break-words leading-relaxed relative';
-                        statusText.innerText = "Canceled by you";
+                if (result.status === 'success') {
+                    // Update Cache
+                    const cacheKey = 'sh_activities_' + user.email;
+                    let cachedDataStr = localStorage.getItem(cacheKey);
+                    if (cachedDataStr) {
+                        let acts = JSON.parse(cachedDataStr);
+                        let actToUpdate = acts.find(a => a.rowId === rowId);
+                        if (actToUpdate) actToUpdate.status = "Canceled by user";
+                        localStorage.setItem(cacheKey, JSON.stringify(acts));
                     }
-                }
-                btnElement.style.display = 'none'; 
-                
-                closeModal('profile-overlay');
-                
-                const customMsg = `
-                    <div class="bg-red-50 border border-red-100 rounded-xl p-4 mb-4 inline-block text-left w-full shadow-sm">
-                        <p class="text-xs text-red-500 mb-1 uppercase font-bold tracking-wider">Service Canceled</p>
-                        <p class="text-lg font-black text-gray-800 leading-tight">${serviceName}</p>
-                    </div>
-                    <p class="text-gray-600 text-sm font-medium px-2 mb-5">Aapki request successfully cancel ho gayi hai.</p>
+
+                    // Update UI immediately
+                    const parentDiv = btnElement.closest('.bg-white');
+                    if (parentDiv) {
+                        const statusBox = parentDiv.querySelector('.rounded-xl.border');
+                        const statusText = statusBox.querySelector('.status-text');
+                        if(statusBox && statusText) {
+                            statusBox.className = 'p-3 rounded-xl border text-red-600 bg-red-50 border-red-200 text-xs font-semibold whitespace-normal break-words leading-relaxed relative';
+                            statusText.innerText = "Canceled by you";
+                        }
+                    }
+                    btnElement.remove(); // Button hat jayega
                     
-                    <button onclick="closeModal('success-overlay'); window.location.href='#services'" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-calendar-plus"></i> Book Again New Service?
-                    </button>
-                `;
-                
-                // Hide default button, show new awesome customized button popup
-                showSuccessModal("Canceled Successfully", customMsg, 'success', true);
-            }, 600);
+                    closeModal('profile-overlay');
+                    
+                    const customMsg = `
+                        <div class="bg-red-50 border border-red-100 rounded-xl p-4 mb-4 inline-block text-left w-full shadow-sm">
+                            <p class="text-xs text-red-500 mb-1 uppercase font-bold tracking-wider">Service Canceled</p>
+                            <p class="text-lg font-black text-gray-800 leading-tight">${serviceName}</p>
+                        </div>
+                        <p class="text-gray-600 text-sm font-medium px-2 mb-5">Aapki request successfully cancel ho gayi hai.</p>
+                        
+                        <button onclick="closeModal('success-overlay'); window.location.href='#services'" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-calendar-plus"></i> Book Again New Service?
+                        </button>
+                    `;
+                    
+                    showSuccessModal("Canceled Successfully", customMsg, 'success', true);
+                } else {
+                    // Backend se error aaye tab
+                    showSuccessModal("Cancellation Failed", `<p class="text-gray-500 text-sm font-medium px-4">${result.message}</p>`, 'error', false);
+                    btnElement.innerHTML = "Cancel";
+                    btnElement.disabled = false;
+                    delete btnElement.dataset.confirmed;
+                    btnElement.classList.replace('text-white', 'text-red-500');
+                    btnElement.classList.replace('bg-red-500', 'bg-white');
+                }
+            } catch(e) {
+                // Sahi me koi network error aaye tab
+                showSuccessModal("Network Error", `<p class="text-gray-500 text-sm font-medium px-4">Network error. Please check your internet connection.</p>`, 'error', false);
+                btnElement.innerHTML = "Cancel";
+                btnElement.disabled = false;
+                delete btnElement.dataset.confirmed;
+                btnElement.classList.replace('text-white', 'text-red-500');
+                btnElement.classList.replace('bg-red-500', 'bg-white');
+            }
         }
 
         // ---------------- BOOKING LOGIC ----------------
