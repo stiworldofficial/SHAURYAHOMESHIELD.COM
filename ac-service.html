@@ -70,26 +70,32 @@
 
     <div id="main-wrapper">
         <div class="fixed top-4 w-full z-50 flex justify-center px-4" id="navbar-wrapper">
-            <nav class="dynamic-island w-full max-w-6xl rounded-[2.5rem] px-4 py-3 flex justify-between items-center shadow-lg shadow-gray-200/50">
+            <!-- Added relative class here for absolute centering of the child -->
+            <nav class="dynamic-island w-full max-w-6xl rounded-[2.5rem] px-4 py-3 flex justify-between items-center shadow-lg shadow-gray-200/50 relative">
                 
-                <div class="flex items-center cursor-pointer group" onclick="window.location.href='index.html'">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform overflow-hidden z-10 flex-shrink-0">
+                <!-- Left: Logo -->
+                <div class="flex items-center cursor-pointer group relative z-10" onclick="window.location.href='index.html'">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform overflow-hidden flex-shrink-0">
                         <img src="shsl.png" class="w-full h-full object-cover" alt="Logo Icon" onerror="this.src='https://via.placeholder.com/40x40?text=S'">
                     </div>
                     <img src="shslname.png" class="h-5 sm:h-6 md:h-7 object-contain ml-3 hidden sm:block" alt="ElectroTech Logo" onerror="this.style.display='none'">
                 </div>
 
-                <div class="hidden md:flex items-center space-x-10">
-                    <a href="index.html" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition-all">Home</a>
-                    <a href="#services" class="text-sm font-bold text-blue-600 transition-all">AC Solutions</a>
-                    <a href="#features" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition-all">Features</a>
+                <!-- Center: Navigation Links + Phone Number -->
+                <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-4 lg:gap-8 whitespace-nowrap">
+                    <div class="hidden md:flex items-center space-x-6 lg:space-x-10">
+                        <a href="index.html" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition-all">Home</a>
+                        <a href="#services" class="text-sm font-bold text-blue-600 transition-all">AC Solutions</a>
+                        <a href="#features" class="text-sm font-bold text-gray-600 hover:text-blue-600 transition-all">Features</a>
+                    </div>
+                    <!-- Number Centered Here -->
+                    <a href="tel:+919996966710" class="flex items-center px-3 py-1.5 rounded-full text-blue-900 font-black text-sm md:text-base hover:text-blue-700 transition-colors tracking-tight">
+                        <span>9996966710</span>
+                    </a>
                 </div>
 
-                <div class="flex items-center gap-3 sm:gap-4">
-                    <a href="tel:+919876543210" class="flex items-center gap-2 px-3 py-1.5 rounded-full text-blue-900 font-black text-sm hover:text-blue-700 transition-colors tracking-tight">
-                        <i class="fa-solid fa-phone"></i> <span class="inline">+91 98765 43210</span>
-                    </a>
-
+                <!-- Right: Buttons -->
+                <div class="flex items-center gap-3 sm:gap-4 relative z-10">
                     <button onclick="openAuthModal()" id="login-btn-header" class="bg-gray-900 text-white px-5 py-2.5 rounded-full text-sm font-bold hover:bg-blue-600 transition-all flex items-center gap-2 shadow-md">
                         <i class="fa-regular fa-user"></i> <span class="hidden sm:inline">Login / Signup</span>
                     </button>
@@ -167,15 +173,87 @@
             </div>
         </section>
 
-        <footer class="relative mt-20 bg-white/80 backdrop-blur-3xl border-t border-gray-200 pt-20 pb-10">
-            <div class="max-w-7xl mx-auto px-6 relative z-10 text-center">
-                <p class="text-gray-500 text-sm">© 2026 Shauryahomeshield. All rights reserved.</p>
+        <!-- NEW ULTRA PROMAX FOOTER (From Index) -->
+        <footer class="relative mt-20 bg-gradient-to-b from-gray-900 to-black text-white pt-16 pb-8 border-t border-gray-800">
+            <div class="max-w-5xl mx-auto px-6 flex flex-col items-center text-center">
+                
+                <!-- Logo & Brand Name Centered -->
+                <div class="mb-6 flex flex-col items-center group cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-400 p-[2px] shadow-[0_0_20px_rgba(59,130,246,0.3)] group-hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] transition-all duration-500 mb-4 transform group-hover:scale-105">
+                        <div class="w-full h-full bg-black rounded-full overflow-hidden flex items-center justify-center">
+                            <img src="shsl.png" class="w-full h-full object-cover" alt="Shauryahomeshield Logo" onerror="this.src='https://via.placeholder.com/80x80?text=S'">
+                        </div>
+                    </div>
+                    <img src="shslname.png" class="h-8 md:h-10 object-contain transform group-hover:scale-105 transition-all duration-500" alt="Shauryahomeshield" onerror="this.style.display='none'">
+                </div>
+
+                <!-- Professional Description -->
+                <p class="text-gray-400 max-w-2xl text-sm md:text-base leading-relaxed mb-10 font-medium px-4">
+                    Hum aapke ghar aur business ke liye top-notch AC services, advanced electric fencing aur smart water tank control systems provide karte hain. Trust, Safety, aur Quality humari pehli priority hai.
+                </p>
+
+                <!-- Contact Info Horizontal Layout -->
+                <div class="flex flex-col md:flex-row gap-8 md:gap-14 text-sm text-gray-300 mb-12 w-full justify-center">
+                    <!-- Address -->
+                    <div class="flex items-center md:items-start gap-4 flex-col md:flex-row group w-full md:w-auto">
+                        <div class="w-12 h-12 rounded-full bg-gray-800/80 border border-gray-700 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 transition-all duration-300 shadow-lg flex-shrink-0">
+                            <i class="fa-solid fa-location-dot text-lg"></i>
+                        </div>
+                        <div class="text-center md:text-left">
+                            <p class="font-bold text-white text-base mb-1 tracking-wide">Office Address</p>
+                            <p class="text-gray-400 text-xs leading-relaxed">
+                                Kami Road, Near Sabzi Mandi,<br>
+                                Baba Dham Ke Samne,<br>
+                                Sonipat - 131001, Haryana, India
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Phone -->
+                    <div class="flex items-center md:items-start gap-4 flex-col md:flex-row group w-full md:w-auto">
+                        <div class="w-12 h-12 rounded-full bg-gray-800/80 border border-gray-700 flex items-center justify-center text-green-400 group-hover:bg-green-500 group-hover:text-white group-hover:border-green-400 transition-all duration-300 shadow-lg flex-shrink-0">
+                            <i class="fa-solid fa-phone text-lg"></i>
+                        </div>
+                        <div class="text-center md:text-left">
+                            <p class="font-bold text-white text-base mb-1 tracking-wide">Call Us</p>
+                            <a href="tel:+919996966710" class="text-gray-400 text-sm hover:text-white transition-colors duration-300">+91 9996966710</a>
+                        </div>
+                    </div>
+                    <!-- Email -->
+                    <div class="flex items-center md:items-start gap-4 flex-col md:flex-row group w-full md:w-auto">
+                        <div class="w-12 h-12 rounded-full bg-gray-800/80 border border-gray-700 flex items-center justify-center text-red-400 group-hover:bg-red-500 group-hover:text-white group-hover:border-red-400 transition-all duration-300 shadow-lg flex-shrink-0">
+                            <i class="fa-solid fa-envelope text-lg"></i>
+                        </div>
+                        <div class="text-center md:text-left">
+                            <p class="font-bold text-white text-base mb-1 tracking-wide">Email Us</p>
+                            <a href="mailto:shauryahomeshield@gmail.com" class="text-gray-400 text-sm hover:text-white transition-colors duration-300">shauryahomeshield<br class="hidden md:block">@gmail.com</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Links -->
+                <div class="flex gap-5 mb-10">
+                    <a href="https://www.facebook.com/share/14mrNGTYAtQ/" target="_blank" class="w-12 h-12 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-xl text-gray-400 hover:bg-[#1877F2] hover:border-[#1877F2] hover:text-white transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(24,119,242,0.3)]">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.instagram.com/shsofficialsutm_source=qr&igsh=cHJqb3kycWlzYmpt" target="_blank" class="w-12 h-12 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-xl text-gray-400 hover:bg-gradient-to-tr hover:from-[#f09433] hover:via-[#dc2743] hover:to-[#bc1888] hover:border-transparent hover:text-white transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(220,39,67,0.3)]">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="https://youtube.com/@shauryahomeshield?si=VNc8eD05-Tz3WXPU" target="_blank" class="w-12 h-12 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-xl text-gray-400 hover:bg-[#FF0000] hover:border-[#FF0000] hover:text-white transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(255,0,0,0.3)]">
+                        <i class="fa-brands fa-youtube"></i>
+                    </a>
+                </div>
+
+                <!-- Copyright -->
+                <div class="w-full border-t border-gray-800/80 pt-8 mt-2 flex flex-col md:flex-row justify-center items-center">
+                    <p class="text-gray-500 text-xs font-semibold tracking-widest uppercase">© 2026 Shauryahomeshield. All rights reserved.</p>
+                </div>
             </div>
         </footer>
     </div> 
 
+    <!-- Updated WhatsApp Number based on index -->
     <div class="fixed bottom-8 right-6 z-[200]">
-        <a href="https://wa.me/919876543210" target="_blank" class="auto-hover-icon w-14 h-14 bg-green-500 text-white rounded-full flex items-center justify-center text-3xl hover:bg-green-600 transition-colors shadow-lg">
+        <a href="https://wa.me/919996966710" target="_blank" class="auto-hover-icon w-14 h-14 bg-green-500 text-white rounded-full flex items-center justify-center text-3xl hover:bg-green-600 transition-colors shadow-lg">
             <i class="fa-brands fa-whatsapp text-white"></i>
         </a>
     </div>
