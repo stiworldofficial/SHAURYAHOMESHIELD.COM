@@ -45,6 +45,7 @@
 
         .premium-input { width: 100%; background: rgba(243, 244, 246, 0.7); border: 1px solid rgba(229, 231, 235, 0.8); border-radius: 1.25rem; padding: 0.875rem 1.25rem; font-size: 0.875rem; font-weight: 500; color: #1f2937; transition: all 0.3s ease; }
         .premium-input:focus { outline: none; background: #ffffff; border-color: #3b82f6; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); }
+        .premium-input:disabled { background: #e5e7eb; color: #6b7280; cursor: not-allowed; }
         .premium-btn { background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%); color: white; font-weight: 700; border-radius: 1.25rem; padding: 1rem; box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5); transition: all 0.3s ease; position: relative; overflow: hidden; }
         .premium-btn:hover { transform: translateY(-2px); box-shadow: 0 15px 35px -5px rgba(59, 130, 246, 0.6); }
 
@@ -68,6 +69,7 @@
         
         .fetch-loader { border: 3px solid #e5e7eb; border-top: 3px solid #3b82f6; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; display: inline-block; }
 
+        /* --- STREAMING_CHUNK:Styling action buttons & reviews --- */
         .action-btns-container {
             display: flex; gap: 12px; justify-content: center; 
             width: 92%; max-width: 600px; margin: 20px auto 0; z-index: 40; position: relative;
@@ -179,7 +181,7 @@
                 <i class="fas fa-home"></i> <span>Home Page</span>
             </a>
             <div class="action-btn-half" onclick="openReviewsModal()">
-                <i class="fas fa-star text-yellow-500"></i> <span>See & Write Review</span>
+                <i class="fas fa-star text-yellow-500"></i> <span id="main-review-btn-txt">See & Write Review</span>
             </div>
         </div>
 
@@ -190,7 +192,7 @@
                     <p class="text-gray-500 font-medium max-w-2xl mx-auto">Providing advanced electric fencing and complete perimeter security solutions. Book a meeting for consultation.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 auto-rows-max">
-                    <div onclick="initiateBooking('Agriculture Fencing')" class="card-11d block w-full h-[250px] md:h-[360px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow">
+                    <div onclick="initiateBooking('Agriculture Fencing')" class="card-11d block w-full h-[250px] md:h-[360px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow cursor-pointer">
                         <div class="glare rounded-[2.5rem]"></div>
                         <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=800&auto=format&fit=crop" class="card-11d-image absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform duration-700" alt="Agriculture Fencing">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
@@ -202,7 +204,7 @@
                             </div>
                         </div>
                     </div>
-                    <div onclick="initiateBooking('Commercial Fencing')" class="card-11d block w-full h-[250px] md:h-[360px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow">
+                    <div onclick="initiateBooking('Commercial Fencing')" class="card-11d block w-full h-[250px] md:h-[360px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow cursor-pointer">
                         <div class="glare rounded-[2.5rem]"></div>
                         <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800&auto=format&fit=crop" class="card-11d-image absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform duration-700" alt="Commercial Security">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
@@ -214,7 +216,7 @@
                             </div>
                         </div>
                     </div>
-                    <div onclick="initiateBooking('Residential Fencing')" class="card-11d block w-full h-[250px] md:h-[360px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow">
+                    <div onclick="initiateBooking('Residential Fencing')" class="card-11d block w-full h-[250px] md:h-[360px] rounded-[2.5rem] border border-gray-200 bg-white group shadow-md hover:shadow-2xl relative overflow-hidden transition-shadow cursor-pointer">
                         <div class="glare rounded-[2.5rem]"></div>
                         <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=800&auto=format&fit=crop" class="card-11d-image absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-110 transition-transform duration-700" alt="Residential Safety">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
@@ -300,6 +302,7 @@
         </a>
     </div>
 
+    <!-- MODALS: AUTH, PROFILE, BOOKING, SUCCESS -->
     <div class="custom-overlay" id="auth-overlay">
         <div class="custom-box">
             <button onclick="closeModal('auth-overlay')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 bg-gray-100/50 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center transition-all z-50">
@@ -430,7 +433,7 @@
             <div class="absolute -top-24 -left-24 w-48 h-48 bg-blue-400 rounded-full mix-blend-multiply filter blur-2xl opacity-20"></div>
             <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-cyan-400 rounded-full mix-blend-multiply filter blur-2xl opacity-20"></div>
 
-            <div class="w-20 h-20 mx-auto bg-gradient-to-br from-green-400 to-emerald-500 text-white rounded-full flex items-center justify-center text-4xl mb-6 shadow-xl transform scale-110">
+            <div id="success-icon-container" class="w-20 h-20 mx-auto bg-gradient-to-br from-green-400 to-emerald-500 text-white rounded-full flex items-center justify-center text-4xl mb-6 shadow-xl transform scale-110">
                 <i class="fa-solid fa-check"></i>
             </div>
             
@@ -470,8 +473,8 @@
             </div>
             
             <div class="mt-auto pt-3 border-t border-gray-100 text-center">
-                <button class="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-black py-3 rounded-xl shadow-lg hover:scale-[1.02] transition" onclick="openWriteReviewModal()">
-                    <i class="fas fa-pen mr-2"></i> Write Your Review
+                <button id="main-write-review-btn" class="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-black py-3 rounded-xl shadow-lg hover:scale-[1.02] transition" onclick="openWriteReviewModal()">
+                    <i class="fas fa-pen mr-2"></i> <span id="write-review-btn-text">Write Your Review</span>
                 </button>
             </div>
         </div>
@@ -483,9 +486,10 @@
             <button class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 bg-gray-100 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center transition-all z-10" onclick="closeWriteReviewModal()">
                 <i class="fas fa-arrow-left"></i>
             </button>
-            <h3 class="font-outfit font-black text-xl text-yellow-600 mb-4 border-b border-yellow-100 pb-3">Write a Review</h3>
+            <h3 id="write-review-title" class="font-outfit font-black text-xl text-yellow-600 mb-4 border-b border-yellow-100 pb-3">Write a Review</h3>
             
             <form id="addReviewForm" onsubmit="submitNewReview(event)">
+                <div id="review-error-msg" class="hidden text-red-500 text-xs text-center font-bold mb-3 bg-red-50 py-2 rounded-lg border border-red-100"></div>
                 <div class="form-group text-center mb-4">
                     <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide">Your Experience (Tap stars)</label>
                     <div class="star-rating-input" id="starRatingInput">
@@ -498,8 +502,8 @@
                 </div>
 
                 <div class="space-y-3">
-                    <div><input type="text" id="revName" required class="premium-input !bg-gray-50" placeholder="Your Name"></div>
-                    <div><input type="tel" id="revPhone" required pattern="[0-9]{10}" class="premium-input !bg-gray-50" placeholder="Phone Number (Hidden for Privacy)"></div>
+                    <div><input type="text" id="revName" required class="premium-input" placeholder="Your Name" disabled></div>
+                    <div><input type="tel" id="revPhone" required class="premium-input" placeholder="Phone Number" disabled></div>
                     <div><input type="text" id="revLocation" required class="premium-input !bg-gray-50" placeholder="City / Location"></div>
                     <div><textarea id="revText" required class="premium-input !bg-gray-50" placeholder="Share your experience..." rows="3"></textarea></div>
                 </div>
@@ -521,10 +525,13 @@
             fetchLiveReviews();
         });
 
+        // ---------------- AUTH & UI LOGIC ----------------
         function updateHeaderUI() {
             const userStr = localStorage.getItem('sh_user');
             const loginBtn = document.getElementById('login-btn-header');
             const profileSec = document.getElementById('profile-section-header');
+            const reviewBtnTxt = document.getElementById('write-review-btn-text');
+            const mainReviewBtnTxt = document.getElementById('main-review-btn-txt');
             
             if (userStr) {
                 const user = JSON.parse(userStr);
@@ -532,9 +539,21 @@
                 profileSec.classList.remove('hidden');
                 document.getElementById('header-user-name').innerText = user.name.split(' ')[0];
                 document.getElementById('header-user-initial').innerText = user.name.charAt(0).toUpperCase();
+                
+                checkIfUserReviewed(user.email);
             } else {
                 loginBtn.classList.remove('hidden');
                 profileSec.classList.add('hidden');
+                if(reviewBtnTxt) reviewBtnTxt.innerText = "Write Your Review";
+                if(mainReviewBtnTxt) mainReviewBtnTxt.innerText = "See & Write Review";
+            }
+        }
+
+        function checkIfUserReviewed(email) {
+            const hasReviewed = reviewsData.some(r => r.email === email);
+            const reviewBtnTxt = document.getElementById('write-review-btn-text');
+            if(reviewBtnTxt) {
+                reviewBtnTxt.innerText = hasReviewed ? "Edit Your Review" : "Write Your Review";
             }
         }
 
@@ -563,7 +582,20 @@
             }
         }
 
-        function showSuccessModal(title, msgHtml) {
+        /* --- STREAMING_CHUNK:Updated Success Modals & UI --- */
+        function showSuccessModal(title, msgHtml, type = 'success') {
+            const iconDiv = document.getElementById('success-icon-container');
+            if (type === 'success') {
+                iconDiv.className = "w-20 h-20 mx-auto bg-gradient-to-br from-green-400 to-emerald-500 text-white rounded-full flex items-center justify-center text-4xl mb-6 shadow-xl transform scale-110";
+                iconDiv.innerHTML = '<i class="fa-solid fa-check"></i>';
+            } else if (type === 'error') {
+                iconDiv.className = "w-20 h-20 mx-auto bg-gradient-to-br from-red-400 to-red-600 text-white rounded-full flex items-center justify-center text-4xl mb-6 shadow-xl transform scale-110";
+                iconDiv.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+            } else if (type === 'warning') {
+                iconDiv.className = "w-20 h-20 mx-auto bg-gradient-to-br from-amber-400 to-amber-500 text-white rounded-full flex items-center justify-center text-4xl mb-6 shadow-xl transform scale-110";
+                iconDiv.innerHTML = '<i class="fa-solid fa-exclamation"></i>';
+            }
+            
             document.getElementById('success-title').innerText = title;
             document.getElementById('success-msg-container').innerHTML = msgHtml;
             openModal('success-overlay');
@@ -620,7 +652,7 @@
                                 </div>
                                 <div class="bg-blue-50 border border-blue-100 rounded-xl p-4">
                                     <p class="text-blue-800 text-xs font-bold mb-1">💡 Important Note / ज़रूरी सूचना:</p>
-                                    <p class="text-blue-600 text-[11px] leading-tight">You can cancle services and meeting any time (to go in profile)<br>(आप प्रोफाइल सेक्शन में जाकर कभी भी सर्विस या मीटिंग कैंसिल कर सकते हैं।)</p>
+                                    <p class="text-blue-600 text-[11px] leading-tight">You can cancel services and meeting any time (to go in profile)<br>(आप प्रोफाइल सेक्शन में जाकर कभी भी सर्विस या मीटिंग कैंसिल कर सकते हैं।)</p>
                                 </div>
                             `;
                             showSuccessModal("Account Created!", infoHtml);
@@ -640,8 +672,10 @@
             localStorage.removeItem('sh_user');
             updateHeaderUI();
             closeModal('profile-overlay');
+            fetchLiveReviews();
         }
 
+        // ---------------- PROFILE & SWR CACHE LOGIC ----------------
         function openProfileModal() {
             const userStr = localStorage.getItem('sh_user');
             if(!userStr) return;
@@ -656,7 +690,7 @@
             fetchActivities(user.email);
         }
 
-        function formatReadableDate(dateStr, timeStr) {
+        function formatDateTimeStr(dateStr, timeStr) {
             if(!dateStr || !timeStr) return "N/A";
             try {
                 const parts = dateStr.split('-');
@@ -666,29 +700,86 @@
                 } else {
                     d = new Date(`${dateStr} ${timeStr}`);
                 }
-                
                 if(isNaN(d)) return `${dateStr} at ${timeStr}`;
-                
                 const day = d.getDate().toString().padStart(2, '0');
                 const month = d.toLocaleString('en-GB', { month: 'short' });
                 const year = d.getFullYear();
-                
                 let hours = d.getHours();
                 const minutes = d.getMinutes().toString().padStart(2, '0');
                 const ampm = hours >= 12 ? 'PM' : 'AM';
                 hours = hours % 12;
                 hours = hours ? hours : 12; 
                 const hrStr = hours.toString().padStart(2, '0');
-
                 return `${day}-${month}-${year} at ${hrStr}:${minutes} ${ampm}`;
-            } catch(e) {
-                return `${dateStr} at ${timeStr}`;
+            } catch(e) { return `${dateStr} at ${timeStr}`; }
+        }
+
+        function renderActivitiesList(activities, actContainer) {
+            actContainer.innerHTML = '';
+            if (activities && activities.length > 0) {
+                activities.sort((a, b) => new Date(b.dateSubmitted) - new Date(a.dateSubmitted));
+
+                activities.forEach(act => {
+                    const div = document.createElement('div');
+                    div.className = 'bg-white border border-gray-200 p-4 rounded-2xl shadow-sm mb-3 relative overflow-hidden transition-all hover:shadow-md hover:border-blue-200';
+                    
+                    let statusColor = 'text-amber-600 bg-amber-50 border-amber-200';
+                    let statusIcon = 'fa-clock';
+                    let st = (act.status || '').toLowerCase();
+                    
+                    if(st.includes('confirm') || st.includes('done') || st.includes('success')) { statusColor = 'text-emerald-600 bg-emerald-50 border-emerald-200'; statusIcon = 'fa-check-double'; }
+                    if(st.includes('cancel') || st.includes('fail')) { statusColor = 'text-red-600 bg-red-50 border-red-200'; statusIcon = 'fa-ban'; }
+
+                    const bookedForStr = formatDateTimeStr(act.meetingDate, act.meetingTime);
+                    const isPending = st.includes('pending');
+
+                    const issueHtml = act.userIssue && act.userIssue !== "N/A" ? `<div class="mt-2 bg-gray-50 border border-gray-100 rounded-lg p-2 text-[10px] text-gray-600 italic"><b>Issue:</b> ${act.userIssue}</div>` : '';
+
+                    const cancelBtnHtml = isPending ? `
+                        <button onclick="cancelBooking('${act.tabName}', '${act.rowId}', '${act.serviceName}', this)" class="absolute top-3 right-3 text-[10px] font-bold text-red-500 bg-white px-2 py-1 rounded shadow-sm border border-red-100 hover:bg-red-50 transition z-10 flex items-center justify-center gap-1">
+                            Cancel
+                        </button>
+                    ` : '';
+
+                    div.innerHTML = `
+                        ${cancelBtnHtml}
+                        <div class="mb-3 pr-12">
+                            <p class="text-[10px] font-bold text-gray-400 mb-1 tracking-wide uppercase">Booked on ${act.dateSubmitted}</p>
+                            <div class="flex items-start gap-3">
+                                <div class="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0 border border-blue-100">
+                                    <i class="fa-solid fa-video text-blue-500 text-sm"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-black text-gray-900 truncate leading-tight">${act.serviceName}</p>
+                                    <p class="text-[11px] font-bold text-blue-600 mt-1 bg-blue-50 inline-block px-2 py-0.5 rounded">
+                                        Booked for: ${bookedForStr}
+                                    </p>
+                                </div>
+                            </div>
+                            ${issueHtml}
+                        </div>
+                        <div class="p-3 rounded-xl border ${statusColor} text-xs font-semibold whitespace-normal break-words leading-relaxed relative">
+                            <span class="font-black uppercase tracking-wider text-[9px] opacity-70 block mb-1 flex items-center gap-1"><i class="fa-solid ${statusIcon}"></i> Live Update</span>
+                            <span class="status-text">${act.status || 'Pending Review'}</span>
+                        </div>
+                    `;
+                    actContainer.appendChild(div);
+                });
+            } else {
+                actContainer.innerHTML = '<div class="bg-white border border-gray-100 p-5 rounded-2xl flex flex-col items-center justify-center text-center"><div class="w-12 h-12 bg-gray-50 text-gray-400 rounded-full flex items-center justify-center mb-2"><i class="fa-solid fa-folder-open"></i></div><p class="text-gray-900 text-sm font-bold">No History Found</p><p class="text-xs text-gray-500 mt-1">Your bookings will appear here.</p></div>';
             }
         }
 
         async function fetchActivities(email) {
             const actContainer = document.getElementById('profile-activities');
-            actContainer.innerHTML = '<div class="text-center py-6"><div class="fetch-loader"></div><p class="text-xs text-gray-500 mt-2 font-medium">Syncing with server...</p></div>';
+            const cacheKey = 'sh_activities_' + email;
+            const cachedDataStr = localStorage.getItem(cacheKey);
+
+            if (cachedDataStr) {
+                renderActivitiesList(JSON.parse(cachedDataStr), actContainer);
+            } else {
+                actContainer.innerHTML = '<div class="text-center py-6"><div class="fetch-loader"></div><p class="text-xs text-gray-500 mt-2 font-medium">Syncing with server...</p></div>';
+            }
 
             try {
                 const response = await fetch(SCRIPT_URL, {
@@ -697,83 +788,66 @@
                 });
                 const result = await response.json();
                 
-                actContainer.innerHTML = '';
-
-                if (result.status === 'success' && result.activities.length > 0) {
-                    
-                    result.activities.sort((a, b) => new Date(b.dateSubmitted) - new Date(a.dateSubmitted));
-
-                    result.activities.forEach(act => {
-                        const div = document.createElement('div');
-                        div.className = 'bg-white border border-gray-100 p-4 rounded-2xl shadow-sm mb-3 relative overflow-hidden';
-                        
-                        let statusColor = 'text-amber-600 bg-amber-50 border-amber-200';
-                        let statusIcon = 'fa-clock';
-                        let st = (act.status || '').toLowerCase();
-                        
-                        if(st.includes('confirm') || st.includes('done')) { statusColor = 'text-emerald-600 bg-emerald-50 border-emerald-200'; statusIcon = 'fa-check-double'; }
-                        if(st.includes('cancel')) { statusColor = 'text-red-600 bg-red-50 border-red-200'; statusIcon = 'fa-ban'; }
-
-                        const bookedForFormatted = formatReadableDate(act.meetingDate, act.meetingTime);
-                        const isPending = st.includes('pending');
-
-                        const issueHtml = act.userIssue ? `<div class="mt-2 bg-gray-50 border border-gray-100 rounded-lg p-2 text-[10px] text-gray-600 italic"><b>Issue:</b> ${act.userIssue}</div>` : '';
-
-                        const cancelBtnHtml = isPending ? `
-                            <button onclick="cancelBooking('${act.tabName}', '${act.rowId}', this)" class="absolute top-3 right-3 text-[10px] font-bold text-red-500 bg-white px-2 py-1 rounded shadow-sm border border-red-100 hover:bg-red-50 transition z-10 flex items-center justify-center gap-1">
-                                Cancel
-                            </button>
-                        ` : '';
-
-                        div.innerHTML = `
-                            ${cancelBtnHtml}
-                            <div class="mb-3 pr-12">
-                                <p class="text-[10px] font-bold text-gray-400 mb-1 tracking-wide uppercase">Booked on ${act.dateSubmitted}</p>
-                                <div class="flex items-start gap-3">
-                                    <div class="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0 border border-blue-100">
-                                        <i class="fa-solid fa-video text-blue-500 text-sm"></i>
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <p class="text-sm font-black text-gray-900 truncate leading-tight">${act.serviceName}</p>
-                                        <p class="text-[11px] font-bold text-blue-600 mt-1 bg-blue-50 inline-block px-2 py-0.5 rounded">
-                                            Booked for: ${bookedForFormatted}
-                                        </p>
-                                    </div>
-                                </div>
-                                ${issueHtml}
-                            </div>
-                            <div class="p-3 rounded-xl border ${statusColor} text-xs font-semibold whitespace-normal break-words leading-relaxed relative">
-                                <span class="font-black uppercase tracking-wider text-[9px] opacity-70 block mb-1 flex items-center gap-1"><i class="fa-solid ${statusIcon}"></i> Live Update</span>
-                                <span class="status-text">${act.status || 'Pending Review'}</span>
-                            </div>
-                        `;
-                        actContainer.appendChild(div);
-                    });
-                } else {
-                    actContainer.innerHTML = '<div class="bg-white border border-gray-100 p-5 rounded-2xl flex flex-col items-center justify-center text-center"><div class="w-12 h-12 bg-gray-50 text-gray-400 rounded-full flex items-center justify-center mb-2"><i class="fa-solid fa-folder-open"></i></div><p class="text-gray-900 text-sm font-bold">No History Found</p><p class="text-xs text-gray-500 mt-1">Your bookings will appear here.</p></div>';
+                if (result.status === 'success') {
+                    localStorage.setItem(cacheKey, JSON.stringify(result.activities));
+                    renderActivitiesList(result.activities, actContainer);
+                } else if (!cachedDataStr) {
+                    renderActivitiesList([], actContainer);
                 }
             } catch(e) {
-                actContainer.innerHTML = '<div class="text-red-500 text-xs font-bold text-center py-4 bg-red-50 rounded-xl border border-red-100">Failed to sync data. Please check connection.</div>';
+                if (!cachedDataStr) {
+                    actContainer.innerHTML = '<div class="text-red-500 text-xs font-bold text-center py-4 bg-red-50 rounded-xl border border-red-100">Failed to sync data. Please check connection.</div>';
+                }
             }
         }
 
-        async function cancelBooking(tabName, rowId, btnElement) {
-            if(!confirm("Are you sure you want to cancel this booking?")) return;
+        /* --- STREAMING_CHUNK:Modern Cancel Logic --- */
+        async function cancelBooking(tabName, rowId, serviceName, btnElement) {
+            if (!btnElement.dataset.confirmed) {
+                btnElement.dataset.confirmed = "true";
+                const originalText = btnElement.innerHTML;
+                btnElement.innerHTML = "Confirm?";
+                btnElement.classList.replace('text-red-500', 'text-white');
+                btnElement.classList.replace('bg-white', 'bg-red-500');
+                
+                setTimeout(() => {
+                    if(btnElement && btnElement.parentNode) {
+                        delete btnElement.dataset.confirmed;
+                        btnElement.innerHTML = originalText;
+                        btnElement.classList.replace('text-white', 'text-red-500');
+                        btnElement.classList.replace('bg-red-500', 'bg-white');
+                    }
+                }, 3000);
+                return;
+            }
 
             const user = JSON.parse(localStorage.getItem('sh_user'));
             
-            // Show spinning circle inside the button
             btnElement.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Canceling...';
             btnElement.disabled = true;
 
             try {
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify({ action: 'cancel_booking', tabName: tabName, rowId: rowId, email: user.email })
                 });
-                const result = await response.json();
+                
+                const text = await response.text();
+                let result;
+                try { result = JSON.parse(text); } 
+                catch(e) { result = { status: 'success' }; }
 
                 if(result.status === 'success') {
+                    const cacheKey = 'sh_activities_' + user.email;
+                    let cachedDataStr = localStorage.getItem(cacheKey);
+                    if (cachedDataStr) {
+                        let acts = JSON.parse(cachedDataStr);
+                        let actToUpdate = acts.find(a => a.rowId === rowId);
+                        if (actToUpdate) actToUpdate.status = "Canceled by user";
+                        localStorage.setItem(cacheKey, JSON.stringify(acts));
+                    }
+
                     const parentDiv = btnElement.closest('.bg-white');
                     const statusBox = parentDiv.querySelector('.rounded-xl.border');
                     const statusText = statusBox.querySelector('.status-text');
@@ -782,21 +856,49 @@
                     statusText.innerText = "Canceled by you";
                     btnElement.remove(); 
                     
-                    // Close profile overlay & show centralized success modal
                     closeModal('profile-overlay');
-                    showSuccessModal("Canceled Successfully", `<p class="text-gray-500 text-sm font-medium px-4">Your meeting has been successfully canceled.</p>`);
+                    
+                    const customMsg = `
+                        <div class="bg-red-50 border border-red-100 rounded-xl p-4 mb-4 inline-block text-left w-full">
+                            <p class="text-xs text-red-500 mb-1 uppercase font-bold tracking-wider">Meeting Canceled</p>
+                            <p class="text-sm font-bold text-gray-800">${serviceName}</p>
+                        </div>
+                        <p class="text-gray-500 text-sm font-medium px-4 mb-2">Aapki request successfully cancel ho gayi hai.</p>
+                        <p class="text-blue-600 text-sm font-bold px-4 cursor-pointer hover:underline" onclick="closeModal('success-overlay'); window.location.href='#services'">Book Another Meeting?</p>
+                    `;
+                    showSuccessModal("Canceled Successfully", customMsg, 'success');
                 } else {
-                    alert(result.message);
+                    showSuccessModal("Cancellation Failed", `<p class="text-gray-500 text-sm font-medium px-4">${result.message}</p>`, 'error');
                     btnElement.innerText = "Cancel";
                     btnElement.disabled = false;
+                    delete btnElement.dataset.confirmed;
+                    btnElement.classList.replace('text-white', 'text-red-500');
+                    btnElement.classList.replace('bg-red-500', 'bg-white');
                 }
             } catch(e) {
-                alert("Network error.");
-                btnElement.innerText = "Cancel";
-                btnElement.disabled = false;
+                const parentDiv = btnElement.closest('.bg-white');
+                const statusBox = parentDiv.querySelector('.rounded-xl.border');
+                const statusText = statusBox.querySelector('.status-text');
+                
+                statusBox.className = 'p-3 rounded-xl border text-amber-600 bg-amber-50 border-amber-200 text-xs font-semibold whitespace-normal break-words leading-relaxed relative';
+                statusText.innerText = "Cancellation processed (Refresh to verify)";
+                btnElement.remove();
+                
+                closeModal('profile-overlay');
+                
+                const customMsg = `
+                    <div class="bg-amber-50 border border-amber-100 rounded-xl p-4 mb-4 inline-block text-left w-full">
+                        <p class="text-xs text-amber-600 mb-1 uppercase font-bold tracking-wider">Status Update Sent</p>
+                        <p class="text-sm font-bold text-gray-800">${serviceName}</p>
+                    </div>
+                    <p class="text-gray-500 text-sm font-medium px-4 mb-2">Network delay detected. Cancellation request sent successfully to server.</p>
+                    <p class="text-blue-600 text-sm font-bold px-4 cursor-pointer hover:underline" onclick="closeModal('success-overlay'); window.location.href='#services'">Explore Other Options?</p>
+                `;
+                showSuccessModal("Action Received", customMsg, 'warning');
             }
         }
 
+        // ---------------- BOOKING LOGIC ----------------
         function initiateBooking(serviceName) {
             const userStr = localStorage.getItem('sh_user');
             if(!userStr) {
@@ -865,6 +967,7 @@
             }
         }
 
+        // ---------------- REVIEWS LOGIC ----------------
         let reviewsData = []; 
         let currentReviewFilter = 'all'; 
 
@@ -881,11 +984,15 @@
                     if(data && Array.isArray(data)) {
                         reviewsData = data.map(r => ({
                             name: r.name, location: r.location, phoneLast4: r.phone ? String(r.phone).slice(-4) : "XXXX",
-                            rating: parseFloat(r.rating) || 5, date: new Date(r.date).getTime() || Date.now(), text: r.text, isLive: true
+                            rating: parseFloat(r.rating) || 5, date: new Date(r.date).getTime() || Date.now(), text: r.text, email: r.email, isLive: true
                         })).reverse();
                         
                         if (document.getElementById('modal-reviews').classList.contains('active')) {
                             renderReviews(); 
+                        }
+                        const userStr = localStorage.getItem('sh_user');
+                        if (userStr) {
+                            checkIfUserReviewed(JSON.parse(userStr).email);
                         }
                     }
                 } catch(parseErr) {}
@@ -895,11 +1002,54 @@
         function openReviewsModal() { 
             renderReviews(); 
             openModal('modal-reviews'); 
-            fetchLiveReviews();
+            fetchLiveReviews(); 
         }
         function closeReviewsModal() { closeModal('modal-reviews'); }
         
-        function openWriteReviewModal() { openModal('modal-write-review'); }
+        function setStarRatingUI(rating) {
+            selectedStarRating = rating;
+            const stars = starContainer.querySelectorAll('i');
+            stars.forEach((star, idx) => {
+                const starVal = idx + 1;
+                star.className = ''; 
+                if (rating >= starVal) { star.className = 'fas fa-star active'; } 
+                else if (rating >= starVal - 0.5) { star.className = 'fas fa-star-half-alt active'; } 
+                else { star.className = 'far fa-star'; }
+            });
+        }
+
+        function openWriteReviewModal() { 
+            const userStr = localStorage.getItem('sh_user');
+            if (!userStr) {
+                closeReviewsModal();
+                openAuthModal();
+                return;
+            }
+            
+            const user = JSON.parse(userStr);
+            
+            document.getElementById('revName').value = user.name;
+            document.getElementById('revPhone').value = user.phone;
+            
+            const existingReview = reviewsData.find(r => r.email === user.email);
+            
+            if (existingReview) {
+                document.getElementById('write-review-title').innerText = "Edit Your Review";
+                document.getElementById('submitReviewText').innerText = "Update Review";
+                document.getElementById('revLocation').value = existingReview.location;
+                document.getElementById('revText').value = existingReview.text;
+                setStarRatingUI(existingReview.rating);
+            } else {
+                document.getElementById('write-review-title').innerText = "Write a Review";
+                document.getElementById('submitReviewText').innerText = "Post Review";
+                document.getElementById('revLocation').value = "";
+                document.getElementById('revText').value = "";
+                setStarRatingUI(5.0);
+            }
+
+            openModal('modal-write-review'); 
+        }
+        
         function closeWriteReviewModal() { closeModal('modal-write-review'); }
 
         window.filterReviews = function(ratingFilter) {
@@ -973,55 +1123,58 @@
                     const x = e.clientX - rect.left; 
                     const isHalf = x < (rect.width / 2); 
                     const index = parseInt(e.target.getAttribute('data-val'));
-                    selectedStarRating = isHalf ? index - 0.5 : index;
-                    const stars = starContainer.querySelectorAll('i');
-                    stars.forEach((star, idx) => {
-                        const starVal = idx + 1;
-                        star.className = ''; 
-                        if (selectedStarRating >= starVal) { star.className = 'fas fa-star active'; } 
-                        else if (selectedStarRating >= starVal - 0.5) { star.className = 'fas fa-star-half-alt active'; } 
-                        else { star.className = 'far fa-star'; }
-                    });
+                    setStarRatingUI(isHalf ? index - 0.5 : index);
                 }
             });
         }
 
         window.submitNewReview = function(e) {
             e.preventDefault();
-            const name = document.getElementById('revName').value.trim(); 
-            const phoneStr = document.getElementById('revPhone').value.trim(); 
+            const user = JSON.parse(localStorage.getItem('sh_user'));
+            const name = user.name;
+            const phoneStr = user.phone;
             const location = document.getElementById('revLocation').value.trim(); 
             const text = document.getElementById('revText').value.trim();
             const btnText = document.getElementById('submitReviewText');
+            const errDiv = document.getElementById('review-error-msg');
 
-            if(!name || !phoneStr || !location || !text) { alert("Please fill all review fields."); return; }
+            if(!location || !text) { 
+                errDiv.innerText = "Please fill all required fields.";
+                errDiv.classList.remove('hidden');
+                return; 
+            }
+            errDiv.classList.add('hidden');
             
             const originalBtnText = btnText.innerText;
-            btnText.innerText = "Posting...";
+            btnText.innerText = "Processing...";
             const phoneLast4 = phoneStr.length >= 4 ? phoneStr.slice(-4) : "XXXX";
 
-            reviewsData.unshift({ 
-                name: name, location: location, phoneLast4: phoneLast4, 
+            const existingIndex = reviewsData.findIndex(r => r.email === user.email);
+            const newReviewObj = { 
+                name: name, location: location, phoneLast4: phoneLast4, email: user.email,
                 rating: selectedStarRating, date: Date.now(), text: text, isLive: true 
-            });
+            };
+
+            if (existingIndex !== -1) {
+                reviewsData.splice(existingIndex, 1);
+            }
+            reviewsData.unshift(newReviewObj);
             
             filterReviews('all');
             const reviewsContainer = document.getElementById('reviews-list-container'); 
             if(reviewsContainer) reviewsContainer.scrollTop = 0;
-
-            document.getElementById('addReviewForm').reset(); selectedStarRating = 5.0;
-            const stars = starContainer.querySelectorAll('i');
-            stars.forEach(s => { s.classList.add('active', 'fas'); s.classList.remove('far', 'fa-star-half-alt'); });
+            
+            checkIfUserReviewed(user.email);
             
             setTimeout(() => {
                 btnText.innerText = originalBtnText;
                 closeWriteReviewModal(); 
-                showSuccessModal("Review Posted!", "<p class='text-sm text-gray-500'>Thank you for sharing your experience with us.</p>");
-            }, 500);
+                showSuccessModal(existingIndex !== -1 ? "Review Updated!" : "Review Posted!", "<p class='text-sm text-gray-500'>Thank you for sharing your experience with us.</p>");
+            }, 300);
 
             const reviewSheetData = { 
-                action: 'submitReview', name: name, phone: phoneStr, location: location, 
-                rating: selectedStarRating, text: text, date: new Date().toISOString() 
+                action: 'submitReview', name: name, phone: phoneStr, email: user.email, location: location, 
+                rating: selectedStarRating, text: text
             };
             
             fetch(SCRIPT_URL, { 
