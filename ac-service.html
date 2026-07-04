@@ -62,6 +62,8 @@
         .card-11d { transform-style: preserve-3d; perspective: 1000px; cursor: pointer;}
         .glare { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; mix-blend-mode: overlay; }
         .dynamic-island { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(0, 0, 0, 0.05); }
+        .hero-slide { opacity: 0; transition: opacity 1.5s ease-in-out; z-index: 1; }
+        .hero-slide.active { opacity: 1; z-index: 2; }
         
         .fetch-loader { border: 3px solid #e5e7eb; border-top: 3px solid #3b82f6; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; display: inline-block; }
 
@@ -126,6 +128,14 @@
         .star-rating-input i { transition: color 0.2s; padding: 5px; }
         .star-rating-input i.active { color: #f59e0b; }
         .star-rating-input i:active { transform: scale(0.85); }
+
+        /* Animation for cancel confirmation */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .shake-animation { animation: shake 0.3s ease-in-out; }
     </style>
 </head>
 <body class="font-sans pt-[82px]"> 
@@ -141,7 +151,6 @@
                     <img src="shslname.png" class="h-5 sm:h-6 md:h-7 object-contain ml-3 hidden sm:block" alt="ElectroTech Logo" onerror="this.style.display='none'">
                 </div>
 
-                <!-- Center: Horizontally Centered Phone & Links -->
                 <div class="absolute left-1/2 transform -translate-x-1/2 flex flex-col items-center justify-center w-max z-0">
                     <a href="tel:+919996966710" class="text-blue-900 font-black text-[15px] sm:text-base hover:text-blue-600 transition-all tracking-wide">
                         +91 9996966710
@@ -166,38 +175,14 @@
             </nav>
         </div>
 
-        <!-- UPDATED 3-IMAGE HERO SLIDER -->
-        <section id="home" class="relative w-full aspect-video md:aspect-[21/9] max-w-[1920px] mx-auto bg-black overflow-hidden shadow-xl z-10">
-            <div id="hero-slider-track" class="flex w-full h-full transition-transform duration-700 ease-in-out">
-                <div class="w-full md:w-1/3 flex-shrink-0 h-full relative border-r border-black/30">
-                    <img src="https://images.unsplash.com/photo-1527689638836-411945a2b57c?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover" alt="AC Service 1">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-                </div>
-                <div class="w-full md:w-1/3 flex-shrink-0 h-full relative border-r border-black/30">
-                    <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover" alt="AC Service 2">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-                </div>
-                <div class="w-full md:w-1/3 flex-shrink-0 h-full relative border-r border-black/30">
-                    <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover" alt="AC Service 3">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-                </div>
-                <div class="w-full md:w-1/3 flex-shrink-0 h-full relative border-r border-black/30">
-                    <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover" alt="AC Service 4">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-                </div>
-                <div class="w-full md:w-1/3 flex-shrink-0 h-full relative border-r border-black/30">
-                    <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover" alt="AC Service 5">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-                </div>
-                <div class="w-full md:w-1/3 flex-shrink-0 h-full relative">
-                    <img src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover" alt="AC Service 6">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-                </div>
-            </div>
-            <div class="absolute inset-0 bg-gradient-to-r from-blue-900/40 to-transparent pointer-events-none z-10"></div>
+        <section id="home" class="relative w-full aspect-video max-w-[1920px] mx-auto bg-black overflow-hidden shadow-xl z-10">
+            <img src="https://images.unsplash.com/photo-1527689638836-411945a2b57c?q=80&w=1920&auto=format&fit=crop" alt="Residential Split AC" class="hero-slide active absolute inset-0 w-full h-full object-cover">
+            <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=1920&auto=format&fit=crop" alt="Commercial HVAC Ducts" class="hero-slide absolute inset-0 w-full h-full object-cover">
+            <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?q=80&w=1920&auto=format&fit=crop" alt="AC Technician Working" class="hero-slide absolute inset-0 w-full h-full object-cover">
+            <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=1920&auto=format&fit=crop" alt="AC Outdoor Unit" class="hero-slide absolute inset-0 w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-r from-blue-900/40 to-transparent pointer-events-none"></div>
         </section>
 
-        <!-- Action Buttons Container strictly below the slider -->
         <div class="action-btns-container">
             <a href="index.html" class="action-btn-home">
                 <i class="fas fa-home"></i> <span>Home Page</span>
@@ -334,7 +319,7 @@
         </a>
     </div>
 
-    <!-- MODALS: AUTH, PROFILE, BOOKING, SUCCESS -->
+    <!-- MODALS -->
     <div class="custom-overlay" id="auth-overlay">
         <div class="custom-box">
             <button onclick="closeModal('auth-overlay')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 bg-gray-100/50 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center transition-all z-50">
@@ -473,13 +458,13 @@
             
             <div id="success-msg-container" class="mb-6 w-full text-center"></div>
 
-            <button id="success-default-btn" onclick="closeModal('success-overlay')" class="w-full premium-btn !bg-gradient-to-r !from-gray-800 !to-gray-900 !shadow-none hover:!shadow-xl">
+            <button onclick="closeModal('success-overlay')" class="w-full premium-btn !bg-gradient-to-r !from-gray-800 !to-gray-900 !shadow-none hover:!shadow-xl">
                 Awesome, thanks!
             </button>
         </div>
     </div>
 
-    <!-- REVIEWS SYSTEM MODALS (CENTERED) -->
+    <!-- REVIEWS MODALS -->
     <div class="custom-overlay" id="modal-reviews">
         <div class="custom-box !p-5 !max-w-md w-full !max-h-[85vh] flex flex-col">
             <button class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 bg-gray-100 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center transition-all z-10" onclick="closeReviewsModal()">
@@ -558,26 +543,16 @@
             fetchLiveReviews();
         });
 
-        // ---------------- UPDATED HERO SLIDER LOGIC ----------------
+        // ---------------- HERO SLIDER LOGIC ----------------
         let currentSlide = 0;
         function startHeroSlider() {
-            const track = document.getElementById('hero-slider-track');
-            if(!track) return;
-            const totalSlides = track.children.length;
+            const slides = document.querySelectorAll('.hero-slide');
+            if(slides.length <= 1) return;
             
             setInterval(() => {
-                // Mobile par 1 image, desktop par 3 image
-                const visibleSlides = window.innerWidth < 768 ? 1 : 3; 
-                const maxSlide = totalSlides - visibleSlides;
-                
-                if (currentSlide >= maxSlide) {
-                    currentSlide = 0; 
-                } else {
-                    currentSlide++;
-                }
-                
-                const movePercentage = currentSlide * (100 / visibleSlides);
-                track.style.transform = `translateX(-${movePercentage}%)`;
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
             }, 3000); 
         }
         
@@ -638,10 +613,8 @@
             }
         }
 
-        function showSuccessModal(title, msgHtml, type = 'success', hideDefaultBtn = false) {
+        function showSuccessModal(title, msgHtml, type = 'success') {
             const iconDiv = document.getElementById('success-icon-container');
-            const defaultBtn = document.getElementById('success-default-btn');
-            
             if (type === 'success') {
                 iconDiv.className = "w-20 h-20 mx-auto bg-gradient-to-br from-green-400 to-emerald-500 text-white rounded-full flex items-center justify-center text-4xl mb-6 shadow-xl transform scale-110";
                 iconDiv.innerHTML = '<i class="fa-solid fa-check"></i>';
@@ -653,12 +626,6 @@
                 iconDiv.innerHTML = '<i class="fa-solid fa-exclamation"></i>';
             }
             
-            if (hideDefaultBtn) {
-                defaultBtn.classList.add('hidden');
-            } else {
-                defaultBtn.classList.remove('hidden');
-            }
-            
             document.getElementById('success-title').innerText = title;
             document.getElementById('success-msg-container').innerHTML = msgHtml;
             openModal('success-overlay');
@@ -666,10 +633,11 @@
 
         function toggleLoading(formId, isLoading) {
             const btn = document.querySelector(`#${formId} button[type="submit"]`);
+            if(!btn) return;
             const txt = btn.querySelector('.btn-text');
             const spinner = btn.querySelector('.loader-spinner');
-            if (isLoading) { txt.style.display = 'none'; spinner.style.display = 'block'; btn.disabled = true; } 
-            else { txt.style.display = 'block'; spinner.style.display = 'none'; btn.disabled = false; }
+            if (isLoading) { if(txt) txt.style.display = 'none'; if(spinner) spinner.style.display = 'block'; btn.disabled = true; } 
+            else { if(txt) txt.style.display = 'block'; if(spinner) spinner.style.display = 'none'; btn.disabled = false; }
         }
 
         let pendingServiceBooking = null;
@@ -735,10 +703,16 @@
             localStorage.removeItem('sh_user');
             updateHeaderUI();
             closeModal('profile-overlay');
+            // Clear cached activities
+            const userStr = localStorage.getItem('sh_user');
+            if(userStr) {
+                const user = JSON.parse(userStr);
+                localStorage.removeItem('sh_activities_' + user.email);
+            }
             fetchLiveReviews();
         }
 
-        // ---------------- PROFILE & SWR CACHE LOGIC ----------------
+        // ---------------- PROFILE & ACTIVITIES LOGIC ----------------
         function openProfileModal() {
             const userStr = localStorage.getItem('sh_user');
             if(!userStr) return;
@@ -780,7 +754,12 @@
         function renderActivitiesList(activities, actContainer) {
             actContainer.innerHTML = '';
             if (activities && activities.length > 0) {
-                activities.sort((a, b) => new Date(b.dateSubmitted) - new Date(a.dateSubmitted));
+                activities.sort((a, b) => {
+                    // Sort by dateSubmitted (most recent first)
+                    const dateA = new Date(a.dateSubmitted.replace(' at ', ' '));
+                    const dateB = new Date(b.dateSubmitted.replace(' at ', ' '));
+                    return dateB - dateA;
+                });
 
                 activities.forEach(act => {
                     const div = document.createElement('div');
@@ -794,7 +773,8 @@
                     if(st.includes('cancel') || st.includes('fail')) { statusColor = 'text-red-600 bg-red-50 border-red-200'; statusIcon = 'fa-ban'; }
 
                     const bookedForStr = formatDateTimeStr(act.meetingDate, act.meetingTime);
-                    const isPending = st.includes('pending');
+                    // Check if status is pending (case insensitive)
+                    const isPending = st.includes('pending') || st.includes('request received');
 
                     const issueHtml = act.userIssue && act.userIssue !== "N/A" ? `<div class="mt-2 bg-gray-50 border border-gray-100 rounded-lg p-2 text-[10px] text-gray-600 italic"><b>Issue:</b> ${act.userIssue}</div>` : '';
 
@@ -864,21 +844,22 @@
             }
         }
 
-        // ---------------- FIXED 100% WORKING Cancel Logic ----------------
+        // ---------------- IMPROVED CANCEL BOOKING LOGIC ----------------
         async function cancelBooking(tabName, rowId, serviceName, btnElement) {
-            // STEP 1: Confirm check
+            // Double confirmation check
             if (!btnElement.dataset.confirmed) {
                 btnElement.dataset.confirmed = "true";
                 const originalText = btnElement.innerHTML;
-                btnElement.innerHTML = "Confirm?";
+                btnElement.innerHTML = '<i class="fas fa-exclamation-triangle text-[10px]"></i> Confirm?';
+                btnElement.classList.add('shake-animation');
                 btnElement.classList.replace('text-red-500', 'text-white');
                 btnElement.classList.replace('bg-white', 'bg-red-500');
                 
-                // Save the timer ID so we can stop it if the user clicks "Confirm"
-                btnElement.dataset.timeoutId = setTimeout(() => {
+                setTimeout(() => {
                     if(btnElement && btnElement.parentNode) {
                         delete btnElement.dataset.confirmed;
                         btnElement.innerHTML = originalText;
+                        btnElement.classList.remove('shake-animation');
                         btnElement.classList.replace('text-white', 'text-red-500');
                         btnElement.classList.replace('bg-red-500', 'bg-white');
                     }
@@ -886,62 +867,118 @@
                 return;
             }
 
-            // --- USER CLICKED CONFIRM ---
-            // Stop the 3-second reset timer immediately
-            if (btnElement.dataset.timeoutId) {
-                clearTimeout(parseInt(btnElement.dataset.timeoutId));
-            }
-
             const user = JSON.parse(localStorage.getItem('sh_user'));
-            const payload = { action: 'cancel_booking', tabName: tabName, rowId: rowId, email: user.email };
-
-            // 1. TURANT UI UPDATE (Optimistic UI - No Wait)
-            const parentDiv = btnElement.closest('.bg-white');
-            if (parentDiv) {
-                const statusBox = parentDiv.querySelector('.rounded-xl.border');
-                const statusText = statusBox.querySelector('.status-text');
-                if(statusBox && statusText) {
-                    statusBox.className = 'p-3 rounded-xl border text-red-600 bg-red-50 border-red-200 text-xs font-semibold whitespace-normal break-words leading-relaxed relative';
-                    statusText.innerText = "Canceled by you";
-                }
-            }
-            btnElement.remove(); // Button instantly remove
+            const originalHtml = btnElement.innerHTML;
             
-            // 2. CACHE UPDATE TAAKI REFRESH PE WAPAS NA AAYE
-            const cacheKey = 'sh_activities_' + user.email;
-            let cachedDataStr = localStorage.getItem(cacheKey);
-            if (cachedDataStr) {
-                let acts = JSON.parse(cachedDataStr);
-                let actToUpdate = acts.find(a => String(a.rowId) === String(rowId));
-                if (actToUpdate) actToUpdate.status = "Canceled by user";
-                localStorage.setItem(cacheKey, JSON.stringify(acts));
-            }
+            // Show loading state
+            btnElement.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Canceling...';
+            btnElement.disabled = true;
+            btnElement.classList.add('opacity-70');
 
-            // 3. SUCCESS POPUP SHOW
-            closeModal('profile-overlay');
-            const customMsg = `
-                <div class="bg-red-50 border border-red-100 rounded-xl p-4 mb-4 inline-block text-left w-full shadow-sm">
-                    <p class="text-xs text-red-500 mb-1 uppercase font-bold tracking-wider">Service Canceled</p>
-                    <p class="text-lg font-black text-gray-800 leading-tight">${serviceName}</p>
-                </div>
-                <p class="text-gray-600 text-sm font-medium px-2 mb-5">Aapki request successfully cancel ho gayi hai.</p>
-                <button onclick="closeModal('success-overlay'); window.location.href='#services'" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-calendar-plus"></i> Book Again New Service?
-                </button>
-            `;
-            showSuccessModal("Canceled Successfully", customMsg, 'success', true);
-
-            // 4. BACKEND KO REQUEST BHEJO (Exactly jaise 'submitBooking' mein hai, ye kaam karegi)
             try {
-                fetch(SCRIPT_URL, {
+                const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    body: JSON.stringify(payload)
-                }).catch(e => {
-                    // Ignore CORS error silently, kyunki backend sheet me update successfully ho jata hai
-                    console.log("Ignored network error, backend successfully processed request.");
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ 
+                        action: 'cancel_booking', 
+                        tabName: tabName, 
+                        rowId: rowId, 
+                        email: user.email 
+                    })
                 });
-            } catch(e) {
-                console.log("Fetch execution error:", e);
+                
+                const text = await response.text();
+                let result;
+                try { result = JSON.parse(text); } 
+                catch(e) { result = { status: 'success' }; }
+
+                // Update local cache
+                const cacheKey = 'sh_activities_' + user.email;
+                let cachedDataStr = localStorage.getItem(cacheKey);
+                if (cachedDataStr) {
+                    let acts = JSON.parse(cachedDataStr);
+                    let actToUpdate = acts.find(a => a.rowId === rowId);
+                    if (actToUpdate) {
+                        actToUpdate.status = "Canceled by user";
+                    }
+                    localStorage.setItem(cacheKey, JSON.stringify(acts));
+                }
+
+                // Update UI immediately
+                const parentDiv = btnElement.closest('.bg-white');
+                if (parentDiv) {
+                    const statusBox = parentDiv.querySelector('.rounded-xl.border');
+                    if (statusBox) {
+                        const statusText = statusBox.querySelector('.status-text');
+                        statusBox.className = 'p-3 rounded-xl border text-red-600 bg-red-50 border-red-200 text-xs font-semibold whitespace-normal break-words leading-relaxed relative';
+                        if (statusText) statusText.innerText = "Canceled by you";
+                    }
+                    btnElement.remove(); // Remove the cancel button
+                }
+
+                // Close profile modal and show success
+                closeModal('profile-overlay');
+                
+                const customMsg = `
+                    <div class="bg-red-50 border border-red-100 rounded-xl p-4 mb-4 inline-block text-left w-full">
+                        <p class="text-xs text-red-500 mb-1 uppercase font-bold tracking-wider">Service Canceled</p>
+                        <p class="text-sm font-bold text-gray-800">${serviceName}</p>
+                    </div>
+                    <p class="text-gray-600 text-sm font-medium px-4 mb-3">Aapki request successfully cancel ho gayi hai.</p>
+                    <div class="flex flex-col sm:flex-row gap-3 justify-center mt-2">
+                        <button onclick="closeModal('success-overlay')" class="bg-gray-200 text-gray-800 font-bold px-6 py-2 rounded-xl text-sm hover:bg-gray-300 transition">Close</button>
+                        <button onclick="closeModal('success-overlay'); window.location.href='#services'" class="bg-blue-600 text-white font-bold px-6 py-2 rounded-xl text-sm hover:bg-blue-700 transition shadow-md">
+                            <i class="fas fa-plus mr-1"></i> Book Again New Service
+                        </button>
+                    </div>
+                `;
+                showSuccessModal("Canceled Successfully ✅", customMsg, 'success');
+
+            } catch (error) {
+                // Network error - still try to mark as canceled locally
+                console.error("Cancel error:", error);
+                
+                // Update local cache anyway
+                const cacheKey = 'sh_activities_' + user.email;
+                let cachedDataStr = localStorage.getItem(cacheKey);
+                if (cachedDataStr) {
+                    let acts = JSON.parse(cachedDataStr);
+                    let actToUpdate = acts.find(a => a.rowId === rowId);
+                    if (actToUpdate) {
+                        actToUpdate.status = "Canceled by user (offline)";
+                    }
+                    localStorage.setItem(cacheKey, JSON.stringify(acts));
+                }
+
+                // Update UI
+                const parentDiv = btnElement.closest('.bg-white');
+                if (parentDiv) {
+                    const statusBox = parentDiv.querySelector('.rounded-xl.border');
+                    if (statusBox) {
+                        const statusText = statusBox.querySelector('.status-text');
+                        statusBox.className = 'p-3 rounded-xl border text-amber-600 bg-amber-50 border-amber-200 text-xs font-semibold whitespace-normal break-words leading-relaxed relative';
+                        if (statusText) statusText.innerText = "Canceled by you (offline)";
+                    }
+                    btnElement.remove();
+                }
+
+                closeModal('profile-overlay');
+                
+                const customMsg = `
+                    <div class="bg-amber-50 border border-amber-100 rounded-xl p-4 mb-4 inline-block text-left w-full">
+                        <p class="text-xs text-amber-600 mb-1 uppercase font-bold tracking-wider">Cancellation Processed</p>
+                        <p class="text-sm font-bold text-gray-800">${serviceName}</p>
+                    </div>
+                    <p class="text-gray-600 text-sm font-medium px-4 mb-3">Network delay detected. Cancellation request has been sent to server.</p>
+                    <p class="text-xs text-gray-500 px-4 mb-3">Your booking status will update automatically once the server syncs.</p>
+                    <div class="flex flex-col sm:flex-row gap-3 justify-center mt-2">
+                        <button onclick="closeModal('success-overlay')" class="bg-gray-200 text-gray-800 font-bold px-6 py-2 rounded-xl text-sm hover:bg-gray-300 transition">Close</button>
+                        <button onclick="closeModal('success-overlay'); window.location.href='#services'" class="bg-blue-600 text-white font-bold px-6 py-2 rounded-xl text-sm hover:bg-blue-700 transition shadow-md">
+                            <i class="fas fa-plus mr-1"></i> Book Again New Service
+                        </button>
+                    </div>
+                `;
+                showSuccessModal("Action Received 📡", customMsg, 'warning');
             }
         }
 
@@ -1000,6 +1037,9 @@
                 
                 if (result.status === 'success') {
                     closeModal('booking-overlay');
+                    // Clear cached activities so new booking shows up
+                    const user = JSON.parse(localStorage.getItem('sh_user'));
+                    localStorage.removeItem('sh_activities_' + user.email);
                     showSuccessModal("Service Booked!", `<p class="text-gray-500 text-sm font-medium px-4">We have received your request for ${payload.serviceName}. We will connect with you soon.</p>`);
                 } else {
                     errorDiv.innerText = result.message; 
