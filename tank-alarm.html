@@ -65,7 +65,7 @@
         
         .fetch-loader { border: 3px solid #e5e7eb; border-top: 3px solid #3b82f6; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; display: inline-block; }
 
-        /* --- STREAMING_CHUNK:Styling the new below-slider action buttons --- */
+        /* --- STREAMING_CHUNK:Styling action buttons & reviews --- */
         .action-btns-container {
             display: flex; gap: 12px; justify-content: center; 
             width: 92%; max-width: 600px; margin: 20px auto 0; z-index: 40; position: relative;
@@ -94,7 +94,6 @@
         }
         .action-btn-half:hover { background: #FFD700; color: #000; box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
 
-        /* --- STREAMING_CHUNK:Styling review system components --- */
         .review-filters-wrapper { margin-bottom: 15px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 10px; }
         .review-filters { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; -ms-overflow-style: none; scrollbar-width: none; }
         .review-filters::-webkit-scrollbar { display: none; }
@@ -142,7 +141,7 @@
                     <img src="shslname.png" class="h-5 sm:h-6 md:h-7 object-contain ml-3 hidden sm:block" alt="ElectroTech Logo" onerror="this.style.display='none'">
                 </div>
                 
-                <!-- Center: Horizontally Centered Phone & Links -->
+                <!-- Center: Horizontally Centered Phone & Links (No icon) -->
                 <div class="absolute left-1/2 transform -translate-x-1/2 flex flex-col items-center justify-center w-max z-0">
                     <a href="tel:+919996966710" class="text-blue-900 font-black text-[15px] sm:text-base hover:text-blue-600 transition-all tracking-wide">
                         +91 9996966710
@@ -171,7 +170,7 @@
             <img src="https://images.unsplash.com/photo-1548839140-29a749e1bc4e?q=80&w=1920&auto=format&fit=crop" alt="Save Water Concept" class="hero-slide active absolute inset-0 w-full h-full object-cover">
         </section>
 
-        <!-- New Action Buttons Container (Home & Reviews) placed strictly below the slider -->
+        <!-- Action Buttons Container strictly below the slider -->
         <div class="action-btns-container">
             <a href="index.html" class="action-btn-home">
                 <i class="fas fa-home"></i> <span>Home Page</span>
@@ -443,7 +442,7 @@
         </div>
     </div>
 
-    <!-- NEW MODALS: REVIEWS SYSTEM (LIST & WRITE) -->
+    <!-- REVIEWS SYSTEM MODALS (CENTERED) -->
     <div class="custom-overlay" id="modal-reviews">
         <div class="custom-box !p-5 !max-w-md w-full !max-h-[85vh] flex flex-col">
             <button class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 bg-gray-100 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center transition-all z-10" onclick="closeReviewsModal()">
@@ -696,7 +695,12 @@
 
         async function fetchLiveReviews() {
             try {
-                const response = await fetch(SCRIPT_URL + "?action=getReviews", { method: "GET" });
+                // FIXED: Added dynamic timestamp cache-buster so browsers NEVER cache the old list
+                const fetchUrl = SCRIPT_URL + "?action=getReviews&t=" + new Date().getTime();
+                const response = await fetch(fetchUrl, { 
+                    method: "GET",
+                    cache: "no-store" 
+                });
                 const text = await response.text(); 
                 try {
                     const data = JSON.parse(text);
@@ -705,12 +709,21 @@
                             name: r.name, location: r.location, phoneLast4: r.phone ? String(r.phone).slice(-4) : "XXXX",
                             rating: parseFloat(r.rating) || 5, date: new Date(r.date).getTime() || Date.now(), text: r.text, isLive: true
                         })).reverse();
+                        
+                        // Force a re-render if the modal is currently open
+                        if (document.getElementById('modal-reviews').classList.contains('active')) {
+                            renderReviews(); 
+                        }
                     }
                 } catch(parseErr) {}
             } catch(e) {}
         }
         
-        function openReviewsModal() { renderReviews(); openModal('modal-reviews'); }
+        function openReviewsModal() { 
+            renderReviews(); 
+            openModal('modal-reviews'); 
+            fetchLiveReviews(); // Always fetch the freshest data on open!
+        }
         function closeReviewsModal() { closeModal('modal-reviews'); }
         
         function openWriteReviewModal() { openModal('modal-write-review'); }
@@ -814,6 +827,7 @@
             btnText.innerText = "Posting...";
             const phoneLast4 = phoneStr.length >= 4 ? phoneStr.slice(-4) : "XXXX";
 
+            // Push locally so UI is fast
             reviewsData.unshift({ 
                 name: name, location: location, phoneLast4: phoneLast4, 
                 rating: selectedStarRating, date: Date.now(), text: text, isLive: true 
@@ -838,10 +852,13 @@
                 rating: selectedStarRating, text: text, date: new Date().toISOString() 
             };
             
+            // FIXED: Removed 'no-cors' so it acts like a normal JSON POST Request (Just like your working login/booking script)
             fetch(SCRIPT_URL, { 
-                method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, 
+                method: 'POST', 
                 body: JSON.stringify(reviewSheetData) 
-            }).catch(err => console.log("Review sync error:", err));
+            }).then(res => res.json())
+              .then(data => { console.log("Review Sync Success"); })
+              .catch(err => console.log("Review sync error:", err));
         };
     </script>
 </body>
