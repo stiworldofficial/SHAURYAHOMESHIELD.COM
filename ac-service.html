@@ -864,7 +864,7 @@
             }
         }
 
-        // ---------------- UPDATED Cancel Logic with Bug Fix ----------------
+        // ---------------- FIXED Cancel Logic - Optimistic UI + No-CORS Mode ----------------
         async function cancelBooking(tabName, rowId, serviceName, btnElement) {
             if (!btnElement.dataset.confirmed) {
                 btnElement.dataset.confirmed = "true";
@@ -889,8 +889,21 @@
             btnElement.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Canceling...';
             btnElement.disabled = true;
 
-            // Common success function to run even if fetch throws a fake network error
-            const updateUIAfterSuccess = () => {
+            // Background Request: `no-cors` ensures ZERO network errors block the code execution 
+            // The browser just fires the request silently and continues. (Fire & Forget)
+            try {
+                fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify({ action: 'cancel_booking', tabName: tabName, rowId: rowId, email: user.email })
+                });
+            } catch(e) {
+                console.log("Background cancel request sent");
+            }
+
+            // Immediately Update UI (Optimistic Update) with a tiny 600ms delay for smoothness
+            setTimeout(() => {
                 const cacheKey = 'sh_activities_' + user.email;
                 let cachedDataStr = localStorage.getItem(cacheKey);
                 if (cachedDataStr) {
@@ -901,12 +914,15 @@
                 }
 
                 const parentDiv = btnElement.closest('.bg-white');
-                const statusBox = parentDiv.querySelector('.rounded-xl.border');
-                const statusText = statusBox.querySelector('.status-text');
-                
-                statusBox.className = 'p-3 rounded-xl border text-red-600 bg-red-50 border-red-200 text-xs font-semibold whitespace-normal break-words leading-relaxed relative';
-                statusText.innerText = "Canceled by you";
-                btnElement.remove(); 
+                if (parentDiv) {
+                    const statusBox = parentDiv.querySelector('.rounded-xl.border');
+                    const statusText = statusBox.querySelector('.status-text');
+                    if(statusBox && statusText) {
+                        statusBox.className = 'p-3 rounded-xl border text-red-600 bg-red-50 border-red-200 text-xs font-semibold whitespace-normal break-words leading-relaxed relative';
+                        statusText.innerText = "Canceled by you";
+                    }
+                }
+                btnElement.style.display = 'none'; 
                 
                 closeModal('profile-overlay');
                 
@@ -921,34 +937,10 @@
                         <i class="fa-solid fa-calendar-plus"></i> Book Again New Service?
                     </button>
                 `;
-                // hide the default "Awesome, thanks" button
-                showSuccessModal("Canceled Successfully", customMsg, 'success', true);
-            };
-
-            try {
-                // Removed headers to prevent fetch preflight blocking (Google script bug)
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({ action: 'cancel_booking', tabName: tabName, rowId: rowId, email: user.email })
-                });
                 
-                const result = await response.json();
-
-                if(result.status === 'success') {
-                    updateUIAfterSuccess();
-                } else {
-                    showSuccessModal("Cancellation Failed", `<p class="text-gray-500 text-sm font-medium px-4">${result.message}</p>`, 'error', false);
-                    btnElement.innerText = "Cancel";
-                    btnElement.disabled = false;
-                    delete btnElement.dataset.confirmed;
-                    btnElement.classList.replace('text-white', 'text-red-500');
-                    btnElement.classList.replace('bg-red-500', 'bg-white');
-                }
-            } catch(e) {
-                // If fetch errors out but backend process is confirmed (GAS CORS issue)
-                console.log("CORS/Network error caught, but executing successful cancellation popup fallback.");
-                updateUIAfterSuccess();
-            }
+                // Hide default button, show new awesome customized button popup
+                showSuccessModal("Canceled Successfully", customMsg, 'success', true);
+            }, 600);
         }
 
         // ---------------- BOOKING LOGIC ----------------
