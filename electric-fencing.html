@@ -173,6 +173,8 @@
 
         <section id="home" class="relative w-full aspect-video max-w-[1920px] mx-auto bg-black overflow-hidden shadow-xl z-10">
             <img src="electricfencing.png" onerror="this.src='https://images.unsplash.com/photo-1544724569-5f546fd6f2b5?q=80&w=1600&auto=format&fit=crop'" alt="Zhatka Machine Technology" class="hero-slide active absolute inset-0 w-full h-full object-cover">
+            <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1600&auto=format&fit=crop" alt="Agriculture Fencing" class="hero-slide absolute inset-0 w-full h-full object-cover">
+            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1600&auto=format&fit=crop" alt="Commercial Fencing" class="hero-slide absolute inset-0 w-full h-full object-cover">
         </section>
 
         <!-- Action Buttons Container strictly below the slider -->
@@ -522,8 +524,22 @@
             updateHeaderUI();
             const dateInput = document.getElementById('book-date');
             if(dateInput) { const today = new Date().toISOString().split('T')[0]; dateInput.setAttribute('min', today); }
+            startHeroSlider();
             fetchLiveReviews();
         });
+
+        // ---------------- HERO SLIDER LOGIC ----------------
+        let currentSlide = 0;
+        function startHeroSlider() {
+            const slides = document.querySelectorAll('.hero-slide');
+            if(slides.length <= 1) return;
+            
+            setInterval(() => {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }, 3000); 
+        }
 
         // ---------------- AUTH & UI LOGIC ----------------
         function updateHeaderUI() {
@@ -652,7 +668,7 @@
                                 </div>
                                 <div class="bg-blue-50 border border-blue-100 rounded-xl p-4">
                                     <p class="text-blue-800 text-xs font-bold mb-1">💡 Important Note / ज़रूरी सूचना:</p>
-                                    <p class="text-blue-600 text-[11px] leading-tight">You can cancel services and meeting any time (to go in profile)<br>(आप प्रोफाइल सेक्शन में जाकर कभी भी सर्विस या मीटिंग कैंसिल कर सकते हैं।)</p>
+                                    <p class="text-blue-600 text-[11px] leading-tight">You can check your booking status any time in the profile section.<br>(आप प्रोफाइल सेक्शन में जाकर कभी भी अपनी बुकिंग का स्टेटस चेक कर सकते हैं।)</p>
                                 </div>
                             `;
                             showSuccessModal("Account Created!", infoHtml);
@@ -731,19 +747,10 @@
                     if(st.includes('cancel') || st.includes('fail')) { statusColor = 'text-red-600 bg-red-50 border-red-200'; statusIcon = 'fa-ban'; }
 
                     const bookedForStr = formatDateTimeStr(act.meetingDate, act.meetingTime);
-                    const isPending = st.includes('pending');
-
                     const issueHtml = act.userIssue && act.userIssue !== "N/A" ? `<div class="mt-2 bg-gray-50 border border-gray-100 rounded-lg p-2 text-[10px] text-gray-600 italic"><b>Issue:</b> ${act.userIssue}</div>` : '';
 
-                    const cancelBtnHtml = isPending ? `
-                        <button onclick="cancelBooking('${act.tabName}', '${act.rowId}', '${act.serviceName}', this)" class="absolute top-3 right-3 text-[10px] font-bold text-red-500 bg-white px-2 py-1 rounded shadow-sm border border-red-100 hover:bg-red-50 transition z-10 flex items-center justify-center gap-1">
-                            Cancel
-                        </button>
-                    ` : '';
-
                     div.innerHTML = `
-                        ${cancelBtnHtml}
-                        <div class="mb-3 pr-12">
+                        <div class="mb-3 pr-2">
                             <p class="text-[10px] font-bold text-gray-400 mb-1 tracking-wide uppercase">Booked on ${act.dateSubmitted}</p>
                             <div class="flex items-start gap-3">
                                 <div class="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0 border border-blue-100">
@@ -798,103 +805,6 @@
                 if (!cachedDataStr) {
                     actContainer.innerHTML = '<div class="text-red-500 text-xs font-bold text-center py-4 bg-red-50 rounded-xl border border-red-100">Failed to sync data. Please check connection.</div>';
                 }
-            }
-        }
-
-        /* --- STREAMING_CHUNK:Modern Cancel Logic --- */
-        async function cancelBooking(tabName, rowId, serviceName, btnElement) {
-            if (!btnElement.dataset.confirmed) {
-                btnElement.dataset.confirmed = "true";
-                const originalText = btnElement.innerHTML;
-                btnElement.innerHTML = "Confirm?";
-                btnElement.classList.replace('text-red-500', 'text-white');
-                btnElement.classList.replace('bg-white', 'bg-red-500');
-                
-                setTimeout(() => {
-                    if(btnElement && btnElement.parentNode) {
-                        delete btnElement.dataset.confirmed;
-                        btnElement.innerHTML = originalText;
-                        btnElement.classList.replace('text-white', 'text-red-500');
-                        btnElement.classList.replace('bg-red-500', 'bg-white');
-                    }
-                }, 3000);
-                return;
-            }
-
-            const user = JSON.parse(localStorage.getItem('sh_user'));
-            
-            btnElement.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Canceling...';
-            btnElement.disabled = true;
-
-            try {
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({ action: 'cancel_booking', tabName: tabName, rowId: rowId, email: user.email })
-                });
-                
-                const text = await response.text();
-                let result;
-                try { result = JSON.parse(text); } 
-                catch(e) { result = { status: 'success' }; }
-
-                if(result.status === 'success') {
-                    const cacheKey = 'sh_activities_' + user.email;
-                    let cachedDataStr = localStorage.getItem(cacheKey);
-                    if (cachedDataStr) {
-                        let acts = JSON.parse(cachedDataStr);
-                        let actToUpdate = acts.find(a => a.rowId === rowId);
-                        if (actToUpdate) actToUpdate.status = "Canceled by user";
-                        localStorage.setItem(cacheKey, JSON.stringify(acts));
-                    }
-
-                    const parentDiv = btnElement.closest('.bg-white');
-                    const statusBox = parentDiv.querySelector('.rounded-xl.border');
-                    const statusText = statusBox.querySelector('.status-text');
-                    
-                    statusBox.className = 'p-3 rounded-xl border text-red-600 bg-red-50 border-red-200 text-xs font-semibold whitespace-normal break-words leading-relaxed relative';
-                    statusText.innerText = "Canceled by you";
-                    btnElement.remove(); 
-                    
-                    closeModal('profile-overlay');
-                    
-                    const customMsg = `
-                        <div class="bg-red-50 border border-red-100 rounded-xl p-4 mb-4 inline-block text-left w-full">
-                            <p class="text-xs text-red-500 mb-1 uppercase font-bold tracking-wider">Meeting Canceled</p>
-                            <p class="text-sm font-bold text-gray-800">${serviceName}</p>
-                        </div>
-                        <p class="text-gray-500 text-sm font-medium px-4 mb-2">Aapki request successfully cancel ho gayi hai.</p>
-                        <p class="text-blue-600 text-sm font-bold px-4 cursor-pointer hover:underline" onclick="closeModal('success-overlay'); window.location.href='#services'">Book Another Meeting?</p>
-                    `;
-                    showSuccessModal("Canceled Successfully", customMsg, 'success');
-                } else {
-                    showSuccessModal("Cancellation Failed", `<p class="text-gray-500 text-sm font-medium px-4">${result.message}</p>`, 'error');
-                    btnElement.innerText = "Cancel";
-                    btnElement.disabled = false;
-                    delete btnElement.dataset.confirmed;
-                    btnElement.classList.replace('text-white', 'text-red-500');
-                    btnElement.classList.replace('bg-red-500', 'bg-white');
-                }
-            } catch(e) {
-                const parentDiv = btnElement.closest('.bg-white');
-                const statusBox = parentDiv.querySelector('.rounded-xl.border');
-                const statusText = statusBox.querySelector('.status-text');
-                
-                statusBox.className = 'p-3 rounded-xl border text-amber-600 bg-amber-50 border-amber-200 text-xs font-semibold whitespace-normal break-words leading-relaxed relative';
-                statusText.innerText = "Cancellation processed (Refresh to verify)";
-                btnElement.remove();
-                
-                closeModal('profile-overlay');
-                
-                const customMsg = `
-                    <div class="bg-amber-50 border border-amber-100 rounded-xl p-4 mb-4 inline-block text-left w-full">
-                        <p class="text-xs text-amber-600 mb-1 uppercase font-bold tracking-wider">Status Update Sent</p>
-                        <p class="text-sm font-bold text-gray-800">${serviceName}</p>
-                    </div>
-                    <p class="text-gray-500 text-sm font-medium px-4 mb-2">Network delay detected. Cancellation request sent successfully to server.</p>
-                    <p class="text-blue-600 text-sm font-bold px-4 cursor-pointer hover:underline" onclick="closeModal('success-overlay'); window.location.href='#services'">Explore Other Options?</p>
-                `;
-                showSuccessModal("Action Received", customMsg, 'warning');
             }
         }
 
@@ -1065,7 +975,7 @@
             const dt = new Date(timestamp);
             const dateStr = dt.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }); 
             const timeStr = dt.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
-            return `<span style="color: #6b7280;">${dateStr}</span><span style="font-size: 0.65rem; color: #9ca3af;">${timeStr}</span>`; 
+            return `${dateStr}, ${timeStr}`; 
         }
 
         function renderReviews() {
@@ -1104,10 +1014,13 @@
                                     <p class="review-meta"><i class="fas fa-map-marker-alt text-green-500"></i> ${review.location}</p>
                                 </div>
                             </div>
-                            <div class="review-date-time">${liveBadge}${formatReviewDate(review.date)}</div>
+                            <div class="review-date-time">${liveBadge}</div>
                         </div>
                         <div class="review-stars">${starsHtml}</div>
                         <p class="review-text">"${review.text}"</p>
+                        <div class="mt-3 pt-2 border-t border-gray-100 flex justify-end items-center text-[0.7rem] text-gray-400 gap-1.5 font-medium">
+                            <i class="far fa-clock"></i> Posted on: ${formatReviewDate(review.date)}
+                        </div>
                     </div>
                 `;
                 container.insertAdjacentHTML('beforeend', html);
