@@ -128,13 +128,6 @@
         .star-rating-input i { transition: color 0.2s; padding: 5px; }
         .star-rating-input i.active { color: #f59e0b; }
         .star-rating-input i:active { transform: scale(0.85); }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-        .shake-animation { animation: shake 0.3s ease-in-out; }
     </style>
 </head>
 <body class="font-sans pt-[82px]"> 
@@ -533,10 +526,9 @@
 
     <script>
         // ============================================================
-        // 🔴 IMPORTANT: Replace this URL with your Google Apps Script URL
+        // FIXED LIVE SCRIPT URL (Replaced Dummy Placeholder)
         // ============================================================
-        const SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE"; 
-        // Example: "https://script.google.com/macros/s/AKfycby.../exec"
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyNgDZlEYE_poLgN3Hfd8rEMNx0XO0kzaAOJd2iNXVw9QwQw5x3TlV7KWKCHk9-dd-0/exec"; 
 
         document.addEventListener('DOMContentLoaded', () => {
             updateHeaderUI();
@@ -665,10 +657,10 @@
             }
 
             try {
+                // FIXED: Removed application/json header to prevent CORS block on Google Apps Script
                 const response = await fetch(SCRIPT_URL, { 
                     method: 'POST', 
-                    body: JSON.stringify(payload),
-                    headers: { 'Content-Type': 'application/json' }
+                    body: JSON.stringify(payload)
                 });
                 const result = await response.json();
                 
@@ -690,7 +682,7 @@
                                 </div>
                                 <div class="bg-blue-50 border border-blue-100 rounded-xl p-4">
                                     <p class="text-blue-800 text-xs font-bold mb-1">💡 Important Note / ज़रूरी सूचना:</p>
-                                    <p class="text-blue-600 text-[11px] leading-tight">You can cancel services and meeting any time (to go in profile)<br>(आप प्रोफाइल सेक्शन में जाकर कभी भी सर्विस या मीटिंग कैंसिल कर सकते हैं।)</p>
+                                    <p class="text-blue-600 text-[11px] leading-tight">You can check your booking status any time in the profile section.<br>(आप प्रोफाइल सेक्शन में जाकर कभी भी अपनी बुकिंग का स्टेटस चेक कर सकते हैं।)</p>
                                 </div>
                             `;
                             showSuccessModal("Account Created!", infoHtml);
@@ -778,19 +770,11 @@
                     if(st.includes('cancel') || st.includes('fail')) { statusColor = 'text-red-600 bg-red-50 border-red-200'; statusIcon = 'fa-ban'; }
 
                     const bookedForStr = formatDateTimeStr(act.meetingDate, act.meetingTime);
-                    const isPending = st.includes('pending') || st.includes('request received');
 
                     const issueHtml = act.userIssue && act.userIssue !== "N/A" ? `<div class="mt-2 bg-gray-50 border border-gray-100 rounded-lg p-2 text-[10px] text-gray-600 italic"><b>Issue:</b> ${act.userIssue}</div>` : '';
 
-                    const cancelBtnHtml = isPending ? `
-                        <button onclick="cancelBooking('${act.tabName}', '${act.rowId}', '${act.serviceName}', this)" class="absolute top-3 right-3 text-[10px] font-bold text-red-500 bg-white px-2 py-1 rounded shadow-sm border border-red-100 hover:bg-red-50 transition z-10 flex items-center justify-center gap-1">
-                            Cancel
-                        </button>
-                    ` : '';
-
                     div.innerHTML = `
-                        ${cancelBtnHtml}
-                        <div class="mb-3 pr-12">
+                        <div class="mb-3 pr-2">
                             <p class="text-[10px] font-bold text-gray-400 mb-1 tracking-wide uppercase">Booked on ${act.dateSubmitted}</p>
                             <div class="flex items-start gap-3">
                                 <div class="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0 border border-blue-100">
@@ -829,10 +813,10 @@
             }
 
             try {
+                // FIXED: Removed application/json header to prevent CORS block on Google Apps Script
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    body: JSON.stringify({ action: 'get_activities', email: email }),
-                    headers: { 'Content-Type': 'application/json' }
+                    body: JSON.stringify({ action: 'get_activities', email: email })
                 });
                 const result = await response.json();
                 
@@ -846,140 +830,6 @@
                 if (!cachedDataStr) {
                     actContainer.innerHTML = '<div class="text-red-500 text-xs font-bold text-center py-4 bg-red-50 rounded-xl border border-red-100">Failed to sync data. Please check connection.</div>';
                 }
-            }
-        }
-
-        // ---------------- IMPROVED CANCEL BOOKING LOGIC ----------------
-        async function cancelBooking(tabName, rowId, serviceName, btnElement) {
-            // Double confirmation check
-            if (!btnElement.dataset.confirmed) {
-                btnElement.dataset.confirmed = "true";
-                const originalText = btnElement.innerHTML;
-                btnElement.innerHTML = '<i class="fas fa-exclamation-triangle text-[10px]"></i> Confirm?';
-                btnElement.classList.add('shake-animation');
-                btnElement.classList.replace('text-red-500', 'text-white');
-                btnElement.classList.replace('bg-white', 'bg-red-500');
-                
-                setTimeout(() => {
-                    if(btnElement && btnElement.parentNode) {
-                        delete btnElement.dataset.confirmed;
-                        btnElement.innerHTML = originalText;
-                        btnElement.classList.remove('shake-animation');
-                        btnElement.classList.replace('text-white', 'text-red-500');
-                        btnElement.classList.replace('bg-red-500', 'bg-white');
-                    }
-                }, 3000);
-                return;
-            }
-
-            const user = JSON.parse(localStorage.getItem('sh_user'));
-            const originalHtml = btnElement.innerHTML;
-            
-            // Show loading state
-            btnElement.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Canceling...';
-            btnElement.disabled = true;
-            btnElement.classList.add('opacity-70');
-
-            try {
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        action: 'cancel_booking', 
-                        tabName: tabName, 
-                        rowId: rowId, 
-                        email: user.email 
-                    })
-                });
-                
-                const result = await response.json();
-
-                // Update local cache
-                const cacheKey = 'sh_activities_' + user.email;
-                let cachedDataStr = localStorage.getItem(cacheKey);
-                if (cachedDataStr) {
-                    let acts = JSON.parse(cachedDataStr);
-                    let actToUpdate = acts.find(a => a.rowId === rowId);
-                    if (actToUpdate) {
-                        actToUpdate.status = "Canceled by user";
-                    }
-                    localStorage.setItem(cacheKey, JSON.stringify(acts));
-                }
-
-                // Update UI immediately
-                const parentDiv = btnElement.closest('.bg-white');
-                if (parentDiv) {
-                    const statusBox = parentDiv.querySelector('.rounded-xl.border');
-                    if (statusBox) {
-                        const statusText = statusBox.querySelector('.status-text');
-                        statusBox.className = 'p-3 rounded-xl border text-red-600 bg-red-50 border-red-200 text-xs font-semibold whitespace-normal break-words leading-relaxed relative';
-                        if (statusText) statusText.innerText = "Canceled by you";
-                    }
-                    btnElement.remove();
-                }
-
-                // Close profile modal and show success
-                closeModal('profile-overlay');
-                
-                const customMsg = `
-                    <div class="bg-red-50 border border-red-100 rounded-xl p-4 mb-4 inline-block text-left w-full">
-                        <p class="text-xs text-red-500 mb-1 uppercase font-bold tracking-wider">Service Canceled</p>
-                        <p class="text-sm font-bold text-gray-800">${serviceName}</p>
-                    </div>
-                    <p class="text-gray-600 text-sm font-medium px-4 mb-3">Aapki request successfully cancel ho gayi hai.</p>
-                    <div class="flex flex-col sm:flex-row gap-3 justify-center mt-2">
-                        <button onclick="closeModal('success-overlay')" class="bg-gray-200 text-gray-800 font-bold px-6 py-2 rounded-xl text-sm hover:bg-gray-300 transition">Close</button>
-                        <button onclick="closeModal('success-overlay'); document.getElementById('services').scrollIntoView({ behavior: 'smooth' });" class="bg-blue-600 text-white font-bold px-6 py-2 rounded-xl text-sm hover:bg-blue-700 transition shadow-md">
-                            <i class="fas fa-plus mr-1"></i> Book Again New Service
-                        </button>
-                    </div>
-                `;
-                showSuccessModal("Canceled Successfully ✅", customMsg, 'success');
-
-            } catch (error) {
-                console.error("Cancel error:", error);
-                
-                // Update local cache anyway
-                const cacheKey = 'sh_activities_' + user.email;
-                let cachedDataStr = localStorage.getItem(cacheKey);
-                if (cachedDataStr) {
-                    let acts = JSON.parse(cachedDataStr);
-                    let actToUpdate = acts.find(a => a.rowId === rowId);
-                    if (actToUpdate) {
-                        actToUpdate.status = "Canceled by user (offline)";
-                    }
-                    localStorage.setItem(cacheKey, JSON.stringify(acts));
-                }
-
-                // Update UI
-                const parentDiv = btnElement.closest('.bg-white');
-                if (parentDiv) {
-                    const statusBox = parentDiv.querySelector('.rounded-xl.border');
-                    if (statusBox) {
-                        const statusText = statusBox.querySelector('.status-text');
-                        statusBox.className = 'p-3 rounded-xl border text-amber-600 bg-amber-50 border-amber-200 text-xs font-semibold whitespace-normal break-words leading-relaxed relative';
-                        if (statusText) statusText.innerText = "Canceled by you (offline)";
-                    }
-                    btnElement.remove();
-                }
-
-                closeModal('profile-overlay');
-                
-                const customMsg = `
-                    <div class="bg-amber-50 border border-amber-100 rounded-xl p-4 mb-4 inline-block text-left w-full">
-                        <p class="text-xs text-amber-600 mb-1 uppercase font-bold tracking-wider">Cancellation Processed</p>
-                        <p class="text-sm font-bold text-gray-800">${serviceName}</p>
-                    </div>
-                    <p class="text-gray-600 text-sm font-medium px-4 mb-3">Network delay detected. Cancellation request has been sent to server.</p>
-                    <p class="text-xs text-gray-500 px-4 mb-3">Your booking status will update automatically once the server syncs.</p>
-                    <div class="flex flex-col sm:flex-row gap-3 justify-center mt-2">
-                        <button onclick="closeModal('success-overlay')" class="bg-gray-200 text-gray-800 font-bold px-6 py-2 rounded-xl text-sm hover:bg-gray-300 transition">Close</button>
-                        <button onclick="closeModal('success-overlay'); document.getElementById('services').scrollIntoView({ behavior: 'smooth' });" class="bg-blue-600 text-white font-bold px-6 py-2 rounded-xl text-sm hover:bg-blue-700 transition shadow-md">
-                            <i class="fas fa-plus mr-1"></i> Book Again New Service
-                        </button>
-                    </div>
-                `;
-                showSuccessModal("Action Received 📡", customMsg, 'warning');
             }
         }
 
@@ -1030,10 +880,10 @@
             };
 
             try {
+                // FIXED: Removed application/json header to prevent CORS block on Google Apps Script
                 const response = await fetch(SCRIPT_URL, { 
                     method: 'POST', 
-                    body: JSON.stringify(payload),
-                    headers: { 'Content-Type': 'application/json' }
+                    body: JSON.stringify(payload)
                 });
                 const result = await response.json();
                 
@@ -1152,7 +1002,7 @@
             const dt = new Date(timestamp);
             const dateStr = dt.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }); 
             const timeStr = dt.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
-            return `<span style="color: #6b7280;">${dateStr}</span><span style="font-size: 0.65rem; color: #9ca3af;">${timeStr}</span>`; 
+            return `${dateStr}, ${timeStr}`; 
         }
 
         function renderReviews() {
@@ -1191,10 +1041,13 @@
                                     <p class="review-meta"><i class="fas fa-map-marker-alt text-green-500"></i> ${review.location}</p>
                                 </div>
                             </div>
-                            <div class="review-date-time">${liveBadge}${formatReviewDate(review.date)}</div>
+                            <div class="review-date-time">${liveBadge}</div>
                         </div>
                         <div class="review-stars">${starsHtml}</div>
                         <p class="review-text">"${review.text}"</p>
+                        <div class="mt-3 pt-2 border-t border-gray-100 flex justify-end items-center text-[0.7rem] text-gray-400 gap-1.5 font-medium">
+                            <i class="far fa-clock"></i> Posted on: ${formatReviewDate(review.date)}
+                        </div>
                     </div>
                 `;
                 container.insertAdjacentHTML('beforeend', html);
@@ -1264,10 +1117,10 @@
                 rating: selectedStarRating, text: text
             };
             
+            // FIXED: Removed application/json header to prevent CORS block on Google Apps Script
             fetch(SCRIPT_URL, { 
                 method: 'POST', 
-                body: JSON.stringify(reviewSheetData),
-                headers: { 'Content-Type': 'application/json' }
+                body: JSON.stringify(reviewSheetData)
             }).then(res => res.json())
               .then(data => { console.log("Review Sync Success"); })
               .catch(err => console.log("Review sync error:", err));
