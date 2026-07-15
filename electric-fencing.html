@@ -112,7 +112,6 @@ src="https://www.facebook.com/tr?id=975755295491539&ev=PageView&noscript=1"/>
         
         .fetch-loader { border: 3px solid #e5e7eb; border-top: 3px solid #3b82f6; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; display: inline-block; }
 
-        /* --- STREAMING_CHUNK:Styling action buttons & reviews --- */
         .action-btns-container {
             display: flex; gap: 12px; justify-content: center; 
             width: 92%; max-width: 600px; margin: 20px auto 0; z-index: 40; position: relative;
@@ -230,6 +229,13 @@ src="https://www.facebook.com/tr?id=975755295491539&ev=PageView&noscript=1"/>
             </div>
         </div>
 
+        <!-- NEW BUTTON FOR YOUTUBE REEL VIDEO -->
+        <div class="w-[92%] max-w-[600px] mx-auto mt-3 mb-6 z-40 relative px-1">
+            <button onclick="openVideoModal()" class="w-full bg-gradient-to-r from-red-600 to-red-700 text-white font-black py-3.5 rounded-[14px] shadow-[0_10px_20px_rgba(220,38,38,0.3)] hover:shadow-[0_15px_30px_rgba(220,38,38,0.4)] transition-all flex items-center justify-center gap-3 border border-red-500 hover:scale-[1.02] active:scale-[0.98]">
+                <i class="fa-brands fa-youtube text-[1.4rem]"></i> <span class="font-outfit text-sm tracking-wide">Understand Electric Fencing</span>
+            </button>
+        </div>
+
         <section id="services" class="py-10 md:py-24 relative px-4 sm:px-6">
             <div class="max-w-6xl mx-auto">
                 <div class="text-center mb-8 md:mb-16">
@@ -345,6 +351,21 @@ src="https://www.facebook.com/tr?id=975755295491539&ev=PageView&noscript=1"/>
         <a href="https://wa.me/919996966710" target="_blank" class="auto-hover-icon w-14 h-14 bg-green-500 text-white rounded-full flex items-center justify-center text-3xl hover:bg-green-600 transition-colors shadow-lg">
             <i class="fa-brands fa-whatsapp text-white"></i>
         </a>
+    </div>
+
+    <!-- YOUTUBE SHORTS REEL MODAL -->
+    <div class="custom-overlay" id="video-overlay" style="z-index: 100000; background: rgba(0,0,0,0.85);">
+        <div class="custom-box !p-0 !bg-transparent !border-none !shadow-none !max-w-[380px]" style="box-shadow: none;">
+            <!-- Close Button -->
+            <button onclick="closeVideoModal()" class="absolute -top-12 right-0 md:-right-12 md:top-0 text-white bg-white/20 hover:bg-white/40 w-10 h-10 rounded-full flex items-center justify-center transition-all z-50">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            
+            <!-- Video Container in 9:16 Ratio -->
+            <div class="w-full aspect-[9/16] bg-black rounded-[2rem] overflow-hidden shadow-[0_0_40px_rgba(0,0,0,0.5)] border border-white/20 relative">
+                <iframe id="reel-video" class="w-full h-full absolute inset-0" title="Understand Electric Fencing" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+        </div>
     </div>
 
     <!-- MODALS: AUTH, PROFILE, BOOKING, SUCCESS -->
@@ -568,7 +589,30 @@ src="https://www.facebook.com/tr?id=975755295491539&ev=PageView&noscript=1"/>
             if(dateInput) { const today = new Date().toISOString().split('T')[0]; dateInput.setAttribute('min', today); }
             startHeroSlider();
             fetchLiveReviews();
+
+            // REEL VIDEO AUTOPLAY LOGIC
+            // Video sirf ek baar show hoga jab user pehli baar visit karega session me, user experience accha rakhne ke liye.
+            if (!sessionStorage.getItem('introReelShown')) {
+                setTimeout(() => {
+                    openVideoModal();
+                    sessionStorage.setItem('introReelShown', 'true');
+                }, 1000); 
+            }
         });
+
+        // ---------------- VIDEO REEL LOGIC ----------------
+        function openVideoModal() {
+            const iframe = document.getElementById('reel-video');
+            // Adding autoplay=1 ensures the video automatically plays when modal opens
+            iframe.src = "https://www.youtube.com/embed/7oHmV4nHV7A?autoplay=1&rel=0";
+            openModal('video-overlay');
+        }
+
+        function closeVideoModal() {
+            const iframe = document.getElementById('reel-video');
+            iframe.src = ""; // Stop playing audio/video in background
+            closeModal('video-overlay');
+        }
 
         // ---------------- HERO SLIDER LOGIC ----------------
         let currentSlide = 0;
@@ -640,7 +684,6 @@ src="https://www.facebook.com/tr?id=975755295491539&ev=PageView&noscript=1"/>
             }
         }
 
-        /* --- STREAMING_CHUNK:Updated Success Modals & UI --- */
         function showSuccessModal(title, msgHtml, type = 'success') {
             const iconDiv = document.getElementById('success-icon-container');
             if (type === 'success') {
